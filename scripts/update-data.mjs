@@ -1,6 +1,8 @@
 import { FUNDS, TIME_ZONE } from './funds.mjs';
 import { fetchFundQuote } from './fund-quote.mjs';
 import { predictFromQuote } from './predict.mjs';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   backfillActualNavs,
   buildHistoryRecord,
@@ -9,8 +11,8 @@ import {
   writeJsonFile,
 } from './history-store.mjs';
 
-const latestPath = new URL('../data/latest.json', import.meta.url);
-const historyPath = new URL('../data/history.json', import.meta.url);
+const defaultLatestPath = new URL('../data/latest.json', import.meta.url);
+const defaultHistoryPath = new URL('../data/history.json', import.meta.url);
 
 function chinaDate(now) {
   return new Intl.DateTimeFormat('en-CA', {
@@ -29,9 +31,22 @@ function isChinaWeekday(now) {
   return !['Sat', 'Sun'].includes(weekday);
 }
 
-async function quoteOrError(fund) {
+function quoteTimeDate(quoteTime) {
+  if (typeof quoteTime !== 'string') {
+    return null;
+  }
+  return quoteTime.match(/^(\d{4}-\d{2}-\d{2})\b/)?.[1] ?? null;
+}
+
+function isRecordablePrediction(prediction, tradingDate) {
+  return prediction.status === 'ok'
+    && Number.isFinite(prediction.predictedNav)
+    && quoteTimeDate(prediction.quoteTime) === tradingDate;
+}
+
+async function quoteOrError(fund, fetchQuote) {
   try {
-    return { ok: true, quote: await fetchFundQuote(fund) };
+    return { ok: true, quote: await fetchQuote(fund) };
   } catch (error) {
     return {
       ok: false,
@@ -44,17 +59,27 @@ async function quoteOrError(fund) {
         estimatedChangePct: null,
         quoteTime: null,
         source: 'fundgz.1234567.com.cn',
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
       },
     };
   }
 }
 
-async function main(now = new Date()) {
+export async function runUpdate({
+  now = new Date(),
+  funds = FUNDS,
+  fetchQuote = fetchFundQuote,
+  latestPath = defaultLatestPath,
+  historyPath = defaultHistoryPath,
+  writeSummary = () => {},
+} = {}) {
   const generatedAt = now.toISOString();
   const tradingDate = chinaDate(now);
   const previousHistory = await readJsonFile(historyPath, { version: 1, records: [] });
-  const quoteResults = await Promise.all(FUNDS.map(quoteOrError));
+  const quoteResults = await Promise.all(funds.map((fund) => quoteOrError(fund, fetchQuote)));
+  if (!quoteResults.some((result) => result.ok)) {
+    throw new Error('All fund quote requests failed; preserving previous data.');
+  }
   const quotes = quoteResults.map((result) => result.quote);
   const backfilledHistory = backfillActualNavs(previousHistory, quotes);
 
@@ -76,7 +101,9 @@ async function main(now = new Date()) {
 
   const shouldRecordPrediction = isChinaWeekday(now);
   const newRecords = shouldRecordPrediction
-    ? predictions.map((prediction) => buildHistoryRecord(tradingDate, generatedAt, prediction))
+    ? predictions
+      .filter((prediction) => isRecordablePrediction(prediction, tradingDate))
+      .map((prediction) => buildHistoryRecord(tradingDate, generatedAt, prediction))
     : [];
   const history = upsertHistoryRecords(backfilledHistory, newRecords);
 
@@ -87,14 +114,21 @@ async function main(now = new Date()) {
     timezone: TIME_ZONE,
     tradingDate,
     summary: shouldRecordPrediction
-      ? `已生成 ${okCount}/${FUNDS.length} 只基金预测。`
+      ? `已生成 ${okCount}/${funds.length} 只基金预测。`
       : '今天不是工作日，仅刷新最新可用数据。',
     funds: predictions,
   };
 
   await writeJsonFile(latestPath, latest);
   await writeJsonFile(historyPath, history);
-  console.log(latest.summary);
+  writeSummary(latest.summary);
+  return { latest, history };
 }
 
-await main();
+export async function main(now = new Date()) {
+  return runUpdate({ now, writeSummary: console.log });
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  await main();
+}
