@@ -34,6 +34,7 @@ test('predictFromQuote applies capped historical calibration after enough sample
   assert.equal(prediction.samplesUsed, 5);
   assert.equal(prediction.calibration, 0.01);
   assert.equal(prediction.predictedNav, 2.5634);
+  assert.equal(prediction.predictedChangePct, 1.26);
 });
 
 test('predictFromQuote returns stale status when no intraday estimate exists', () => {

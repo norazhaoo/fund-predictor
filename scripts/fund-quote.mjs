@@ -1,7 +1,7 @@
 const SOURCE_HOST = 'fundgz.1234567.com.cn';
 
 export function parseFundJsonp(text) {
-  const match = text.match(/^[\w$]+\((.*)\);?$/s);
+  const match = text.trim().match(/^[\w$]+\((.*)\);?$/s);
   if (!match) {
     throw new Error('Unable to parse fund JSONP payload');
   }
@@ -34,6 +34,7 @@ export function normalizeQuote(payload, fallbackName) {
 }
 
 export async function fetchFundQuote(fund, fetchImpl = fetch) {
+  const expectedCode = String(fund.code).padStart(6, '0');
   const url = `https://${SOURCE_HOST}/js/${fund.code}.js?rt=${Date.now()}`;
   const response = await fetchImpl(url, {
     headers: {
@@ -45,5 +46,9 @@ export async function fetchFundQuote(fund, fetchImpl = fetch) {
     throw new Error(`Quote request failed for ${fund.code}: HTTP ${response.status}`);
   }
   const text = await response.text();
-  return normalizeQuote(parseFundJsonp(text), fund.fallbackName);
+  const quote = normalizeQuote(parseFundJsonp(text), fund.fallbackName);
+  if (quote.code !== expectedCode) {
+    throw new Error(`Quote identity mismatch for ${fund.code}`);
+  }
+  return quote;
 }

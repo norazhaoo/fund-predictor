@@ -5,8 +5,19 @@ function round4(value) {
   return Number(value.toFixed(4));
 }
 
+function round2(value) {
+  return Number(value.toFixed(2));
+}
+
 function average(values) {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function predictedChangePctFor(predictedNav, quote) {
+  if (!Number.isFinite(quote.nav) || quote.nav === 0) {
+    return quote.estimatedChangePct;
+  }
+  return round2(((predictedNav - quote.nav) / quote.nav) * 100);
 }
 
 function calibrationFor(code, historyRecords) {
@@ -46,7 +57,7 @@ export function predictFromQuote(quote, historyRecords) {
     ...quote,
     rawPredictedNav: round4(quote.estimatedNav),
     predictedNav,
-    predictedChangePct: quote.estimatedChangePct,
+    predictedChangePct: predictedChangePctFor(predictedNav, quote),
     calibration,
     samplesUsed,
     status: 'ok',
