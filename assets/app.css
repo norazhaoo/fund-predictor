@@ -1,0 +1,194 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --ink: #1e2732;
+  --muted: #687385;
+  --line: #dfe5ec;
+  --blue: #1677ff;
+  --green: #0f9f6e;
+  --red: #d9364e;
+  --amber: #a96500;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.app-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 18px 14px 32px;
+}
+
+.hero {
+  padding: 20px 2px 14px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.summary,
+.disclaimer,
+.meta {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.summary {
+  margin: 10px 0 0;
+  font-size: 15px;
+}
+
+.fund-list,
+.history-list {
+  display: grid;
+  gap: 10px;
+}
+
+.fund-card,
+.history-card,
+.notice {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.fund-card {
+  padding: 14px;
+}
+
+.fund-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.fund-name {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.fund-code {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.status {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #eaf2ff;
+  color: var(--blue);
+}
+
+.status.error {
+  background: #fff1f0;
+  color: var(--red);
+}
+
+.status.stale {
+  background: #fff7e6;
+  color: var(--amber);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.metric {
+  min-width: 0;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.value {
+  margin-top: 3px;
+  font-size: 20px;
+  font-weight: 760;
+  overflow-wrap: anywhere;
+}
+
+.positive {
+  color: var(--red);
+}
+
+.negative {
+  color: var(--green);
+}
+
+.message {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.section-title {
+  margin: 22px 0 10px;
+  font-size: 18px;
+}
+
+.history-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.history-card .name {
+  font-weight: 700;
+}
+
+.history-card .date,
+.history-card .error {
+  color: var(--muted);
+}
+
+.notice {
+  margin-top: 18px;
+  padding: 12px;
+  font-size: 13px;
+}
+
+@media (min-width: 680px) {
+  .fund-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
