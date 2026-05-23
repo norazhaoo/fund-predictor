@@ -5,7 +5,11 @@ export function parseFundJsonp(text) {
   if (!match) {
     throw new Error('Unable to parse fund JSONP payload');
   }
-  return JSON.parse(match[1]);
+  try {
+    return JSON.parse(match[1]);
+  } catch {
+    throw new Error('Unable to parse fund JSONP payload');
+  }
 }
 
 function toNumber(value) {

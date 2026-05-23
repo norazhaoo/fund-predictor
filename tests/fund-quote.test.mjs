@@ -37,4 +37,5 @@ test('normalizeQuote falls back to configured name when payload name is missing'
 
 test('parseFundJsonp rejects malformed payloads', () => {
   assert.throws(() => parseFundJsonp('not-jsonp'), /Unable to parse fund JSONP/);
+  assert.throws(() => parseFundJsonp('jsonpgz({bad});'), /Unable to parse fund JSONP/);
 });
