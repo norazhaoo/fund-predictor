@@ -9,8 +9,32 @@ test('index references the dashboard assets and root element', async () => {
   assert.match(html, /assets\/app\.js/);
 });
 
-test('browser app fetches latest and history JSON with relative paths', async () => {
+test('browser app loads latest and history JSON with relative paths', async () => {
   const js = await readFile('assets/app.js', 'utf8');
-  assert.match(js, /fetch\('data\/latest\.json'/);
-  assert.match(js, /fetch\('data\/history\.json'/);
+  assert.match(js, /loadJson\('data\/latest\.json'/);
+  assert.match(js, /loadJson\('data\/history\.json'/);
+});
+
+test('browser app shares the investment disclaimer across render paths', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  assert.match(js, /function disclaimerNotice\(\)/);
+  assert.match(js, /不构成投资建议/);
+});
+
+test('dynamic dashboard text wraps within mobile cards', async () => {
+  const css = await readFile('assets/app.css', 'utf8');
+  const dynamicClasses = [
+    'fund-name',
+    'fund-code',
+    'message',
+    'history-card',
+    'notice',
+  ];
+
+  for (const className of dynamicClasses) {
+    const rule = new RegExp(`\\.${className}\\s*{[^}]*min-width:\\s*0;[^}]*overflow-wrap:\\s*anywhere;`, 's');
+    assert.match(css, rule);
+  }
+
+  assert.match(css, /\.history-card \.name,[\s\S]*\.history-card \.date,[\s\S]*\.history-card \.error\s*{[^}]*min-width:\s*0;[^}]*overflow-wrap:\s*anywhere;/);
 });

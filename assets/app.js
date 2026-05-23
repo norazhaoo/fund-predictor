@@ -1,4 +1,5 @@
 const app = document.querySelector('#app');
+const disclaimerText = '估算结果仅用于个人跟踪，不构成投资建议。实际净值以基金公司披露为准。';
 
 const htmlEscapes = {
   '&': '&amp;',
@@ -47,6 +48,10 @@ function statusClass(status) {
 
 function displayDateTime(value) {
   return value ? escapeHtml(value) : '暂无';
+}
+
+function disclaimerNotice() {
+  return `<p class="notice disclaimer">${disclaimerText}</p>`;
 }
 
 function fundCard(fund) {
@@ -134,7 +139,7 @@ function render(latest, history) {
     <section class="history-list">
       ${records.length ? records.map(historyCard).join('') : '<div class="notice">暂无历史记录。</div>'}
     </section>
-    <p class="notice disclaimer">估算结果仅用于个人跟踪，不构成投资建议。实际净值以基金公司披露为准。</p>
+    ${disclaimerNotice()}
   `;
 }
 
@@ -153,8 +158,8 @@ async function loadJson(path) {
 async function boot() {
   try {
     const [latest, history] = await Promise.all([
-      fetch('data/latest.json', { cache: 'no-store' }).then(readJsonResponse),
-      fetch('data/history.json', { cache: 'no-store' }).then(readJsonResponse),
+      loadJson('data/latest.json'),
+      loadJson('data/history.json'),
     ]);
     render(latest, history);
   } catch (error) {
@@ -165,6 +170,7 @@ async function boot() {
         <p class="summary">数据加载失败，请稍后刷新。</p>
       </section>
       <div class="notice">${escapeHtml(error instanceof Error ? error.message : String(error))}</div>
+      ${disclaimerNotice()}
     `;
   }
 }
