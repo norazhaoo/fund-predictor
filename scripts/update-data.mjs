@@ -44,6 +44,34 @@ function isRecordablePrediction(prediction, tradingDate) {
     && quoteTimeDate(prediction.quoteTime) === tradingDate;
 }
 
+function stalePredictionFromQuote(quote, tradingDate) {
+  return {
+    ...quote,
+    rawPredictedNav: null,
+    predictedNav: null,
+    predictedChangePct: null,
+    calibration: 0,
+    samplesUsed: 0,
+    status: 'stale',
+    message: quote.quoteTime
+      ? `估值时间 ${quote.quoteTime} 不是 ${tradingDate}，暂不预测。`
+      : '没有可用的盘中估值时间，暂不预测。',
+  };
+}
+
+function errorPredictionFromQuote(quote) {
+  return {
+    ...quote,
+    rawPredictedNav: null,
+    predictedNav: null,
+    predictedChangePct: null,
+    calibration: 0,
+    samplesUsed: 0,
+    status: 'error',
+    message: quote.error,
+  };
+}
+
 async function quoteOrError(fund, fetchQuote) {
   try {
     return { ok: true, quote: await fetchQuote(fund) };
@@ -77,24 +105,15 @@ export async function runUpdate({
   const tradingDate = chinaDate(now);
   const previousHistory = await readJsonFile(historyPath, { version: 1, records: [] });
   const quoteResults = await Promise.all(funds.map((fund) => quoteOrError(fund, fetchQuote)));
-  if (!quoteResults.some((result) => result.ok)) {
-    throw new Error('All fund quote requests failed; preserving previous data.');
-  }
   const quotes = quoteResults.map((result) => result.quote);
   const backfilledHistory = backfillActualNavs(previousHistory, quotes);
 
   const predictions = quotes.map((quote) => {
     if (quote.error) {
-      return {
-        ...quote,
-        rawPredictedNav: null,
-        predictedNav: null,
-        predictedChangePct: null,
-        calibration: 0,
-        samplesUsed: 0,
-        status: 'error',
-        message: quote.error,
-      };
+      return errorPredictionFromQuote(quote);
+    }
+    if (quoteTimeDate(quote.quoteTime) !== tradingDate) {
+      return stalePredictionFromQuote(quote, tradingDate);
     }
     return predictFromQuote(quote, backfilledHistory.records);
   });
@@ -108,14 +127,19 @@ export async function runUpdate({
   const history = upsertHistoryRecords(backfilledHistory, newRecords);
 
   const okCount = predictions.filter((prediction) => prediction.status === 'ok').length;
+  const errorCount = predictions.filter((prediction) => prediction.status === 'error').length;
+  const allFailed = errorCount === funds.length;
+  const summary = allFailed
+    ? '全部基金数据更新失败，已保留历史记录。'
+    : shouldRecordPrediction
+      ? `已生成 ${okCount}/${funds.length} 只基金预测。`
+      : '今天不是工作日，仅刷新最新可用数据。';
   const latest = {
     version: 1,
     generatedAt,
     timezone: TIME_ZONE,
     tradingDate,
-    summary: shouldRecordPrediction
-      ? `已生成 ${okCount}/${funds.length} 只基金预测。`
-      : '今天不是工作日，仅刷新最新可用数据。',
+    summary,
     funds: predictions,
   };
 

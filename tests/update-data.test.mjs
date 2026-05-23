@@ -81,7 +81,7 @@ test('same-day retry with failed quote does not replace existing good history re
   }
 });
 
-test('weekday stale quote whose quoteTime date differs from tradingDate is not written to history', async () => {
+test('weekday stale quote whose quoteTime date differs from tradingDate is shown stale and not written to history', async () => {
   const files = await withDataFiles();
   try {
     await runUpdate({
@@ -94,14 +94,17 @@ test('weekday stale quote whose quoteTime date differs from tradingDate is not w
 
     const latest = await readJsonFile(files.latestPath, null);
     const history = await readJsonFile(files.historyPath, null);
-    assert.equal(latest.funds[0].status, 'ok');
+    assert.equal(latest.funds[0].status, 'stale');
+    assert.equal(latest.funds[0].predictedNav, null);
+    assert.equal(latest.funds[0].predictedChangePct, null);
+    assert.match(latest.funds[0].message, /不是 2026-05-25/);
     assert.equal(history.records.length, 0);
   } finally {
     await files.cleanup();
   }
 });
 
-test('all-fetch failure rejects before writing latest or history', async () => {
+test('all-fetch failure writes error latest without replacing history', async () => {
   const initialLatest = { version: 1, generatedAt: 'old', funds: [{ code: 'kept' }] };
   const initialHistory = {
     version: 1,
@@ -109,20 +112,20 @@ test('all-fetch failure rejects before writing latest or history', async () => {
   };
   const files = await withDataFiles(initialHistory, initialLatest);
   try {
-    await assert.rejects(
-      runUpdate({
-        now: monday,
-        funds: [fundA, fundB],
-        latestPath: files.latestPath,
-        historyPath: files.historyPath,
-        fetchQuote: async () => {
-          throw new Error('endpoint unavailable');
-        },
-      }),
-      /All fund quote requests failed/,
-    );
+    await runUpdate({
+      now: monday,
+      funds: [fundA, fundB],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => {
+        throw new Error('endpoint unavailable');
+      },
+    });
 
-    assert.deepEqual(await readJsonFile(files.latestPath, null), initialLatest);
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(latest.summary, '全部基金数据更新失败，已保留历史记录。');
+    assert.deepEqual(latest.funds.map((fund) => fund.status), ['error', 'error']);
+    assert.deepEqual(latest.funds.map((fund) => fund.predictedNav), [null, null]);
     assert.deepEqual(await readJsonFile(files.historyPath, null), initialHistory);
   } finally {
     await files.cleanup();
@@ -150,7 +153,7 @@ test('partial failure writes latest but history only includes valid fresh ok pre
 
     const latest = await readJsonFile(files.latestPath, null);
     const history = await readJsonFile(files.historyPath, null);
-    assert.deepEqual(latest.funds.map((fund) => fund.status), ['error', 'ok', 'ok']);
+    assert.deepEqual(latest.funds.map((fund) => fund.status), ['error', 'ok', 'stale']);
     assert.deepEqual(history.records.map((record) => record.code), [fundB.code]);
   } finally {
     await files.cleanup();

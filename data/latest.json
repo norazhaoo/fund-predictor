@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-23T09:21:42.244Z",
+  "generatedAt": "2026-05-23T10:35:58.406Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-05-23",
   "summary": "今天不是工作日，仅刷新最新可用数据。",
@@ -14,13 +14,13 @@
       "estimatedChangePct": 1.01,
       "quoteTime": "2026-05-22 15:00",
       "source": "fundgz.1234567.com.cn",
-      "rawPredictedNav": 2.5348,
-      "predictedNav": 2.5348,
-      "predictedChangePct": 1.01,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
       "samplesUsed": 0,
-      "status": "ok",
-      "message": "历史样本不足，暂以盘中估值作为预测。"
+      "status": "stale",
+      "message": "估值时间 2026-05-22 15:00 不是 2026-05-23，暂不预测。"
     },
     {
       "code": "016874",
@@ -31,13 +31,13 @@
       "estimatedChangePct": 2.51,
       "quoteTime": "2026-05-22 15:00",
       "source": "fundgz.1234567.com.cn",
-      "rawPredictedNav": 1.9991,
-      "predictedNav": 1.9991,
-      "predictedChangePct": 2.51,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
       "samplesUsed": 0,
-      "status": "ok",
-      "message": "历史样本不足，暂以盘中估值作为预测。"
+      "status": "stale",
+      "message": "估值时间 2026-05-22 15:00 不是 2026-05-23，暂不预测。"
     },
     {
       "code": "020744",
@@ -48,13 +48,13 @@
       "estimatedChangePct": -0.5,
       "quoteTime": "2026-05-22 16:00",
       "source": "fundgz.1234567.com.cn",
-      "rawPredictedNav": 0.9703,
-      "predictedNav": 0.9703,
-      "predictedChangePct": -0.49,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
       "samplesUsed": 0,
-      "status": "ok",
-      "message": "历史样本不足，暂以盘中估值作为预测。"
+      "status": "stale",
+      "message": "估值时间 2026-05-22 16:00 不是 2026-05-23，暂不预测。"
     },
     {
       "code": "015903",
@@ -65,13 +65,13 @@
       "estimatedChangePct": 3.83,
       "quoteTime": "2026-05-22 15:00",
       "source": "fundgz.1234567.com.cn",
-      "rawPredictedNav": 1.4761,
-      "predictedNav": 1.4761,
-      "predictedChangePct": 3.83,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
       "samplesUsed": 0,
-      "status": "ok",
-      "message": "历史样本不足，暂以盘中估值作为预测。"
+      "status": "stale",
+      "message": "估值时间 2026-05-22 15:00 不是 2026-05-23，暂不预测。"
     }
   ]
 }
