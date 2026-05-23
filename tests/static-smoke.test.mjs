@@ -15,6 +15,11 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/history\.json'/);
 });
 
+test('browser app does not use estimated change as a predicted-change fallback', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  assert.doesNotMatch(js, /fund\.estimatedChangePct/);
+});
+
 test('browser app shares the investment disclaimer across render paths', async () => {
   const js = await readFile('assets/app.js', 'utf8');
   assert.match(js, /function disclaimerNotice\(\)/);

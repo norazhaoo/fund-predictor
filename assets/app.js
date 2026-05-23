@@ -55,9 +55,7 @@ function disclaimerNotice() {
 }
 
 function fundCard(fund) {
-  const changeValue = Number.isFinite(fund.predictedChangePct)
-    ? fund.predictedChangePct
-    : fund.estimatedChangePct;
+  const changeValue = fund.predictedChangePct;
   const message = fund.message
     ? `<p class="message">${escapeHtml(fund.message)}</p>`
     : '';
