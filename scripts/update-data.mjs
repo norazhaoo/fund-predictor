@@ -1,5 +1,6 @@
 import { FUNDS, TIME_ZONE } from './funds.mjs';
 import { fetchFundQuote } from './fund-quote.mjs';
+import { fetchOfficialNav, mergeOfficialNav } from './official-nav.mjs';
 import { predictFromQuote } from './predict.mjs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -93,10 +94,19 @@ async function quoteOrError(fund, fetchQuote) {
   }
 }
 
+async function officialNavOrNull(fund, fetchOfficial) {
+  try {
+    return await fetchOfficial(fund);
+  } catch {
+    return null;
+  }
+}
+
 export async function runUpdate({
   now = new Date(),
   funds = FUNDS,
   fetchQuote = fetchFundQuote,
+  fetchOfficial = fetchOfficialNav,
   latestPath = defaultLatestPath,
   historyPath = defaultHistoryPath,
   writeSummary = () => {},
@@ -104,8 +114,19 @@ export async function runUpdate({
   const generatedAt = now.toISOString();
   const tradingDate = chinaDate(now);
   const previousHistory = await readJsonFile(historyPath, { version: 1, records: [] });
-  const quoteResults = await Promise.all(funds.map((fund) => quoteOrError(fund, fetchQuote)));
-  const quotes = quoteResults.map((result) => result.quote);
+  const [quoteResults, officialNavs] = await Promise.all([
+    Promise.all(funds.map((fund) => quoteOrError(fund, fetchQuote))),
+    Promise.all(funds.map((fund) => officialNavOrNull(fund, fetchOfficial))),
+  ]);
+  const officialByCode = new Map(
+    officialNavs
+      .filter(Boolean)
+      .map((nav) => [String(nav.code).padStart(6, '0'), nav]),
+  );
+  const quotes = quoteResults.map((result) => {
+    const officialNav = officialByCode.get(String(result.quote.code).padStart(6, '0'));
+    return mergeOfficialNav(result.quote, officialNav);
+  });
   const backfilledHistory = backfillActualNavs(previousHistory, quotes);
 
   const predictions = quotes.map((quote) => {

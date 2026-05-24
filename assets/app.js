@@ -2,6 +2,7 @@ import {
   buildRefreshProgress,
   createJsonpQuoteFetcher,
   mergeCatalogMetadata,
+  mergeNewerOfficialNav,
   refreshFundsInBatches,
   shouldPublishLiveRanking,
   sortFundsForView,
@@ -124,11 +125,11 @@ function fundCard(fund) {
           <div class="value">${formatNumber(fund.estimatedNav)}</div>
         </div>
         <div class="metric">
-          <div class="label">最新净值</div>
+          <div class="label">确认净值</div>
           <div class="value">${formatNumber(fund.nav)}</div>
         </div>
       </div>
-      <p class="message">估值时间：${displayDateTime(fund.quoteTime)} · 净值日期：${displayDateTime(fund.navDate)}</p>
+      <p class="message">估值时间：${displayDateTime(fund.quoteTime)} · 确认日期：${displayDateTime(fund.navDate)}</p>
       ${message}
     </article>
   `;
@@ -215,7 +216,7 @@ function renderControls() {
           <select id="sortKey">
             <option value="predictedChangePct"${state.sortKey === 'predictedChangePct' ? ' selected' : ''}>预测涨跌</option>
             <option value="estimatedChangePct"${state.sortKey === 'estimatedChangePct' ? ' selected' : ''}>估值涨跌</option>
-            <option value="nav"${state.sortKey === 'nav' ? ' selected' : ''}>最新净值</option>
+            <option value="nav"${state.sortKey === 'nav' ? ' selected' : ''}>确认净值</option>
             <option value="quoteTime"${state.sortKey === 'quoteTime' ? ' selected' : ''}>估值时间</option>
             <option value="code"${state.sortKey === 'code' ? ' selected' : ''}>基金代码</option>
             <option value="custom"${state.sortKey === 'custom' ? ' selected' : ''}>自定义顺序</option>
@@ -363,7 +364,7 @@ async function startFullRefresh() {
 
     state.refreshProgress = result.progress;
     if (shouldPublishLiveRanking(result.progress)) {
-      state.funds = mergeCatalogMetadata(result.funds, funds);
+      state.funds = mergeCatalogMetadata(mergeNewerOfficialNav(result.funds, state.funds), funds);
       state.latest = {
         ...state.latest,
         generatedAt: new Date().toISOString(),

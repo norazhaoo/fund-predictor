@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
   buildRefreshProgress,
+  mergeNewerOfficialNav,
   shouldPublishLiveRanking,
   sortFundsForView,
 } from '../assets/live-quotes.js';
@@ -31,6 +32,15 @@ test('browser app shares the investment disclaimer across render paths', async (
   assert.match(js, /function disclaimerNotice\(\)/);
   assert.match(js, /不构成投资建议/);
 });
+
+test('browser app labels official NAV fields as confirmed values', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  assert.match(js, /确认净值/);
+  assert.match(js, /确认日期/);
+  assert.doesNotMatch(js, />最新净值</);
+  assert.doesNotMatch(js, /净值日期：/);
+});
+
 
 test('browser app wires full refresh progress and ranking controls', async () => {
   const js = await readFile('assets/app.js', 'utf8');
@@ -93,4 +103,23 @@ test('live ranking filters by search text and holding state', () => {
   ], { sortKey: 'predictedChangePct', direction: 'desc', query: '广发', filter: 'holding' });
 
   assert.deepEqual(sorted.map((fund) => fund.code), ['016874']);
+});
+
+test('live ranking keeps newer official NAV from the previous complete snapshot', () => {
+  const merged = mergeNewerOfficialNav([
+    { code: '019633', navDate: '2026-05-21', nav: 2.5095, estimatedNav: 2.5348 },
+  ], [
+    {
+      code: '019633',
+      navDate: '2026-05-22',
+      nav: 2.5314,
+      officialChangePct: 0.87,
+      officialNavSource: 'fundf10.eastmoney.com',
+    },
+  ]);
+
+  assert.equal(merged[0].navDate, '2026-05-22');
+  assert.equal(merged[0].nav, 2.5314);
+  assert.equal(merged[0].estimatedNav, 2.5348);
+  assert.equal(merged[0].officialNavSource, 'fundf10.eastmoney.com');
 });

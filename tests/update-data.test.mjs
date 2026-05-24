@@ -159,3 +159,37 @@ test('partial failure writes latest but history only includes valid fresh ok pre
     await files.cleanup();
   }
 });
+
+test('newer official NAV source updates stale quote NAV fields before writing latest', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdate({
+      now: monday,
+      funds: [fundA],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => quote(fundA, {
+        navDate: '2026-05-21',
+        nav: 2.5095,
+        estimatedNav: 2.5348,
+        estimatedChangePct: 1.01,
+        quoteTime: '2026-05-22 15:00',
+      }),
+      fetchOfficial: async () => ({
+        code: fundA.code,
+        navDate: '2026-05-22',
+        nav: 2.5314,
+        dailyChangePct: 0.87,
+        source: 'fundf10.eastmoney.com',
+      }),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(latest.funds[0].navDate, '2026-05-22');
+    assert.equal(latest.funds[0].nav, 2.5314);
+    assert.equal(latest.funds[0].officialChangePct, 0.87);
+    assert.equal(latest.funds[0].officialNavSource, 'fundf10.eastmoney.com');
+  } finally {
+    await files.cleanup();
+  }
+});

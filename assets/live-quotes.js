@@ -281,6 +281,23 @@ export function mergeCatalogMetadata(funds, catalogFunds) {
   });
 }
 
+export function mergeNewerOfficialNav(liveFunds, previousFunds) {
+  const previousByCode = new Map(previousFunds.map((fund) => [String(fund.code).padStart(6, '0'), fund]));
+  return liveFunds.map((fund) => {
+    const previous = previousByCode.get(String(fund.code).padStart(6, '0'));
+    if (!previous?.navDate || !Number.isFinite(previous.nav) || !fund.navDate || fund.navDate >= previous.navDate) {
+      return fund;
+    }
+    return {
+      ...fund,
+      navDate: previous.navDate,
+      nav: previous.nav,
+      officialChangePct: previous.officialChangePct,
+      officialNavSource: previous.officialNavSource,
+    };
+  });
+}
+
 export function createJsonpQuoteFetcher({
   documentRef = globalThis.document,
   windowRef = globalThis.window,
