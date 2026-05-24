@@ -37,6 +37,27 @@ test('predictFromQuote applies capped historical calibration after enough sample
   assert.equal(prediction.predictedChangePct, 1.26);
 });
 
+test('predictFromQuote applies small benchmark divergence adjustment when configured', () => {
+  const prediction = predictFromQuote({
+    ...quote,
+    nav: 2,
+    estimatedNav: 2.1,
+    estimatedChangePct: 2,
+    benchmark: {
+      secid: '1.000688',
+      name: '科创50',
+      changePct: 4,
+      source: 'push2.eastmoney.com',
+    },
+    benchmarkSensitivity: 0.05,
+  }, []);
+
+  assert.equal(prediction.benchmarkGapPct, 2);
+  assert.equal(prediction.benchmarkAdjustment, 0.002);
+  assert.equal(prediction.predictedNav, 2.102);
+  assert.match(prediction.message, /参考指数偏离修正/);
+});
+
 test('predictFromQuote returns stale status when no intraday estimate exists', () => {
   const prediction = predictFromQuote({ ...quote, estimatedNav: null }, []);
   assert.equal(prediction.status, 'stale');

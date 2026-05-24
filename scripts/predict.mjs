@@ -1,5 +1,6 @@
 const MIN_CALIBRATION_SAMPLES = 5;
 const MAX_ABS_CALIBRATION = 0.01;
+const MAX_ABS_BENCHMARK_ADJUSTMENT = 0.005;
 
 function round4(value) {
   return Number(value.toFixed(4));
@@ -36,6 +37,29 @@ function calibrationFor(code, historyRecords) {
   return { calibration: round4(capped), samplesUsed: samples.length };
 }
 
+function benchmarkAdjustmentFor(quote) {
+  if (
+    !Number.isFinite(quote.nav)
+    || !Number.isFinite(quote.estimatedChangePct)
+    || !Number.isFinite(quote.benchmark?.changePct)
+    || !Number.isFinite(quote.benchmarkSensitivity)
+    || quote.benchmarkSensitivity <= 0
+  ) {
+    return { benchmarkAdjustment: 0, benchmarkGapPct: null };
+  }
+
+  const benchmarkGapPct = round2(quote.benchmark.changePct - quote.estimatedChangePct);
+  const rawAdjustment = quote.nav * (benchmarkGapPct / 100) * quote.benchmarkSensitivity;
+  const capped = Math.max(
+    -MAX_ABS_BENCHMARK_ADJUSTMENT,
+    Math.min(MAX_ABS_BENCHMARK_ADJUSTMENT, rawAdjustment),
+  );
+  return {
+    benchmarkAdjustment: round4(capped),
+    benchmarkGapPct,
+  };
+}
+
 export function predictFromQuote(quote, historyRecords) {
   if (!Number.isFinite(quote.estimatedNav)) {
     return {
@@ -51,7 +75,9 @@ export function predictFromQuote(quote, historyRecords) {
   }
 
   const { calibration, samplesUsed } = calibrationFor(quote.code, historyRecords);
-  const predictedNav = round4(quote.estimatedNav + calibration);
+  const { benchmarkAdjustment, benchmarkGapPct } = benchmarkAdjustmentFor(quote);
+  const predictedNav = round4(quote.estimatedNav + calibration + benchmarkAdjustment);
+  const hasBenchmarkAdjustment = benchmarkAdjustment !== 0;
 
   return {
     ...quote,
@@ -59,10 +85,15 @@ export function predictFromQuote(quote, historyRecords) {
     predictedNav,
     predictedChangePct: predictedChangePctFor(predictedNav, quote),
     calibration,
+    benchmarkAdjustment,
+    benchmarkGapPct,
     samplesUsed,
     status: 'ok',
-    message: samplesUsed >= MIN_CALIBRATION_SAMPLES
-      ? '已使用历史误差做轻微校准。'
-      : '历史样本不足，暂以盘中估值作为预测。',
+    message: [
+      samplesUsed >= MIN_CALIBRATION_SAMPLES
+        ? '已使用历史误差做轻微校准。'
+        : '历史样本不足，暂以盘中估值作为预测。',
+      hasBenchmarkAdjustment ? '已加入参考指数偏离修正。' : '',
+    ].filter(Boolean).join(' '),
   };
 }

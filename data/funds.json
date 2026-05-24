@@ -6,28 +6,48 @@
       "fallbackName": "国泰半导体设备ETF联接C",
       "holding": false,
       "group": "科技",
-      "order": 1
+      "order": 1,
+      "benchmark": {
+        "secid": "1.000688",
+        "name": "科创50",
+        "sensitivity": 0.05
+      }
     },
     {
       "code": "016874",
       "fallbackName": "广发远见智选混合C",
       "holding": true,
       "group": "主动权益",
-      "order": 2
+      "order": 2,
+      "benchmark": {
+        "secid": "1.000300",
+        "name": "沪深300",
+        "sensitivity": 0.03
+      }
     },
     {
       "code": "020744",
       "fallbackName": "广发恒生消费ETF发起式联接(QDII)C",
       "holding": true,
       "group": "QDII",
-      "order": 3
+      "order": 3,
+      "benchmark": {
+        "secid": "100.HSI",
+        "name": "恒生指数",
+        "sensitivity": 0.05
+      }
     },
     {
       "code": "015903",
       "fallbackName": "博时优质精选混合C",
       "holding": false,
       "group": "主动权益",
-      "order": 4
+      "order": 4,
+      "benchmark": {
+        "secid": "1.000300",
+        "name": "沪深300",
+        "sensitivity": 0.03
+      }
     }
   ]
 }

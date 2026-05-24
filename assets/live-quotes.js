@@ -1,5 +1,6 @@
 const SOURCE_HOST = 'fundgz.1234567.com.cn';
 const DEFAULT_TIMEOUT_MS = 9000;
+const MAX_ABS_BENCHMARK_ADJUSTMENT = 0.005;
 
 function toNumber(value) {
   if (value === null || value === undefined || value === '') {
@@ -45,6 +46,29 @@ function calibrationFor(code, historyRecords) {
   const average = samples.reduce((sum, value) => sum + value, 0) / samples.length;
   const capped = Math.max(-0.01, Math.min(0.01, average));
   return { calibration: round4(capped), samplesUsed: samples.length };
+}
+
+function benchmarkAdjustmentFor(quote) {
+  if (
+    !Number.isFinite(quote.nav)
+    || !Number.isFinite(quote.estimatedChangePct)
+    || !Number.isFinite(quote.benchmark?.changePct)
+    || !Number.isFinite(quote.benchmarkSensitivity)
+    || quote.benchmarkSensitivity <= 0
+  ) {
+    return { benchmarkAdjustment: 0, benchmarkGapPct: null };
+  }
+
+  const benchmarkGapPct = round2(quote.benchmark.changePct - quote.estimatedChangePct);
+  const rawAdjustment = quote.nav * (benchmarkGapPct / 100) * quote.benchmarkSensitivity;
+  const capped = Math.max(
+    -MAX_ABS_BENCHMARK_ADJUSTMENT,
+    Math.min(MAX_ABS_BENCHMARK_ADJUSTMENT, rawAdjustment),
+  );
+  return {
+    benchmarkAdjustment: round4(capped),
+    benchmarkGapPct,
+  };
 }
 
 function stableString(value) {
@@ -132,6 +156,8 @@ export function normalizeLiveQuotePayload(payload, fund) {
     holding: Boolean(fund.holding),
     group: fund.group ?? '',
     order: Number.isFinite(fund.order) ? fund.order : 0,
+    benchmark: fund.benchmark ?? null,
+    benchmarkSensitivity: Number.isFinite(fund.benchmark?.sensitivity) ? fund.benchmark.sensitivity : 0,
   };
 }
 
@@ -165,16 +191,23 @@ export function predictLiveQuote(quote, historyRecords = [], tradingDate = '') {
   }
 
   const { calibration, samplesUsed } = calibrationFor(quote.code, historyRecords);
-  const predictedNav = round4(quote.estimatedNav + calibration);
+  const { benchmarkAdjustment, benchmarkGapPct } = benchmarkAdjustmentFor(quote);
+  const predictedNav = round4(quote.estimatedNav + calibration + benchmarkAdjustment);
+  const hasBenchmarkAdjustment = benchmarkAdjustment !== 0;
   return {
     ...quote,
     rawPredictedNav: round4(quote.estimatedNav),
     predictedNav,
     predictedChangePct: predictedChangePctFor(predictedNav, quote),
     calibration,
+    benchmarkAdjustment,
+    benchmarkGapPct,
     samplesUsed,
     status: 'ok',
-    message: samplesUsed >= 5 ? '已使用历史误差做轻微校准。' : '历史样本不足，暂以盘中估值作为预测。',
+    message: [
+      samplesUsed >= 5 ? '已使用历史误差做轻微校准。' : '历史样本不足，暂以盘中估值作为预测。',
+      hasBenchmarkAdjustment ? '已加入参考指数偏离修正。' : '',
+    ].filter(Boolean).join(' '),
   };
 }
 
@@ -294,6 +327,27 @@ export function mergeNewerOfficialNav(liveFunds, previousFunds) {
       nav: previous.nav,
       officialChangePct: previous.officialChangePct,
       officialNavSource: previous.officialNavSource,
+    };
+  });
+}
+
+export function carryForwardBenchmarkQuotes(catalogFunds, previousFunds) {
+  const previousByCode = new Map(previousFunds.map((fund) => [String(fund.code).padStart(6, '0'), fund]));
+  return catalogFunds.map((fund) => {
+    const previous = previousByCode.get(String(fund.code).padStart(6, '0'));
+    const previousBenchmark = previous?.benchmark;
+    if (!Number.isFinite(previousBenchmark?.changePct)) {
+      return fund;
+    }
+    return {
+      ...fund,
+      benchmark: {
+        ...fund.benchmark,
+        ...previousBenchmark,
+      },
+      benchmarkSensitivity: Number.isFinite(previous.benchmarkSensitivity)
+        ? previous.benchmarkSensitivity
+        : previousBenchmark.sensitivity,
     };
   });
 }

@@ -193,3 +193,44 @@ test('newer official NAV source updates stale quote NAV fields before writing la
     await files.cleanup();
   }
 });
+
+test('benchmark source adds a small benchmark adjustment to fresh predictions', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdate({
+      now: monday,
+      funds: [{
+        ...fundA,
+        benchmark: { secid: '1.000688', name: '科创50', sensitivity: 0.05 },
+      }],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => quote(fundA, {
+        nav: 2,
+        estimatedNav: 2.1,
+        estimatedChangePct: 2,
+        quoteTime: '2026-05-25 14:30',
+      }),
+      fetchOfficial: async () => null,
+      fetchBenchmark: async () => new Map([[
+        '1.000688',
+        {
+          secid: '1.000688',
+          code: '000688',
+          name: '科创50',
+          price: 1790.77,
+          changePct: 4,
+          source: 'push2.eastmoney.com',
+          sensitivity: 0.05,
+        },
+      ]]),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(latest.funds[0].benchmark.name, '科创50');
+    assert.equal(latest.funds[0].benchmarkAdjustment, 0.002);
+    assert.equal(latest.funds[0].predictedNav, 2.102);
+  } finally {
+    await files.cleanup();
+  }
+});

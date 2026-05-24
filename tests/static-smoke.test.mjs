@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
   buildRefreshProgress,
+  carryForwardBenchmarkQuotes,
   mergeNewerOfficialNav,
+  predictLiveQuote,
   shouldPublishLiveRanking,
   sortFundsForView,
 } from '../assets/live-quotes.js';
@@ -52,6 +54,12 @@ test('browser app wires full refresh progress and ranking controls', async () =>
   assert.match(js, /id="sortKey"/);
   assert.match(js, /id="fundSearch"/);
   assert.match(js, /id="fundFilter"/);
+});
+
+test('browser app shows benchmark factor details on fund cards', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  assert.match(js, /参考指数/);
+  assert.match(js, /指数修正/);
 });
 
 test('dynamic dashboard text wraps within mobile cards', async () => {
@@ -122,4 +130,35 @@ test('live ranking keeps newer official NAV from the previous complete snapshot'
   assert.equal(merged[0].nav, 2.5314);
   assert.equal(merged[0].estimatedNav, 2.5348);
   assert.equal(merged[0].officialNavSource, 'fundf10.eastmoney.com');
+});
+
+test('browser live prediction also applies benchmark divergence adjustment', () => {
+  const prediction = predictLiveQuote({
+    code: '019633',
+    navDate: '2026-05-25',
+    nav: 2,
+    estimatedNav: 2.1,
+    estimatedChangePct: 2,
+    quoteTime: '2026-05-25 14:30',
+    benchmark: { secid: '1.000688', name: '科创50', changePct: 4 },
+    benchmarkSensitivity: 0.05,
+  }, [], '2026-05-25');
+
+  assert.equal(prediction.benchmarkAdjustment, 0.002);
+  assert.equal(prediction.predictedNav, 2.102);
+});
+
+test('browser refresh carries forward previous benchmark quote into catalog funds', () => {
+  const funds = carryForwardBenchmarkQuotes([
+    { code: '019633', benchmark: { secid: '1.000688', name: '科创50', sensitivity: 0.05 } },
+  ], [
+    {
+      code: '019633',
+      benchmark: { secid: '1.000688', name: '科创50', changePct: 1.51, sensitivity: 0.05 },
+      benchmarkSensitivity: 0.05,
+    },
+  ]);
+
+  assert.equal(funds[0].benchmark.changePct, 1.51);
+  assert.equal(funds[0].benchmarkSensitivity, 0.05);
 });

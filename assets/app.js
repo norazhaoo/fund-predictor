@@ -1,5 +1,6 @@
 import {
   buildRefreshProgress,
+  carryForwardBenchmarkQuotes,
   createJsonpQuoteFetcher,
   mergeCatalogMetadata,
   mergeNewerOfficialNav,
@@ -92,8 +93,12 @@ function disclaimerNotice() {
 function fundCard(fund) {
   const changeValue = fund.predictedChangePct;
   const { estimatedChangePct } = fund;
+  const benchmark = fund.benchmark;
   const message = fund.message
     ? `<p class="message">${escapeHtml(fund.message)}</p>`
+    : '';
+  const benchmarkLine = benchmark?.name
+    ? `<p class="message">参考指数：${escapeHtml(benchmark.name)} ${formatPct(benchmark.changePct)} · 指数修正：${formatNumber(fund.benchmarkAdjustment, 4)}</p>`
     : '';
   const holdingBadge = fund.holding ? '<span class="mini-badge">持有</span>' : '';
   const groupBadge = fund.group ? `<span class="mini-badge muted">${escapeHtml(fund.group)}</span>` : '';
@@ -130,6 +135,7 @@ function fundCard(fund) {
         </div>
       </div>
       <p class="message">估值时间：${displayDateTime(fund.quoteTime)} · 确认日期：${displayDateTime(fund.navDate)}</p>
+      ${benchmarkLine}
       ${message}
     </article>
   `;
@@ -339,7 +345,10 @@ async function startFullRefresh() {
   if (state.refreshBusy) {
     return;
   }
-  const funds = Array.isArray(state.catalog.funds) ? state.catalog.funds : [];
+  const funds = carryForwardBenchmarkQuotes(
+    Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
+    state.funds,
+  );
   if (!funds.length) {
     return;
   }

@@ -25,4 +25,6 @@ test('fund catalog is stored as shared browser-readable JSON', async () => {
     FUNDS.map((fund) => fund.code),
     catalog.funds.map((fund) => fund.code),
   );
+  assert.ok(catalog.funds.every((fund) => fund.benchmark?.secid));
+  assert.ok(FUNDS.every((fund) => fund.benchmark?.secid));
 });

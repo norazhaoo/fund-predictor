@@ -1,4 +1,5 @@
 import { FUNDS, TIME_ZONE } from './funds.mjs';
+import { attachBenchmarkQuote, fetchBenchmarkQuotes } from './benchmark-quote.mjs';
 import { fetchFundQuote } from './fund-quote.mjs';
 import { fetchOfficialNav, mergeOfficialNav } from './official-nav.mjs';
 import { predictFromQuote } from './predict.mjs';
@@ -102,11 +103,20 @@ async function officialNavOrNull(fund, fetchOfficial) {
   }
 }
 
+async function benchmarkQuotesOrEmpty(funds, fetchBenchmark) {
+  try {
+    return await fetchBenchmark(funds.map((fund) => fund.benchmark).filter(Boolean));
+  } catch {
+    return new Map();
+  }
+}
+
 export async function runUpdate({
   now = new Date(),
   funds = FUNDS,
   fetchQuote = fetchFundQuote,
   fetchOfficial = fetchOfficialNav,
+  fetchBenchmark = fetchBenchmarkQuotes,
   latestPath = defaultLatestPath,
   historyPath = defaultHistoryPath,
   writeSummary = () => {},
@@ -114,18 +124,19 @@ export async function runUpdate({
   const generatedAt = now.toISOString();
   const tradingDate = chinaDate(now);
   const previousHistory = await readJsonFile(historyPath, { version: 1, records: [] });
-  const [quoteResults, officialNavs] = await Promise.all([
+  const [quoteResults, officialNavs, benchmarkQuotes] = await Promise.all([
     Promise.all(funds.map((fund) => quoteOrError(fund, fetchQuote))),
     Promise.all(funds.map((fund) => officialNavOrNull(fund, fetchOfficial))),
+    benchmarkQuotesOrEmpty(funds, fetchBenchmark),
   ]);
   const officialByCode = new Map(
     officialNavs
       .filter(Boolean)
       .map((nav) => [String(nav.code).padStart(6, '0'), nav]),
   );
-  const quotes = quoteResults.map((result) => {
+  const quotes = quoteResults.map((result, index) => {
     const officialNav = officialByCode.get(String(result.quote.code).padStart(6, '0'));
-    return mergeOfficialNav(result.quote, officialNav);
+    return attachBenchmarkQuote(mergeOfficialNav(result.quote, officialNav), funds[index], benchmarkQuotes);
   });
   const backfilledHistory = backfillActualNavs(previousHistory, quotes);
 
