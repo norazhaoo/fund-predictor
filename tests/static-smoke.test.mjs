@@ -62,6 +62,20 @@ test('browser app shows benchmark factor details on fund cards', async () => {
   assert.match(js, /指数修正/);
 });
 
+test('browser app renders compact expandable fund cards', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  const css = await readFile('assets/app.css', 'utf8');
+
+  assert.match(js, /expandedCodes:\s*new Set\(\)/);
+  assert.match(js, /function toggleFundCard/);
+  assert.match(js, /class="fund-summary-button"/);
+  assert.match(js, /aria-expanded/);
+  assert.match(js, /class="fund-detail"/);
+  assert.match(css, /\.fund-summary-button\s*{/);
+  assert.match(css, /\.compact-grid\s*{/);
+  assert.match(css, /\.fund-detail\s*{/);
+});
+
 test('dynamic dashboard text wraps within mobile cards', async () => {
   const css = await readFile('assets/app.css', 'utf8');
   const dynamicClasses = [

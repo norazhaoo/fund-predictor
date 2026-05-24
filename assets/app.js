@@ -26,6 +26,7 @@ const state = {
   refreshProgress: null,
   refreshBusy: false,
   lastFullRefreshAt: '',
+  expandedCodes: new Set(),
 };
 
 const htmlEscapes = {
@@ -91,6 +92,8 @@ function disclaimerNotice() {
 }
 
 function fundCard(fund) {
+  const code = String(fund.code).padStart(6, '0');
+  const expanded = state.expandedCodes.has(code);
   const changeValue = fund.predictedChangePct;
   const { estimatedChangePct } = fund;
   const benchmark = fund.benchmark;
@@ -104,39 +107,66 @@ function fundCard(fund) {
   const groupBadge = fund.group ? `<span class="mini-badge muted">${escapeHtml(fund.group)}</span>` : '';
 
   return `
-    <article class="fund-card">
-      <div class="fund-head">
-        <div>
-          <h2 class="fund-name">${escapeHtml(fund.name)}</h2>
-          <div class="fund-code">${escapeHtml(fund.code)} ${holdingBadge}${groupBadge}</div>
+    <article class="fund-card${expanded ? ' is-expanded' : ''}">
+      <button
+        class="fund-summary-button"
+        type="button"
+        data-code="${escapeHtml(code)}"
+        aria-expanded="${expanded}"
+        aria-controls="fund-detail-${escapeHtml(code)}"
+      >
+        <span class="fund-summary-head">
+          <span class="fund-title-block">
+            <span class="fund-name">${escapeHtml(fund.name)}</span>
+            <span class="fund-code">${escapeHtml(code)} ${holdingBadge}${groupBadge}</span>
+          </span>
+          <span class="${statusClass(fund.status)}">${statusText(fund.status)}</span>
+        </span>
+        <span class="compact-grid">
+          <span class="compact-metric">
+            <span class="label">预测涨跌</span>
+            <span class="compact-value primary ${valueClass(changeValue)}">${formatPct(changeValue)}</span>
+          </span>
+          <span class="compact-metric">
+            <span class="label">预测净值</span>
+            <span class="compact-value">${formatNumber(fund.predictedNav)}</span>
+          </span>
+          <span class="compact-metric">
+            <span class="label">估值涨跌</span>
+            <span class="compact-value ${valueClass(estimatedChangePct)}">${formatPct(estimatedChangePct)}</span>
+          </span>
+        </span>
+        <span class="compact-meta">估值：${displayDateTime(fund.quoteTime)} · ${expanded ? '收起详情' : '展开详情'}</span>
+      </button>
+      ${expanded ? `
+        <div id="fund-detail-${escapeHtml(code)}" class="fund-detail">
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="label">预测净值</div>
+              <div class="value">${formatNumber(fund.predictedNav)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">预测涨跌</div>
+              <div class="value ${valueClass(changeValue)}">${formatPct(changeValue)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">估值涨跌</div>
+              <div class="value ${valueClass(estimatedChangePct)}">${formatPct(estimatedChangePct)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">盘中估值</div>
+              <div class="value">${formatNumber(fund.estimatedNav)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">确认净值</div>
+              <div class="value">${formatNumber(fund.nav)}</div>
+            </div>
+          </div>
+          <p class="message">估值时间：${displayDateTime(fund.quoteTime)} · 确认日期：${displayDateTime(fund.navDate)}</p>
+          ${benchmarkLine}
+          ${message}
         </div>
-        <span class="${statusClass(fund.status)}">${statusText(fund.status)}</span>
-      </div>
-      <div class="metric-grid">
-        <div class="metric">
-          <div class="label">预测净值</div>
-          <div class="value">${formatNumber(fund.predictedNav)}</div>
-        </div>
-        <div class="metric">
-          <div class="label">预测涨跌</div>
-          <div class="value ${valueClass(changeValue)}">${formatPct(changeValue)}</div>
-        </div>
-        <div class="metric">
-          <div class="label">估值涨跌</div>
-          <div class="value ${valueClass(estimatedChangePct)}">${formatPct(estimatedChangePct)}</div>
-        </div>
-        <div class="metric">
-          <div class="label">盘中估值</div>
-          <div class="value">${formatNumber(fund.estimatedNav)}</div>
-        </div>
-        <div class="metric">
-          <div class="label">确认净值</div>
-          <div class="value">${formatNumber(fund.nav)}</div>
-        </div>
-      </div>
-      <p class="message">估值时间：${displayDateTime(fund.quoteTime)} · 确认日期：${displayDateTime(fund.navDate)}</p>
-      ${benchmarkLine}
-      ${message}
+      ` : ''}
     </article>
   `;
 }
@@ -280,6 +310,15 @@ function updateRefreshStatus() {
   }
 }
 
+function toggleFundCard(code) {
+  if (state.expandedCodes.has(code)) {
+    state.expandedCodes.delete(code);
+  } else {
+    state.expandedCodes.add(code);
+  }
+  render();
+}
+
 function bindControls() {
   app.querySelector('#fundSearch')?.addEventListener('input', (event) => {
     state.query = event.currentTarget.value;
@@ -299,6 +338,11 @@ function bindControls() {
   });
   app.querySelector('#refreshNow')?.addEventListener('click', () => {
     startFullRefresh();
+  });
+  app.querySelectorAll('.fund-summary-button').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      toggleFundCard(event.currentTarget.dataset.code);
+    });
   });
 }
 
