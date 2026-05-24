@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-23T10:54:17.248Z",
+  "generatedAt": "2026-05-24T02:20:49.582Z",
   "timezone": "Asia/Shanghai",
-  "tradingDate": "2026-05-23",
+  "tradingDate": "2026-05-24",
   "summary": "今天不是工作日，仅刷新最新可用数据。",
   "funds": [
     {
@@ -20,7 +20,7 @@
       "calibration": 0,
       "samplesUsed": 0,
       "status": "stale",
-      "message": "估值时间 2026-05-22 15:00 不是 2026-05-23，暂不预测。"
+      "message": "估值时间 2026-05-22 15:00 不是 2026-05-24，暂不预测。"
     },
     {
       "code": "016874",
@@ -37,7 +37,7 @@
       "calibration": 0,
       "samplesUsed": 0,
       "status": "stale",
-      "message": "估值时间 2026-05-22 15:00 不是 2026-05-23，暂不预测。"
+      "message": "估值时间 2026-05-22 15:00 不是 2026-05-24，暂不预测。"
     },
     {
       "code": "020744",
@@ -54,7 +54,7 @@
       "calibration": 0,
       "samplesUsed": 0,
       "status": "stale",
-      "message": "估值时间 2026-05-22 16:00 不是 2026-05-23，暂不预测。"
+      "message": "估值时间 2026-05-22 16:00 不是 2026-05-24，暂不预测。"
     },
     {
       "code": "015903",
@@ -71,7 +71,7 @@
       "calibration": 0,
       "samplesUsed": 0,
       "status": "stale",
-      "message": "估值时间 2026-05-22 15:00 不是 2026-05-23，暂不预测。"
+      "message": "估值时间 2026-05-22 15:00 不是 2026-05-24，暂不预测。"
     }
   ]
 }

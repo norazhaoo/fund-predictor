@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "funds": [
+    {
+      "code": "019633",
+      "fallbackName": "国泰半导体设备ETF联接C",
+      "holding": false,
+      "group": "科技",
+      "order": 1
+    },
+    {
+      "code": "016874",
+      "fallbackName": "广发远见智选混合C",
+      "holding": true,
+      "group": "主动权益",
+      "order": 2
+    },
+    {
+      "code": "020744",
+      "fallbackName": "广发恒生消费ETF发起式联接(QDII)C",
+      "holding": true,
+      "group": "QDII",
+      "order": 3
+    },
+    {
+      "code": "015903",
+      "fallbackName": "博时优质精选混合C",
+      "holding": false,
+      "group": "主动权益",
+      "order": 4
+    }
+  ]
+}

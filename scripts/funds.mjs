@@ -1,8 +1,13 @@
+import { readFileSync } from 'node:fs';
+
 export const TIME_ZONE = 'Asia/Shanghai';
 
-export const FUNDS = Object.freeze([
-  { code: '019633', fallbackName: '国泰半导体设备ETF联接C' },
-  { code: '016874', fallbackName: '广发远见智选混合C' },
-  { code: '020744', fallbackName: '广发恒生消费ETF联接(QDII)C' },
-  { code: '015903', fallbackName: '博时优质精选混合C' },
-]);
+const catalog = JSON.parse(readFileSync(new URL('../data/funds.json', import.meta.url), 'utf8'));
+
+export const FUNDS = Object.freeze(catalog.funds.map((fund) => Object.freeze({
+  code: String(fund.code).padStart(6, '0'),
+  fallbackName: fund.fallbackName,
+  holding: Boolean(fund.holding),
+  group: fund.group ?? '',
+  order: Number.isFinite(fund.order) ? fund.order : 0,
+})));
