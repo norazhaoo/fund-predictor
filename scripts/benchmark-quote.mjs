@@ -29,6 +29,7 @@ function normalizeBenchmarkConfig(benchmark) {
     symbol,
     name: benchmark.name ?? '',
     sensitivity: Number.isFinite(benchmark.sensitivity) ? benchmark.sensitivity : 0,
+    ...(Number.isFinite(benchmark.proxySensitivity) ? { proxySensitivity: benchmark.proxySensitivity } : {}),
   };
 }
 
@@ -85,6 +86,7 @@ export function parseBenchmarkPayload(payload, benchmarks) {
       changePct: toNumber(fields[FIELD.changePct]),
       change: toNumber(fields[FIELD.change]),
       sensitivity: config.sensitivity,
+      ...(Number.isFinite(config.proxySensitivity) ? { proxySensitivity: config.proxySensitivity } : {}),
       source: SOURCE_HOST,
       quoteTime: fields[FIELD.quoteTime] || null,
     });
@@ -126,6 +128,7 @@ export function attachBenchmarkQuote(quote, fund, benchmarkQuotes) {
         secid: benchmark.secid,
         name: benchmark.name,
         sensitivity: benchmark.sensitivity,
+        ...(Number.isFinite(benchmark.proxySensitivity) ? { proxySensitivity: benchmark.proxySensitivity } : {}),
       },
       benchmarkSensitivity: benchmark.sensitivity,
     };

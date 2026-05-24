@@ -364,9 +364,10 @@
       "group": "QDII",
       "order": 34,
       "benchmark": {
-        "secid": "100.HSI",
-        "name": "恒生指数",
-        "sensitivity": 0.05
+        "secid": "100.HSTECH",
+        "name": "恒生科技指数",
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -872,9 +873,10 @@
       "group": "QDII",
       "order": 78,
       "benchmark": {
-        "secid": "100.HSI",
-        "name": "恒生指数",
-        "sensitivity": 0.05
+        "secid": "100.HSTECH",
+        "name": "恒生科技指数",
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -968,9 +970,10 @@
       "group": "QDII",
       "order": 86,
       "benchmark": {
-        "secid": "usIXIC",
-        "name": "纳斯达克综合指数",
-        "sensitivity": 0.05
+        "secid": "usINX",
+        "name": "标普500指数",
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1238,7 +1241,8 @@
       "benchmark": {
         "secid": "usIXIC",
         "name": "纳斯达克综合指数",
-        "sensitivity": 0.05
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1296,9 +1300,10 @@
       "group": "资源",
       "order": 115,
       "benchmark": {
-        "secid": "1.000300",
-        "name": "沪深300",
-        "sensitivity": 0.03
+        "secid": "0.159980",
+        "name": "有色ETF基金",
+        "sensitivity": 0.03,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1320,9 +1325,10 @@
       "group": "资源",
       "order": 117,
       "benchmark": {
-        "secid": "1.000300",
-        "name": "沪深300",
-        "sensitivity": 0.03
+        "secid": "0.161226",
+        "name": "国投白银LOF",
+        "sensitivity": 0.03,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1795,9 +1801,10 @@
       "group": "QDII",
       "order": 157,
       "benchmark": {
-        "secid": "usIXIC",
-        "name": "纳斯达克综合指数",
-        "sensitivity": 0.05
+        "secid": "1.501029",
+        "name": "红利基金LOF",
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1807,9 +1814,10 @@
       "group": "消费",
       "order": 158,
       "benchmark": {
-        "secid": "1.000300",
-        "name": "沪深300",
-        "sensitivity": 0.03
+        "secid": "1.515450",
+        "name": "红利低波50ETF南方",
+        "sensitivity": 0.03,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1819,9 +1827,10 @@
       "group": "新能源",
       "order": 159,
       "benchmark": {
-        "secid": "1.000300",
-        "name": "沪深300",
-        "sensitivity": 0.03
+        "secid": "0.159981",
+        "name": "能源化工ETF基金",
+        "sensitivity": 0.03,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1838,9 +1847,10 @@
       "group": "QDII",
       "order": 161,
       "benchmark": {
-        "secid": "usIXIC",
-        "name": "纳斯达克综合指数",
-        "sensitivity": 0.05
+        "secid": "usEWJ",
+        "name": "MSCI日本ETF",
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -1979,7 +1989,8 @@
       "benchmark": {
         "secid": "usIXIC",
         "name": "纳斯达克综合指数",
-        "sensitivity": 0.05
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {
@@ -2025,9 +2036,10 @@
       "group": "QDII",
       "order": 177,
       "benchmark": {
-        "secid": "100.HSI",
-        "name": "恒生指数",
-        "sensitivity": 0.05
+        "secid": "100.HSTECH",
+        "name": "恒生科技指数",
+        "sensitivity": 0.05,
+        "proxySensitivity": 1
       }
     },
     {

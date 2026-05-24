@@ -14,5 +14,6 @@ export const FUNDS = Object.freeze(catalog.funds.map((fund) => Object.freeze({
     secid: fund.benchmark.secid,
     name: fund.benchmark.name ?? '',
     sensitivity: Number.isFinite(fund.benchmark.sensitivity) ? fund.benchmark.sensitivity : 0,
+    ...(Number.isFinite(fund.benchmark.proxySensitivity) ? { proxySensitivity: fund.benchmark.proxySensitivity } : {}),
   }) : null,
 })));

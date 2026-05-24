@@ -81,7 +81,7 @@ test('same-day retry with failed quote does not replace existing good history re
   }
 });
 
-test('weekday stale quote whose quoteTime date differs from tradingDate is shown stale and not written to history', async () => {
+test('weekday previous trading day quote is estimated but not written to history', async () => {
   const files = await withDataFiles();
   try {
     await runUpdate({
@@ -95,9 +95,9 @@ test('weekday stale quote whose quoteTime date differs from tradingDate is shown
     const latest = await readJsonFile(files.latestPath, null);
     const history = await readJsonFile(files.historyPath, null);
     assert.equal(latest.funds[0].status, 'stale');
-    assert.equal(latest.funds[0].predictedNav, null);
-    assert.equal(latest.funds[0].predictedChangePct, null);
-    assert.match(latest.funds[0].message, /不是 2026-05-25/);
+    assert.equal(latest.funds[0].predictedNav, 2.55);
+    assert.equal(latest.funds[0].predictedChangePct, 2);
+    assert.match(latest.funds[0].message, /上一交易日估算/);
     assert.equal(history.records.length, 0);
   } finally {
     await files.cleanup();
@@ -155,6 +155,116 @@ test('partial failure writes latest but history only includes valid fresh ok pre
     const history = await readJsonFile(files.historyPath, null);
     assert.deepEqual(latest.funds.map((fund) => fund.status), ['error', 'ok', 'stale']);
     assert.deepEqual(history.records.map((record) => record.code), [fundB.code]);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('quote fetching is concurrency limited for large watchlists', async () => {
+  const files = await withDataFiles();
+  const funds = Array.from({ length: 5 }, (_, index) => ({
+    code: String(index + 1).padStart(6, '0'),
+    fallbackName: `基金${index + 1}`,
+  }));
+  let inFlight = 0;
+  let maxInFlight = 0;
+
+  try {
+    await runUpdate({
+      now: monday,
+      funds,
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      quoteConcurrency: 2,
+      fetchOfficial: async () => null,
+      fetchBenchmark: async () => new Map(),
+      fetchQuote: async (fund) => {
+        inFlight += 1;
+        maxInFlight = Math.max(maxInFlight, inFlight);
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        inFlight -= 1;
+        return quote(fund);
+      },
+    });
+
+    assert.equal(maxInFlight, 2);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('quote fetching retries rate-capped failures before writing latest', async () => {
+  const files = await withDataFiles();
+  let attempts = 0;
+  try {
+    await runUpdate({
+      now: monday,
+      funds: [fundA],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      quoteRetryBackoffMs: 0,
+      fetchOfficial: async () => null,
+      fetchBenchmark: async () => new Map(),
+      fetchQuote: async () => {
+        attempts += 1;
+        if (attempts === 1) {
+          throw new Error('Quote request failed for 019633: HTTP 514 Frequency Capped');
+        }
+        return quote(fundA);
+      },
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(attempts, 2);
+    assert.equal(latest.funds[0].status, 'ok');
+    assert.equal(latest.summary, '已生成 1/1 只基金预测。');
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('quote fetching pauses the shared request queue after a rate cap', async () => {
+  const files = await withDataFiles();
+  const calls = [];
+  const sleeps = [];
+  const funds = [
+    { code: '000001', fallbackName: '基金1' },
+    { code: '000002', fallbackName: '基金2' },
+    { code: '000003', fallbackName: '基金3' },
+  ];
+
+  try {
+    const update = runUpdate({
+      now: monday,
+      funds,
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      quoteConcurrency: 2,
+      quoteRequestSpacingMs: 0,
+      quoteRetryBackoffMs: 3000,
+      fetchOfficial: async () => null,
+      fetchBenchmark: async () => new Map(),
+      sleepFn: (ms) => new Promise((resolve) => sleeps.push({ ms, resolve })),
+      fetchQuote: async (fund) => {
+        calls.push(fund.code);
+        if (fund.code === '000001' && calls.filter((code) => code === fund.code).length === 1) {
+          throw new Error('Quote request failed for 000001: HTTP 514 Frequency Capped');
+        }
+        return quote(fund);
+      },
+    });
+
+    for (let index = 0; index < 20 && (sleeps.length === 0 || calls.length < 2); index += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
+    assert.deepEqual([...calls], ['000001', '000002']);
+    assert.equal(sleeps.length, 1);
+    assert.equal(sleeps[0].ms, 3000);
+    sleeps.shift().resolve();
+
+    const { latest } = await update;
+    assert.equal(latest.funds.filter((fund) => fund.status === 'ok').length, 3);
+    assert.deepEqual(calls.toSorted(), ['000001', '000001', '000002', '000003']);
   } finally {
     await files.cleanup();
   }
@@ -230,6 +340,58 @@ test('benchmark source adds a small benchmark adjustment to fresh predictions', 
     assert.equal(latest.funds[0].benchmark.name, '科创50');
     assert.equal(latest.funds[0].benchmarkAdjustment, 0.002);
     assert.equal(latest.funds[0].predictedNav, 2.102);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('unavailable quote uses official NAV and benchmark as a low-confidence proxy', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdate({
+      now: monday,
+      funds: [{
+        code: '005125',
+        fallbackName: '华宝标普中国A股红利机会ETF联接（LOF）C',
+        benchmark: { secid: '1.501029', name: '红利基金LOF', sensitivity: 0.05, proxySensitivity: 1 },
+      }],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => {
+        throw new Error('Unable to parse fund JSONP payload');
+      },
+      fetchOfficial: async () => ({
+        code: '005125',
+        navDate: '2026-05-22',
+        nav: 1.5,
+        dailyChangePct: 0.1,
+        source: 'fundf10.eastmoney.com',
+      }),
+      fetchBenchmark: async () => new Map([[
+        '1.501029',
+        {
+          secid: '1.501029',
+          code: '501029',
+          name: '红利基金LOF',
+          price: 1.827,
+          changePct: 0.22,
+          source: 'qt.gtimg.cn',
+          quoteTime: '20260522161425',
+          sensitivity: 0.05,
+          proxySensitivity: 1,
+        },
+      ]]),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    const history = await readJsonFile(files.historyPath, null);
+    assert.equal(latest.funds[0].status, 'proxy');
+    assert.equal(latest.funds[0].predictedNav, 1.5033);
+    assert.equal(latest.funds[0].predictedChangePct, 0.22);
+    assert.equal(latest.funds[0].estimatedNav, null);
+    assert.match(latest.funds[0].message, /替代估算/);
+    assert.match(latest.summary, /替代估算 1 只/);
+    assert.deepEqual(history.records, []);
   } finally {
     await files.cleanup();
   }

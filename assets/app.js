@@ -1,7 +1,11 @@
 import {
+  applyBenchmarkQuotes,
   buildRefreshProgress,
   carryForwardBenchmarkQuotes,
+  carryForwardQuoteSnapshot,
+  createBenchmarkScriptFetcher,
   createJsonpQuoteFetcher,
+  createOfficialNavScriptFetcher,
   mergeCatalogMetadata,
   mergeNewerOfficialNav,
   refreshFundsInBatches,
@@ -11,8 +15,11 @@ import {
 
 const app = document.querySelector('#app');
 const disclaimerText = '估算结果仅用于个人跟踪，不构成投资建议。实际净值以基金公司披露为准。';
-const refreshConcurrency = 18;
-const refreshIntervalMs = 60_000;
+const refreshConcurrency = 4;
+const refreshRequestSpacingMs = 250;
+const refreshRetryBackoffMs = 3000;
+const refreshIntervalMs = 10 * 60_000;
+const estimateDifferenceThresholdPct = 0.1;
 
 const state = {
   latest: { funds: [] },
@@ -60,18 +67,53 @@ function valueClass(value) {
   return value > 0 ? 'positive' : 'negative';
 }
 
-function statusText(status) {
+function estimateNavValue(fund) {
+  return Number.isFinite(fund.predictedNav) ? fund.predictedNav : fund.estimatedNav;
+}
+
+function estimateChangeValue(fund) {
+  return Number.isFinite(fund.predictedChangePct) ? fund.predictedChangePct : fund.estimatedChangePct;
+}
+
+function estimateDifferencePct(fund) {
+  if (!Number.isFinite(fund.predictedChangePct) || !Number.isFinite(fund.estimatedChangePct)) {
+    return null;
+  }
+  return Number((fund.predictedChangePct - fund.estimatedChangePct).toFixed(2));
+}
+
+function shouldShowRawEstimate(fund) {
+  const difference = estimateDifferencePct(fund);
+  return difference !== null && Math.abs(difference) >= estimateDifferenceThresholdPct;
+}
+
+function statusText(fund) {
+  if (fund.status === 'stale' && Number.isFinite(estimateNavValue(fund))) {
+    return '上一交易日';
+  }
   return {
     ok: '可用',
+    proxy: '可用',
     stale: '暂无估值',
     error: '更新失败',
-  }[status] ?? '未知';
+  }[fund.status] ?? '未知';
 }
 
 function statusClass(status) {
-  return ['status', status === 'error' ? 'error' : '', status === 'stale' ? 'stale' : '']
+  return [
+    'status',
+    status === 'error' ? 'error' : '',
+    status === 'stale' ? 'stale' : '',
+  ]
     .filter(Boolean)
     .join(' ');
+}
+
+function quoteMetaLabel(fund) {
+  if (fund.status === 'stale' && Number.isFinite(estimateNavValue(fund))) {
+    return '上一交易日';
+  }
+  return '估算';
 }
 
 function displayDateTime(value) {
@@ -94,14 +136,35 @@ function disclaimerNotice() {
 function fundCard(fund) {
   const code = String(fund.code).padStart(6, '0');
   const expanded = state.expandedCodes.has(code);
-  const changeValue = fund.predictedChangePct;
-  const { estimatedChangePct } = fund;
+  const estimateNav = estimateNavValue(fund);
+  const estimateChange = estimateChangeValue(fund);
+  const rawEstimateDifference = estimateDifferencePct(fund);
+  const rawEstimateVisible = shouldShowRawEstimate(fund);
   const benchmark = fund.benchmark;
   const message = fund.message
     ? `<p class="message">${escapeHtml(fund.message)}</p>`
     : '';
   const benchmarkLine = benchmark?.name
     ? `<p class="message">参考指数：${escapeHtml(benchmark.name)} ${formatPct(benchmark.changePct)} · 指数修正：${formatNumber(fund.benchmarkAdjustment, 4)}</p>`
+    : '';
+  const rawEstimateMetrics = rawEstimateVisible
+    ? `
+            <div class="metric">
+              <div class="label">盘中估值</div>
+              <div class="value">${formatNumber(fund.estimatedNav)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">原始涨跌</div>
+              <div class="value ${valueClass(fund.estimatedChangePct)}">${formatPct(fund.estimatedChangePct)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">修正幅度</div>
+              <div class="value ${valueClass(rawEstimateDifference)}">${formatPct(rawEstimateDifference)}</div>
+            </div>
+      `
+    : '';
+  const estimateNote = !rawEstimateVisible && Number.isFinite(fund.estimatedNav) && Number.isFinite(fund.predictedNav)
+    ? '<p class="message">基于盘中估值，修正幅度很小。</p>'
     : '';
   const holdingBadge = fund.holding ? '<span class="mini-badge">持有</span>' : '';
   const groupBadge = fund.group ? `<span class="mini-badge muted">${escapeHtml(fund.group)}</span>` : '';
@@ -120,49 +183,47 @@ function fundCard(fund) {
             <span class="fund-name">${escapeHtml(fund.name)}</span>
             <span class="fund-code">${escapeHtml(code)} ${holdingBadge}${groupBadge}</span>
           </span>
-          <span class="${statusClass(fund.status)}">${statusText(fund.status)}</span>
+          <span class="${statusClass(fund.status)}">${statusText(fund)}</span>
         </span>
         <span class="compact-grid">
           <span class="compact-metric">
-            <span class="label">预测涨跌</span>
-            <span class="compact-value primary ${valueClass(changeValue)}">${formatPct(changeValue)}</span>
+            <span class="label">估算涨跌</span>
+            <span class="compact-value primary ${valueClass(estimateChange)}">${formatPct(estimateChange)}</span>
           </span>
           <span class="compact-metric">
-            <span class="label">预测净值</span>
-            <span class="compact-value">${formatNumber(fund.predictedNav)}</span>
+            <span class="label">估算净值</span>
+            <span class="compact-value">${formatNumber(estimateNav)}</span>
           </span>
           <span class="compact-metric">
-            <span class="label">估值涨跌</span>
-            <span class="compact-value ${valueClass(estimatedChangePct)}">${formatPct(estimatedChangePct)}</span>
+            <span class="label">确认净值</span>
+            <span class="compact-value">${formatNumber(fund.nav)}</span>
+          </span>
+          <span class="compact-metric">
+            <span class="label">时间</span>
+            <span class="compact-value compact-time">${displayDateTime(fund.quoteTime)}</span>
           </span>
         </span>
-        <span class="compact-meta">估值：${displayDateTime(fund.quoteTime)} · ${expanded ? '收起详情' : '展开详情'}</span>
+        <span class="compact-meta">${quoteMetaLabel(fund)} · ${expanded ? '收起详情' : '展开详情'}</span>
       </button>
       ${expanded ? `
         <div id="fund-detail-${escapeHtml(code)}" class="fund-detail">
           <div class="metric-grid">
             <div class="metric">
-              <div class="label">预测净值</div>
-              <div class="value">${formatNumber(fund.predictedNav)}</div>
+              <div class="label">估算净值</div>
+              <div class="value">${formatNumber(estimateNav)}</div>
             </div>
             <div class="metric">
-              <div class="label">预测涨跌</div>
-              <div class="value ${valueClass(changeValue)}">${formatPct(changeValue)}</div>
-            </div>
-            <div class="metric">
-              <div class="label">估值涨跌</div>
-              <div class="value ${valueClass(estimatedChangePct)}">${formatPct(estimatedChangePct)}</div>
-            </div>
-            <div class="metric">
-              <div class="label">盘中估值</div>
-              <div class="value">${formatNumber(fund.estimatedNav)}</div>
+              <div class="label">估算涨跌</div>
+              <div class="value ${valueClass(estimateChange)}">${formatPct(estimateChange)}</div>
             </div>
             <div class="metric">
               <div class="label">确认净值</div>
               <div class="value">${formatNumber(fund.nav)}</div>
             </div>
+            ${rawEstimateMetrics}
           </div>
-          <p class="message">估值时间：${displayDateTime(fund.quoteTime)} · 确认日期：${displayDateTime(fund.navDate)}</p>
+          <p class="message">${quoteMetaLabel(fund)}时间：${displayDateTime(fund.quoteTime)} · 确认日期：${displayDateTime(fund.navDate)}</p>
+          ${estimateNote}
           ${benchmarkLine}
           ${message}
         </div>
@@ -244,16 +305,17 @@ function renderControls() {
             <option value="watching"${state.filter === 'watching' ? ' selected' : ''}>观察</option>
             <option value="positive"${state.filter === 'positive' ? ' selected' : ''}>上涨</option>
             <option value="negative"${state.filter === 'negative' ? ' selected' : ''}>下跌</option>
+            <option value="proxy"${state.filter === 'proxy' ? ' selected' : ''}>替代估算</option>
             <option value="error"${state.filter === 'error' ? ' selected' : ''}>失败</option>
           </select>
         </label>
         <label>
           <span>排序</span>
           <select id="sortKey">
-            <option value="predictedChangePct"${state.sortKey === 'predictedChangePct' ? ' selected' : ''}>预测涨跌</option>
-            <option value="estimatedChangePct"${state.sortKey === 'estimatedChangePct' ? ' selected' : ''}>估值涨跌</option>
+            <option value="predictedChangePct"${state.sortKey === 'predictedChangePct' ? ' selected' : ''}>估算涨跌</option>
+            <option value="estimatedChangePct"${state.sortKey === 'estimatedChangePct' ? ' selected' : ''}>原始涨跌</option>
             <option value="nav"${state.sortKey === 'nav' ? ' selected' : ''}>确认净值</option>
-            <option value="quoteTime"${state.sortKey === 'quoteTime' ? ' selected' : ''}>估值时间</option>
+            <option value="quoteTime"${state.sortKey === 'quoteTime' ? ' selected' : ''}>估算时间</option>
             <option value="code"${state.sortKey === 'code' ? ' selected' : ''}>基金代码</option>
             <option value="custom"${state.sortKey === 'custom' ? ' selected' : ''}>自定义顺序</option>
           </select>
@@ -389,8 +451,11 @@ async function startFullRefresh() {
   if (state.refreshBusy) {
     return;
   }
-  const funds = carryForwardBenchmarkQuotes(
-    Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
+  let funds = carryForwardQuoteSnapshot(
+    carryForwardBenchmarkQuotes(
+      Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
+      state.funds,
+    ),
     state.funds,
   );
   if (!funds.length) {
@@ -401,14 +466,26 @@ async function startFullRefresh() {
   render();
 
   try {
+    try {
+      const fetchBenchmarkQuotes = createBenchmarkScriptFetcher();
+      const benchmarkQuotes = await fetchBenchmarkQuotes(funds.map((fund) => fund.benchmark).filter(Boolean));
+      funds = applyBenchmarkQuotes(funds, benchmarkQuotes);
+    } catch {
+      // Keep the carried-forward benchmark quote if the reference source is unavailable.
+    }
+
     const fetchQuote = createJsonpQuoteFetcher();
+    const fetchProxyBase = createOfficialNavScriptFetcher();
     const tradingDate = currentChinaDate();
     const result = await refreshFundsInBatches({
       funds,
       fetchQuote,
+      fetchProxyBase,
       historyRecords: Array.isArray(state.history.records) ? state.history.records : [],
       tradingDate,
       concurrency: refreshConcurrency,
+      requestSpacingMs: refreshRequestSpacingMs,
+      quoteRetryBackoffMs: refreshRetryBackoffMs,
       onProgress: (progress) => {
         state.refreshProgress = progress;
         updateRefreshStatus();
@@ -417,15 +494,16 @@ async function startFullRefresh() {
 
     state.refreshProgress = result.progress;
     if (shouldPublishLiveRanking(result.progress)) {
+      const refreshedAt = new Date();
+      state.lastFullRefreshAt = refreshedAt.toLocaleTimeString('zh-CN', { hour12: false });
       state.funds = mergeCatalogMetadata(mergeNewerOfficialNav(result.funds, state.funds), funds);
       state.latest = {
         ...state.latest,
-        generatedAt: new Date().toISOString(),
+        generatedAt: refreshedAt.toISOString(),
         tradingDate,
         summary: '已完成网页端全量实时刷新，按最新结果排序。',
         funds: state.funds,
       };
-      state.lastFullRefreshAt = new Date().toLocaleTimeString('zh-CN', { hour12: false });
     }
   } catch (error) {
     state.refreshProgress = {

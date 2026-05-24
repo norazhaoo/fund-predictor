@@ -21,6 +21,13 @@ function predictedChangePctFor(predictedNav, quote) {
   return round2(((predictedNav - quote.nav) / quote.nav) * 100);
 }
 
+function proxySensitivityFor(quote) {
+  if (Number.isFinite(quote.benchmark?.proxySensitivity)) {
+    return quote.benchmark.proxySensitivity;
+  }
+  return 1;
+}
+
 function calibrationFor(code, historyRecords) {
   const samples = historyRecords
     .filter((record) => record.code === code)
@@ -95,5 +102,37 @@ export function predictFromQuote(quote, historyRecords) {
         : '历史样本不足，暂以盘中估值作为预测。',
       hasBenchmarkAdjustment ? '已加入参考指数偏离修正。' : '',
     ].filter(Boolean).join(' '),
+  };
+}
+
+export function predictFromProxy(quote) {
+  if (!Number.isFinite(quote.nav) || !Number.isFinite(quote.benchmark?.changePct)) {
+    return null;
+  }
+
+  const proxySensitivity = proxySensitivityFor(quote);
+  const proxyChangePct = round2(quote.benchmark.changePct * proxySensitivity);
+  const predictedNav = round4(quote.nav * (1 + proxyChangePct / 100));
+  const benchmarkName = quote.benchmark.name || '参考行情';
+
+  return {
+    ...quote,
+    source: `proxy:${quote.benchmark.source ?? 'qt.gtimg.cn'}`,
+    estimatedNav: null,
+    estimatedChangePct: null,
+    quoteTime: quote.quoteTime ?? quote.benchmark.quoteTime ?? null,
+    rawPredictedNav: predictedNav,
+    predictedNav,
+    predictedChangePct: predictedChangePctFor(predictedNav, { ...quote, estimatedChangePct: proxyChangePct }),
+    calibration: 0,
+    benchmarkAdjustment: 0,
+    benchmarkGapPct: null,
+    samplesUsed: 0,
+    proxyChangePct,
+    proxySensitivity,
+    predictionMethod: 'benchmark-proxy',
+    confidence: 'low',
+    status: 'proxy',
+    message: `天天基金暂无盘中估值，已用${benchmarkName}做低置信替代估算。`,
   };
 }
