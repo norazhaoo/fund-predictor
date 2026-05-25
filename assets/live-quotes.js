@@ -249,17 +249,11 @@ function matchesQuery(fund, query) {
 }
 
 function matchesFilter(fund, filter) {
-  if (filter === 'holding') {
-    return Boolean(fund.holding);
+  if (filter === 'success') {
+    return fund.status !== 'error';
   }
-  if (filter === 'watching') {
-    return !fund.holding;
-  }
-  if (filter === 'error') {
-    return fund.status === 'error';
-  }
-  if (filter === 'proxy') {
-    return fund.status === 'proxy';
+  if (filter === 'nonProxy') {
+    return fund.status !== 'error' && fund.status !== 'proxy';
   }
   if (filter === 'positive') {
     return filterChangePct(fund) > 0;
@@ -364,9 +358,20 @@ function isQuoteUnavailableError(error) {
   return /暂无估值数据|Unable to parse fund JSONP payload/.test(message);
 }
 
-function isRateLimitedQuoteError(error) {
+export function isRateLimitedQuoteError(error) {
   const message = error instanceof Error ? error.message : String(error ?? '');
   return /514|Frequency Capped|频率限制|rate.?limit/i.test(message);
+}
+
+export function rateLimitedErrorFunds(funds) {
+  return funds.filter((fund) => fund.status === 'error' && isRateLimitedQuoteError(fund.message));
+}
+
+export function mergeRetriedFunds(funds, retriedFunds) {
+  const retriedByCode = new Map(
+    retriedFunds.map((fund) => [String(fund.code).padStart(6, '0'), fund]),
+  );
+  return funds.map((fund) => retriedByCode.get(String(fund.code).padStart(6, '0')) ?? fund);
 }
 
 function proxySensitivityFor(quote) {
@@ -423,8 +428,10 @@ export function buildRefreshProgress({ completed, total, failed }) {
     ? `全量刷新完成：${safeCompleted}/${safeTotal}`
     : `正在全量刷新：${safeCompleted}/${safeTotal}`;
 
-  if (isComplete && safeFailed > 0) {
-    text = `全量刷新完成：${ok}/${safeTotal}，失败 ${safeFailed} 只`;
+  if (safeFailed > 0) {
+    text = isComplete
+      ? `全量刷新完成：${ok}/${safeTotal}，失败 ${safeFailed} 只`
+      : `正在全量刷新：${ok}/${safeTotal}，失败 ${safeFailed} 只，已完成 ${safeCompleted}/${safeTotal}`;
   }
 
   return {

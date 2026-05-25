@@ -10,8 +10,10 @@ import {
   createJsonpQuoteFetcher,
   createOfficialNavScriptFetcher,
   mergeNewerOfficialNav,
+  mergeRetriedFunds,
   proxyPredictionFor,
   predictLiveQuote,
+  rateLimitedErrorFunds,
   refreshFundsInBatches,
   shouldPublishLiveRanking,
   sortFundsForView,
@@ -80,10 +82,24 @@ test('browser full refresh uses gentle pacing for large watchlists', async () =>
   const js = await readFile('assets/app.js', 'utf8');
   assert.match(js, /const refreshConcurrency = 4;/);
   assert.match(js, /const refreshRequestSpacingMs = 250;/);
+  assert.match(js, /const refreshInitialQuoteRetries = 0;/);
   assert.match(js, /const refreshRetryBackoffMs = 3000;/);
+  assert.match(js, /const backgroundRetryDelayMs = 15_000;/);
+  assert.match(js, /const backgroundRetryConcurrency = 2;/);
+  assert.match(js, /const backgroundRetryRequestSpacingMs = 800;/);
   assert.match(js, /const refreshIntervalMs = 10 \* 60_000;/);
   assert.match(js, /requestSpacingMs: refreshRequestSpacingMs/);
+  assert.match(js, /quoteMaxRetries: refreshInitialQuoteRetries/);
   assert.match(js, /quoteRetryBackoffMs: refreshRetryBackoffMs/);
+});
+
+test('browser app schedules background retries for foreground rate caps', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  assert.match(js, /backgroundRetryText:\s*''/);
+  assert.match(js, /function scheduleBackgroundRetry/);
+  assert.match(js, /async function runBackgroundRetry/);
+  assert.match(js, /scheduleBackgroundRetry\(state\.funds, \{ tradingDate \}\)/);
+  assert.match(js, /后台重试/);
 });
 
 test('browser app shows benchmark factor details on fund cards', async () => {
@@ -92,9 +108,23 @@ test('browser app shows benchmark factor details on fund cards', async () => {
   assert.match(js, /指数修正/);
 });
 
-test('browser app offers proxy filtering without a separate proxy card badge', async () => {
+test('browser app keeps fund filters and sorts focused', async () => {
   const js = await readFile('assets/app.js', 'utf8');
-  assert.match(js, /<option value="proxy"\$\{state\.filter === 'proxy' \? ' selected' : ''\}>替代估算<\/option>/);
+  assert.match(js, /<option value="all"\$\{state\.filter === 'all' \? ' selected' : ''\}>全部<\/option>/);
+  assert.match(js, /<option value="positive"\$\{state\.filter === 'positive' \? ' selected' : ''\}>上涨<\/option>/);
+  assert.match(js, /<option value="negative"\$\{state\.filter === 'negative' \? ' selected' : ''\}>下跌<\/option>/);
+  assert.match(js, /<option value="success"\$\{state\.filter === 'success' \? ' selected' : ''\}>成功<\/option>/);
+  assert.match(js, /<option value="nonProxy"\$\{state\.filter === 'nonProxy' \? ' selected' : ''\}>非替代估算<\/option>/);
+  assert.doesNotMatch(js, /<option value="holding"/);
+  assert.doesNotMatch(js, /<option value="watching"/);
+  assert.doesNotMatch(js, /<option value="proxy"/);
+  assert.doesNotMatch(js, /<option value="error"/);
+  assert.match(js, /<option value="predictedChangePct"\$\{state\.sortKey === 'predictedChangePct' \? ' selected' : ''\}>估算涨跌<\/option>/);
+  assert.match(js, /<option value="nav"\$\{state\.sortKey === 'nav' \? ' selected' : ''\}>确认净值<\/option>/);
+  assert.doesNotMatch(js, /<option value="estimatedChangePct"/);
+  assert.doesNotMatch(js, /<option value="quoteTime"/);
+  assert.doesNotMatch(js, /<option value="code"/);
+  assert.doesNotMatch(js, /<option value="custom"/);
   assert.doesNotMatch(js, /proxy:\s*'替代估算'/);
   assert.doesNotMatch(js, /status === 'proxy' \? 'proxy'/);
   assert.doesNotMatch(js, /if \(fund\.status === 'proxy'\)[\s\S]*return '参考行情'/);
@@ -150,6 +180,10 @@ test('live ranking waits for full batch completion before publishing sorted repl
   const progress = buildRefreshProgress({ completed: 2, total: 4, failed: 0 });
   assert.equal(progress.text, '正在全量刷新：2/4');
   assert.equal(shouldPublishLiveRanking(progress), false);
+
+  const progressWithFailure = buildRefreshProgress({ completed: 2, total: 4, failed: 1 });
+  assert.equal(progressWithFailure.text, '正在全量刷新：1/4，失败 1 只，已完成 2/4');
+  assert.equal(shouldPublishLiveRanking(progressWithFailure), false);
 
   const done = buildRefreshProgress({ completed: 4, total: 4, failed: 0 });
   assert.equal(done.text, '全量刷新完成：4/4');
@@ -285,6 +319,41 @@ test('live refresh pauses the shared request queue after a rate cap', async () =
   const result = await resultPromise;
   assert.equal(result.progress.failed, 0);
   assert.deepEqual(starts.toSorted(), ['000001', '000001', '000002', '000003']);
+});
+
+test('live refresh can keep foreground pass fast by deferring rate-cap retries', async () => {
+  let attempts = 0;
+  const result = await refreshFundsInBatches({
+    funds: [{ code: '000001', fallbackName: '限频基金' }],
+    tradingDate: '2026-05-25',
+    quoteMaxRetries: 0,
+    fetchQuote: async () => {
+      attempts += 1;
+      throw new Error('估值请求失败：000001（可能触发接口频率限制）');
+    },
+  });
+
+  assert.equal(attempts, 1);
+  assert.equal(result.progress.failed, 1);
+  assert.equal(result.funds[0].status, 'error');
+});
+
+test('rate-limited errors can be selected and replaced by background retry results', () => {
+  const current = [
+    { code: '000001', status: 'error', message: 'HTTP 514 Frequency Capped' },
+    { code: '000002', status: 'error', message: '普通失败' },
+    { code: '000003', status: 'ok', predictedChangePct: 1 },
+  ];
+  const retryTargets = rateLimitedErrorFunds(current);
+
+  assert.deepEqual(retryTargets.map((fund) => fund.code), ['000001']);
+  assert.deepEqual(mergeRetriedFunds(current, [
+    { code: '000001', status: 'ok', predictedChangePct: 2 },
+  ]), [
+    { code: '000001', status: 'ok', predictedChangePct: 2 },
+    { code: '000002', status: 'error', message: '普通失败' },
+    { code: '000003', status: 'ok', predictedChangePct: 1 },
+  ]);
 });
 
 test('browser benchmark script fetcher reads Tencent quote globals', async () => {
@@ -494,11 +563,11 @@ test('live ranking sorts usable proxy and stale estimates with normal estimates'
   assert.deepEqual(sorted.map((fund) => fund.code), ['proxy-high', 'stale-mid', 'ok-low', 'fail-high']);
 });
 
-test('live ranking filters by search text and holding state', () => {
+test('live ranking filters by search text and success state', () => {
   const sorted = sortFundsForView([
-    { code: '019633', name: '国泰半导体设备ETF联接C', holding: false, status: 'ok', predictedChangePct: 1 },
-    { code: '016874', name: '广发远见智选混合C', holding: true, status: 'ok', predictedChangePct: 2 },
-  ], { sortKey: 'predictedChangePct', direction: 'desc', query: '广发', filter: 'holding' });
+    { code: '019633', name: '国泰半导体设备ETF联接C', status: 'error', predictedChangePct: 1 },
+    { code: '016874', name: '广发远见智选混合C', status: 'ok', predictedChangePct: 2 },
+  ], { sortKey: 'predictedChangePct', direction: 'desc', query: '广发', filter: 'success' });
 
   assert.deepEqual(sorted.map((fund) => fund.code), ['016874']);
 });
@@ -521,14 +590,15 @@ test('live ranking positive and negative filters use estimate when prediction is
   );
 });
 
-test('live ranking can filter proxy estimates explicitly', () => {
+test('live ranking can filter out proxy estimates explicitly', () => {
   const sorted = sortFundsForView([
     { code: 'normal', status: 'ok', predictedChangePct: 1 },
     { code: 'proxy', status: 'proxy', predictedChangePct: 2 },
     { code: 'stale', status: 'stale', predictedChangePct: 3 },
-  ], { filter: 'proxy' });
+    { code: 'error', status: 'error', predictedChangePct: 4 },
+  ], { filter: 'nonProxy' });
 
-  assert.deepEqual(sorted.map((fund) => fund.code), ['proxy']);
+  assert.deepEqual(sorted.map((fund) => fund.code), ['stale', 'normal']);
 });
 
 test('live ranking keeps newer official NAV from the previous complete snapshot', () => {

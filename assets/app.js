@@ -8,6 +8,8 @@ import {
   createOfficialNavScriptFetcher,
   mergeCatalogMetadata,
   mergeNewerOfficialNav,
+  mergeRetriedFunds,
+  rateLimitedErrorFunds,
   refreshFundsInBatches,
   shouldPublishLiveRanking,
   sortFundsForView,
@@ -17,7 +19,12 @@ const app = document.querySelector('#app');
 const disclaimerText = '估算结果仅用于个人跟踪，不构成投资建议。实际净值以基金公司披露为准。';
 const refreshConcurrency = 4;
 const refreshRequestSpacingMs = 250;
+const refreshInitialQuoteRetries = 0;
 const refreshRetryBackoffMs = 3000;
+const backgroundRetryDelayMs = 15_000;
+const backgroundRetryMaxRounds = 6;
+const backgroundRetryConcurrency = 2;
+const backgroundRetryRequestSpacingMs = 800;
 const refreshIntervalMs = 10 * 60_000;
 const estimateDifferenceThresholdPct = 0.1;
 
@@ -33,6 +40,9 @@ const state = {
   refreshProgress: null,
   refreshBusy: false,
   lastFullRefreshAt: '',
+  backgroundRetryText: '',
+  backgroundRetryTimer: null,
+  backgroundRetryToken: 0,
   expandedCodes: new Set(),
 };
 
@@ -289,7 +299,8 @@ function refreshStatusHtml() {
   const note = shouldPublishLiveRanking(state.refreshProgress)
     ? `排名时间：${escapeHtml(state.lastFullRefreshAt || '刚刚')}`
     : '当前排名仍为上次完整结果';
-  return `<p class="meta refresh-status" id="refreshStatus">${escapeHtml(state.refreshProgress.text)}，${note}</p>`;
+  const retryNote = state.backgroundRetryText ? `，${escapeHtml(state.backgroundRetryText)}` : '';
+  return `<p class="meta refresh-status" id="refreshStatus">${escapeHtml(state.refreshProgress.text)}，${note}${retryNote}</p>`;
 }
 
 function renderControls() {
@@ -301,23 +312,17 @@ function renderControls() {
           <span>筛选</span>
           <select id="fundFilter">
             <option value="all"${state.filter === 'all' ? ' selected' : ''}>全部</option>
-            <option value="holding"${state.filter === 'holding' ? ' selected' : ''}>持有</option>
-            <option value="watching"${state.filter === 'watching' ? ' selected' : ''}>观察</option>
             <option value="positive"${state.filter === 'positive' ? ' selected' : ''}>上涨</option>
             <option value="negative"${state.filter === 'negative' ? ' selected' : ''}>下跌</option>
-            <option value="proxy"${state.filter === 'proxy' ? ' selected' : ''}>替代估算</option>
-            <option value="error"${state.filter === 'error' ? ' selected' : ''}>失败</option>
+            <option value="success"${state.filter === 'success' ? ' selected' : ''}>成功</option>
+            <option value="nonProxy"${state.filter === 'nonProxy' ? ' selected' : ''}>非替代估算</option>
           </select>
         </label>
         <label>
           <span>排序</span>
           <select id="sortKey">
             <option value="predictedChangePct"${state.sortKey === 'predictedChangePct' ? ' selected' : ''}>估算涨跌</option>
-            <option value="estimatedChangePct"${state.sortKey === 'estimatedChangePct' ? ' selected' : ''}>原始涨跌</option>
             <option value="nav"${state.sortKey === 'nav' ? ' selected' : ''}>确认净值</option>
-            <option value="quoteTime"${state.sortKey === 'quoteTime' ? ' selected' : ''}>估算时间</option>
-            <option value="code"${state.sortKey === 'code' ? ' selected' : ''}>基金代码</option>
-            <option value="custom"${state.sortKey === 'custom' ? ' selected' : ''}>自定义顺序</option>
           </select>
         </label>
         <button id="sortDirection" class="secondary-button" type="button">${state.direction === 'desc' ? '降序' : '升序'}</button>
@@ -368,8 +373,23 @@ function updateRefreshStatus() {
     const note = shouldPublishLiveRanking(state.refreshProgress)
       ? `排名时间：${state.lastFullRefreshAt || '刚刚'}`
       : '当前排名仍为上次完整结果';
-    status.textContent = `${state.refreshProgress.text}，${note}`;
+    const retryNote = state.backgroundRetryText ? `，${state.backgroundRetryText}` : '';
+    status.textContent = `${state.refreshProgress.text}，${note}${retryNote}`;
   }
+}
+
+function setBackgroundRetryText(text) {
+  state.backgroundRetryText = text;
+  updateRefreshStatus();
+}
+
+function clearBackgroundRetry() {
+  state.backgroundRetryToken += 1;
+  if (state.backgroundRetryTimer) {
+    window.clearTimeout(state.backgroundRetryTimer);
+    state.backgroundRetryTimer = null;
+  }
+  state.backgroundRetryText = '';
 }
 
 function toggleFundCard(code) {
@@ -447,10 +467,125 @@ async function boot() {
   }
 }
 
+function publishFullRefresh(funds, catalogFunds, tradingDate, summary) {
+  const refreshedAt = new Date();
+  state.lastFullRefreshAt = refreshedAt.toLocaleTimeString('zh-CN', { hour12: false });
+  state.funds = mergeCatalogMetadata(mergeNewerOfficialNav(funds, state.funds), catalogFunds);
+  state.latest = {
+    ...state.latest,
+    generatedAt: refreshedAt.toISOString(),
+    tradingDate,
+    summary,
+    funds: state.funds,
+  };
+}
+
+function publishRetriedFunds(funds, tradingDate) {
+  const refreshedAt = new Date();
+  state.lastFullRefreshAt = refreshedAt.toLocaleTimeString('zh-CN', { hour12: false });
+  state.funds = mergeCatalogMetadata(
+    mergeRetriedFunds(state.funds, funds),
+    Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
+  );
+  state.latest = {
+    ...state.latest,
+    generatedAt: refreshedAt.toISOString(),
+    tradingDate,
+    summary: `后台重试已补回 ${funds.length} 只基金。`,
+    funds: state.funds,
+  };
+  state.refreshProgress = buildRefreshProgress({
+    completed: state.funds.length,
+    total: state.funds.length,
+    failed: state.funds.filter((fund) => fund.status === 'error').length,
+  });
+}
+
+function scheduleBackgroundRetry(sourceFunds, { tradingDate, round = 1, delayMs = backgroundRetryDelayMs } = {}) {
+  const retryFunds = rateLimitedErrorFunds(sourceFunds);
+  if (!retryFunds.length || round > backgroundRetryMaxRounds) {
+    setBackgroundRetryText('');
+    return;
+  }
+
+  if (state.backgroundRetryTimer) {
+    window.clearTimeout(state.backgroundRetryTimer);
+  }
+
+  const token = state.backgroundRetryToken;
+  setBackgroundRetryText(`后台重试排队：${retryFunds.length} 只 514，稍后自动补`);
+  state.backgroundRetryTimer = window.setTimeout(() => {
+    runBackgroundRetry(retryFunds, { tradingDate, round, token });
+  }, delayMs);
+}
+
+async function runBackgroundRetry(retryFunds, { tradingDate, round, token }) {
+  if (token !== state.backgroundRetryToken) {
+    return;
+  }
+  state.backgroundRetryTimer = null;
+  const total = retryFunds.length;
+  let retryCompleted = 0;
+  setBackgroundRetryText(`后台重试中：0/${total}`);
+
+  try {
+    const result = await refreshFundsInBatches({
+      funds: retryFunds,
+      fetchQuote: createJsonpQuoteFetcher(),
+      fetchProxyBase: createOfficialNavScriptFetcher(),
+      historyRecords: Array.isArray(state.history.records) ? state.history.records : [],
+      tradingDate,
+      concurrency: backgroundRetryConcurrency,
+      requestSpacingMs: backgroundRetryRequestSpacingMs,
+      quoteMaxRetries: 0,
+      quoteRetryBackoffMs: refreshRetryBackoffMs,
+      onProgress: (progress) => {
+        retryCompleted = progress.completed;
+        setBackgroundRetryText(`后台重试中：${retryCompleted}/${total}`);
+      },
+    });
+    if (token !== state.backgroundRetryToken) {
+      return;
+    }
+
+    const recoveredFunds = result.funds.filter((fund) => fund.status !== 'error');
+    const remainingRateLimited = rateLimitedErrorFunds(result.funds);
+    if (recoveredFunds.length) {
+      publishRetriedFunds(recoveredFunds, tradingDate);
+    }
+
+    if (remainingRateLimited.length && round < backgroundRetryMaxRounds) {
+      setBackgroundRetryText(`后台重试第 ${round} 轮完成，仍有 ${remainingRateLimited.length} 只 514`);
+      render();
+      scheduleBackgroundRetry(remainingRateLimited, {
+        tradingDate,
+        round: round + 1,
+        delayMs: backgroundRetryDelayMs,
+      });
+      return;
+    }
+
+    setBackgroundRetryText(
+      remainingRateLimited.length
+        ? `后台重试暂停：仍有 ${remainingRateLimited.length} 只 514`
+        : '',
+    );
+  } catch (error) {
+    if (token === state.backgroundRetryToken) {
+      setBackgroundRetryText(`后台重试暂停：${error instanceof Error ? error.message : String(error)}`);
+    }
+  } finally {
+    if (token === state.backgroundRetryToken) {
+      render();
+    }
+  }
+}
+
 async function startFullRefresh() {
   if (state.refreshBusy) {
     return;
   }
+  clearBackgroundRetry();
   let funds = carryForwardQuoteSnapshot(
     carryForwardBenchmarkQuotes(
       Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
@@ -485,6 +620,7 @@ async function startFullRefresh() {
       tradingDate,
       concurrency: refreshConcurrency,
       requestSpacingMs: refreshRequestSpacingMs,
+      quoteMaxRetries: refreshInitialQuoteRetries,
       quoteRetryBackoffMs: refreshRetryBackoffMs,
       onProgress: (progress) => {
         state.refreshProgress = progress;
@@ -494,16 +630,10 @@ async function startFullRefresh() {
 
     state.refreshProgress = result.progress;
     if (shouldPublishLiveRanking(result.progress)) {
-      const refreshedAt = new Date();
-      state.lastFullRefreshAt = refreshedAt.toLocaleTimeString('zh-CN', { hour12: false });
-      state.funds = mergeCatalogMetadata(mergeNewerOfficialNav(result.funds, state.funds), funds);
-      state.latest = {
-        ...state.latest,
-        generatedAt: refreshedAt.toISOString(),
-        tradingDate,
-        summary: '已完成网页端全量实时刷新，按最新结果排序。',
-        funds: state.funds,
-      };
+      publishFullRefresh(result.funds, funds, tradingDate, '已完成网页端全量实时刷新，按最新结果排序。');
+      scheduleBackgroundRetry(state.funds, { tradingDate });
+    } else {
+      scheduleBackgroundRetry(result.funds, { tradingDate });
     }
   } catch (error) {
     state.refreshProgress = {
