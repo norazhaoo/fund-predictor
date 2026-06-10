@@ -379,6 +379,6 @@ button:disabled {
 
 @media (min-width: 560px) {
   .control-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 72px 72px;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 72px 72px;
   }
 }

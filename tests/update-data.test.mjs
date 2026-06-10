@@ -45,11 +45,13 @@ async function withDataFiles(initialHistory = { version: 1, records: [] }, initi
   const dir = await mkdtemp(join(tmpdir(), 'fund-update-'));
   const latestPath = join(dir, 'data/latest.json');
   const historyPath = join(dir, 'data/history.json');
+  const snapshotsPath = join(dir, 'data/refresh-snapshots.json');
   await writeJsonFile(latestPath, initialLatest);
   await writeJsonFile(historyPath, initialHistory);
   return {
     latestPath,
     historyPath,
+    snapshotsPath,
     cleanup: () => rm(dir, { recursive: true, force: true }),
   };
 }
@@ -155,6 +157,48 @@ test('partial failure writes latest but history only includes valid fresh ok pre
     const history = await readJsonFile(files.historyPath, null);
     assert.deepEqual(latest.funds.map((fund) => fund.status), ['error', 'ok', 'stale']);
     assert.deepEqual(history.records.map((record) => record.code), [fundB.code]);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('every update run appends a refresh snapshot even on the same trading day', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdate({
+      now: monday,
+      funds: [fundA],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      snapshotsPath: files.snapshotsPath,
+      fetchQuote: async () => quote(fundA, { quoteTime: '2026-05-25 14:30' }),
+    });
+    await runUpdate({
+      now: new Date('2026-05-25T06:45:00.000Z'),
+      funds: [fundA],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      snapshotsPath: files.snapshotsPath,
+      fetchQuote: async () => quote(fundA, { quoteTime: '2026-05-25 14:45' }),
+    });
+
+    const snapshots = await readJsonFile(files.snapshotsPath, null);
+    assert.equal(snapshots.version, 1);
+    assert.equal(snapshots.snapshots.length, 2);
+    assert.deepEqual(
+      snapshots.snapshots.map((snapshot) => snapshot.generatedAt),
+      ['2026-05-25T06:30:00.000Z', '2026-05-25T06:45:00.000Z'],
+    );
+    assert.deepEqual(
+      snapshots.snapshots.map((snapshot) => snapshot.counts),
+      [
+        { total: 1, ok: 1, proxy: 0, stale: 0, error: 0 },
+        { total: 1, ok: 1, proxy: 0, stale: 0, error: 0 },
+      ],
+    );
+    assert.equal(snapshots.snapshots[0].funds[0].code, fundA.code);
+    assert.equal(snapshots.snapshots[0].funds[0].predictedNav, 2.55);
+    assert.equal(snapshots.snapshots[1].funds[0].quoteTime, '2026-05-25 14:45');
   } finally {
     await files.cleanup();
   }

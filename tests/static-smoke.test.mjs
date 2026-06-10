@@ -43,6 +43,17 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
+test('github action schedules fund data updates and commits generated JSON', async () => {
+  const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
+  assert.match(workflow, /schedule:/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /npm run update/);
+  assert.match(workflow, /data\/latest\.json/);
+  assert.match(workflow, /data\/history\.json/);
+  assert.match(workflow, /data\/refresh-snapshots\.json/);
+  assert.match(workflow, /git commit -m "data: update fund snapshots"/);
+});
+
 test('browser app labels primary card values as unified estimates', async () => {
   const js = await readFile('assets/app.js', 'utf8');
   assert.match(js, /function estimateNavValue/);
@@ -110,6 +121,11 @@ test('browser app shows benchmark factor details on fund cards', async () => {
 
 test('browser app keeps fund filters and sorts focused', async () => {
   const js = await readFile('assets/app.js', 'utf8');
+  assert.match(js, /groupFilter:\s*'all'/);
+  assert.match(js, /function groupOptions/);
+  assert.match(js, /id="fundGroupFilter"/);
+  assert.match(js, /<span>板块<\/span>/);
+  assert.match(js, /全部板块/);
   assert.match(js, /<option value="all"\$\{state\.filter === 'all' \? ' selected' : ''\}>全部<\/option>/);
   assert.match(js, /<option value="positive"\$\{state\.filter === 'positive' \? ' selected' : ''\}>上涨<\/option>/);
   assert.match(js, /<option value="negative"\$\{state\.filter === 'negative' \? ' selected' : ''\}>下跌<\/option>/);
@@ -128,6 +144,17 @@ test('browser app keeps fund filters and sorts focused', async () => {
   assert.doesNotMatch(js, /proxy:\s*'替代估算'/);
   assert.doesNotMatch(js, /status === 'proxy' \? 'proxy'/);
   assert.doesNotMatch(js, /if \(fund\.status === 'proxy'\)[\s\S]*return '参考行情'/);
+
+  const css = await readFile('assets/app.css', 'utf8');
+  assert.match(css, /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)\s*72px\s*72px;/);
+});
+
+test('browser app updates search results without replacing the focused search input', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  assert.match(js, /function renderFundList\(\)/);
+  assert.match(js, /const list = app\.querySelector\('\.fund-list'\);[\s\S]*list\.innerHTML = fundListHtml\(\);/);
+  assert.match(js, /#fundSearch'\)\?\.addEventListener\('input', \(event\) => \{\n    state\.query = event\.currentTarget\.value;\n    renderFundList\(\);\n  \}\);/);
+  assert.doesNotMatch(js, /#fundSearch'\)\?\.addEventListener\('input', \(event\) => \{\n    state\.query = event\.currentTarget\.value;\n    render\(\);\n  \}\);/);
 });
 
 test('browser app writes one completed refresh time to generated and ranking timestamps', async () => {
@@ -599,6 +626,22 @@ test('live ranking can filter out proxy estimates explicitly', () => {
   ], { filter: 'nonProxy' });
 
   assert.deepEqual(sorted.map((fund) => fund.code), ['stale', 'normal']);
+});
+
+test('live ranking filters by fund group alongside status filters', () => {
+  const sorted = sortFundsForView([
+    { code: 'tech-up', group: '科技', status: 'ok', predictedChangePct: 1 },
+    { code: 'tech-error', group: '科技', status: 'error', predictedChangePct: 9 },
+    { code: 'medical-up', group: '医药', status: 'ok', predictedChangePct: 3 },
+    { code: 'tech-down', group: '科技', status: 'ok', predictedChangePct: -1 },
+  ], {
+    sortKey: 'predictedChangePct',
+    direction: 'desc',
+    filter: 'success',
+    groupFilter: '科技',
+  });
+
+  assert.deepEqual(sorted.map((fund) => fund.code), ['tech-up', 'tech-down']);
 });
 
 test('live ranking keeps newer official NAV from the previous complete snapshot', () => {
