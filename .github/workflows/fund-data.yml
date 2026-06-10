@@ -1,0 +1,49 @@
+name: Fund data refresh
+
+on:
+  workflow_dispatch:
+  schedule:
+    # China trading-day checkpoints in UTC: 14:30, 14:45, 15:00, 15:15, 16:00 Asia/Shanghai.
+    - cron: '30 6 * * 1-5'
+    - cron: '45 6 * * 1-5'
+    - cron: '0 7 * * 1-5'
+    - cron: '15 7 * * 1-5'
+    - cron: '0 8 * * 1-5'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fund-data-refresh
+  cancel-in-progress: false
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify
+        run: npm test
+
+      - name: Update fund data
+        run: npm run update
+
+      - name: Commit generated data
+        run: |
+          if git diff --quiet -- data/latest.json data/history.json data/refresh-snapshots.json; then
+            echo "No data changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/latest.json data/history.json data/refresh-snapshots.json
+          git commit -m "data: update fund snapshots"
+          git push

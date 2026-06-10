@@ -3,7 +3,7 @@ import { attachBenchmarkQuote, fetchBenchmarkQuotes } from './benchmark-quote.mj
 import { fetchFundQuote } from './fund-quote.mjs';
 import { fetchOfficialNav, mergeOfficialNav } from './official-nav.mjs';
 import { predictFromProxy, predictFromQuote } from './predict.mjs';
-import { resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import {
   backfillActualNavs,
@@ -55,6 +55,68 @@ function isRecordablePrediction(prediction, tradingDate) {
   return prediction.status === 'ok'
     && Number.isFinite(prediction.predictedNav)
     && quoteTimeDate(prediction.quoteTime) === tradingDate;
+}
+
+function siblingJsonPath(path, filename) {
+  if (path instanceof URL) {
+    return new URL(filename, path);
+  }
+  return join(dirname(path), filename);
+}
+
+function finiteNumberOrNull(value) {
+  return Number.isFinite(value) ? value : null;
+}
+
+function countPredictions(predictions) {
+  return {
+    total: predictions.length,
+    ok: predictions.filter((prediction) => prediction.status === 'ok').length,
+    proxy: predictions.filter((prediction) => prediction.status === 'proxy').length,
+    stale: predictions.filter((prediction) => prediction.status === 'stale').length,
+    error: predictions.filter((prediction) => prediction.status === 'error').length,
+  };
+}
+
+function compactSnapshotFund(prediction) {
+  return {
+    code: prediction.code,
+    name: prediction.name,
+    status: prediction.status,
+    source: prediction.source ?? null,
+    quoteTime: prediction.quoteTime ?? null,
+    navDate: prediction.navDate ?? null,
+    nav: finiteNumberOrNull(prediction.nav),
+    estimatedNav: finiteNumberOrNull(prediction.estimatedNav),
+    estimatedChangePct: finiteNumberOrNull(prediction.estimatedChangePct),
+    predictedNav: finiteNumberOrNull(prediction.predictedNav),
+    predictedChangePct: finiteNumberOrNull(prediction.predictedChangePct),
+    rawPredictedNav: finiteNumberOrNull(prediction.rawPredictedNav),
+    benchmarkAdjustment: finiteNumberOrNull(prediction.benchmarkAdjustment),
+    calibration: finiteNumberOrNull(prediction.calibration),
+    samplesUsed: finiteNumberOrNull(prediction.samplesUsed),
+    message: prediction.message ?? '',
+  };
+}
+
+function buildRefreshSnapshot({ generatedAt, tradingDate, summary, predictions }) {
+  return {
+    generatedAt,
+    tradingDate,
+    summary,
+    counts: countPredictions(predictions),
+    funds: predictions.map(compactSnapshotFund),
+  };
+}
+
+function appendRefreshSnapshot(snapshots, snapshot) {
+  return {
+    version: 1,
+    snapshots: [
+      ...(Array.isArray(snapshots?.snapshots) ? snapshots.snapshots : []),
+      snapshot,
+    ],
+  };
 }
 
 function stalePredictionFromQuote(quote, tradingDate) {
@@ -238,11 +300,14 @@ export async function runUpdate({
   sleepFn = sleep,
   latestPath = defaultLatestPath,
   historyPath = defaultHistoryPath,
+  snapshotsPath,
   writeSummary = () => {},
 } = {}) {
   const generatedAt = now.toISOString();
   const tradingDate = chinaDate(now);
+  const actualSnapshotsPath = snapshotsPath ?? siblingJsonPath(latestPath, 'refresh-snapshots.json');
   const previousHistory = await readJsonFile(historyPath, { version: 1, records: [] });
+  const previousSnapshots = await readJsonFile(actualSnapshotsPath, { version: 1, snapshots: [] });
   const [quoteResults, officialNavs, benchmarkQuotes] = await Promise.all([
     mapWithConcurrency(funds, (fund, index, requestGate) => quoteOrError(fund, fetchQuote, {
       maxRetries: quoteMaxRetries,
@@ -309,11 +374,18 @@ export async function runUpdate({
     summary,
     funds: predictions,
   };
+  const snapshots = appendRefreshSnapshot(previousSnapshots, buildRefreshSnapshot({
+    generatedAt,
+    tradingDate,
+    summary,
+    predictions,
+  }));
 
   await writeJsonFile(latestPath, latest);
   await writeJsonFile(historyPath, history);
+  await writeJsonFile(actualSnapshotsPath, snapshots);
   writeSummary(latest.summary);
-  return { latest, history };
+  return { latest, history, snapshots };
 }
 
 export async function main(now = new Date()) {

@@ -43,6 +43,17 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
+test('github action schedules fund data updates and commits generated JSON', async () => {
+  const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
+  assert.match(workflow, /schedule:/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /npm run update/);
+  assert.match(workflow, /data\/latest\.json/);
+  assert.match(workflow, /data\/history\.json/);
+  assert.match(workflow, /data\/refresh-snapshots\.json/);
+  assert.match(workflow, /git commit -m "data: update fund snapshots"/);
+});
+
 test('browser app labels primary card values as unified estimates', async () => {
   const js = await readFile('assets/app.js', 'utf8');
   assert.match(js, /function estimateNavValue/);
