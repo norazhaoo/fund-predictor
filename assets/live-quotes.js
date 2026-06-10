@@ -264,6 +264,11 @@ function matchesFilter(fund, filter) {
   return true;
 }
 
+function matchesGroupFilter(fund, groupFilter) {
+  const group = stableString(groupFilter);
+  return !group || group === 'all' || stableString(fund.group) === group;
+}
+
 export function normalizeLiveQuotePayload(payload, fund) {
   return {
     code: String(payload.fundcode ?? fund.code ?? '').padStart(6, '0'),
@@ -452,10 +457,12 @@ export function sortFundsForView(funds, {
   direction = 'desc',
   query = '',
   filter = 'all',
+  groupFilter = 'all',
 } = {}) {
   return funds
     .filter((fund) => matchesQuery(fund, query))
     .filter((fund) => matchesFilter(fund, filter))
+    .filter((fund) => matchesGroupFilter(fund, groupFilter))
     .toSorted((a, b) => {
       const statusDelta = statusRank(a.status) - statusRank(b.status);
       if (statusDelta !== 0) {

@@ -35,6 +35,7 @@ const state = {
   funds: [],
   query: '',
   filter: 'all',
+  groupFilter: 'all',
   sortKey: 'predictedChangePct',
   direction: 'desc',
   refreshProgress: null,
@@ -303,7 +304,25 @@ function refreshStatusHtml() {
   return `<p class="meta refresh-status" id="refreshStatus">${escapeHtml(state.refreshProgress.text)}，${note}${retryNote}</p>`;
 }
 
+function groupOptions(funds) {
+  const seen = new Set();
+  const groups = [];
+  for (const fund of funds) {
+    const group = String(fund.group ?? '').trim();
+    if (!group || seen.has(group)) {
+      continue;
+    }
+    seen.add(group);
+    groups.push(group);
+  }
+  return groups;
+}
+
 function renderControls() {
+  const groupOptionHtml = groupOptions(state.funds)
+    .map((group) => `<option value="${escapeHtml(group)}"${state.groupFilter === group ? ' selected' : ''}>${escapeHtml(group)}</option>`)
+    .join('');
+
   return `
     <section class="controls">
       <input id="fundSearch" class="search-input" type="search" placeholder="搜索代码或基金名" value="${escapeHtml(state.query)}">
@@ -316,6 +335,13 @@ function renderControls() {
             <option value="negative"${state.filter === 'negative' ? ' selected' : ''}>下跌</option>
             <option value="success"${state.filter === 'success' ? ' selected' : ''}>成功</option>
             <option value="nonProxy"${state.filter === 'nonProxy' ? ' selected' : ''}>非替代估算</option>
+          </select>
+        </label>
+        <label>
+          <span>板块</span>
+          <select id="fundGroupFilter">
+            <option value="all"${state.groupFilter === 'all' ? ' selected' : ''}>全部板块</option>
+            ${groupOptionHtml}
           </select>
         </label>
         <label>
@@ -332,16 +358,34 @@ function renderControls() {
   `;
 }
 
-function render() {
-  const records = Array.isArray(state.history.records)
-    ? [...state.history.records].reverse().slice(0, 8)
-    : [];
-  const funds = sortFundsForView(state.funds, {
+function visibleFunds() {
+  return sortFundsForView(state.funds, {
     sortKey: state.sortKey,
     direction: state.direction,
     query: state.query,
     filter: state.filter,
+    groupFilter: state.groupFilter,
   });
+}
+
+function fundListHtml() {
+  const funds = visibleFunds();
+  return funds.length ? funds.map(fundCard).join('') : '<div class="notice">暂无基金数据。</div>';
+}
+
+function renderFundList() {
+  const list = app.querySelector('.fund-list');
+  if (!list) {
+    return;
+  }
+  list.innerHTML = fundListHtml();
+  bindFundCards();
+}
+
+function render() {
+  const records = Array.isArray(state.history.records)
+    ? [...state.history.records].reverse().slice(0, 8)
+    : [];
   const generatedAt = state.latest.generatedAt
     ? new Date(state.latest.generatedAt).toLocaleString('zh-CN', { hour12: false })
     : '暂无';
@@ -356,7 +400,7 @@ function render() {
     </section>
     ${renderControls()}
     <section class="fund-list">
-      ${funds.length ? funds.map(fundCard).join('') : '<div class="notice">暂无基金数据。</div>'}
+      ${fundListHtml()}
     </section>
     <h2 class="section-title">历史记录</h2>
     <section class="history-list">
@@ -404,10 +448,14 @@ function toggleFundCard(code) {
 function bindControls() {
   app.querySelector('#fundSearch')?.addEventListener('input', (event) => {
     state.query = event.currentTarget.value;
-    render();
+    renderFundList();
   });
   app.querySelector('#fundFilter')?.addEventListener('change', (event) => {
     state.filter = event.currentTarget.value;
+    render();
+  });
+  app.querySelector('#fundGroupFilter')?.addEventListener('change', (event) => {
+    state.groupFilter = event.currentTarget.value;
     render();
   });
   app.querySelector('#sortKey')?.addEventListener('change', (event) => {
@@ -421,6 +469,10 @@ function bindControls() {
   app.querySelector('#refreshNow')?.addEventListener('click', () => {
     startFullRefresh();
   });
+  bindFundCards();
+}
+
+function bindFundCards() {
   app.querySelectorAll('.fund-summary-button').forEach((button) => {
     button.addEventListener('click', (event) => {
       toggleFundCard(event.currentTarget.dataset.code);
