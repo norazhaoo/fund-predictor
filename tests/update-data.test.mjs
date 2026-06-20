@@ -56,11 +56,19 @@ async function withDataFiles(initialHistory = { version: 1, records: [] }, initi
   };
 }
 
+function runUpdateForTest(options) {
+  return runUpdate({
+    fetchOfficial: async () => null,
+    fetchBenchmark: async () => new Map(),
+    ...options,
+  });
+}
+
 test('same-day retry with failed quote does not replace existing good history record', async () => {
   const goodRecord = buildHistoryRecord('2026-05-25', 'old-run', predictionFor(fundA));
   const files = await withDataFiles({ version: 1, records: [goodRecord] });
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA, fundB],
       latestPath: files.latestPath,
@@ -86,7 +94,7 @@ test('same-day retry with failed quote does not replace existing good history re
 test('weekday previous trading day quote is estimated but not written to history', async () => {
   const files = await withDataFiles();
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA],
       latestPath: files.latestPath,
@@ -114,7 +122,7 @@ test('all-fetch failure writes error latest without replacing history', async ()
   };
   const files = await withDataFiles(initialHistory, initialLatest);
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA, fundB],
       latestPath: files.latestPath,
@@ -137,7 +145,7 @@ test('all-fetch failure writes error latest without replacing history', async ()
 test('partial failure writes latest but history only includes valid fresh ok predictions', async () => {
   const files = await withDataFiles();
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA, fundB, fundC],
       latestPath: files.latestPath,
@@ -165,7 +173,7 @@ test('partial failure writes latest but history only includes valid fresh ok pre
 test('every update run appends a refresh snapshot even on the same trading day', async () => {
   const files = await withDataFiles();
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA],
       latestPath: files.latestPath,
@@ -173,7 +181,7 @@ test('every update run appends a refresh snapshot even on the same trading day',
       snapshotsPath: files.snapshotsPath,
       fetchQuote: async () => quote(fundA, { quoteTime: '2026-05-25 14:30' }),
     });
-    await runUpdate({
+    await runUpdateForTest({
       now: new Date('2026-05-25T06:45:00.000Z'),
       funds: [fundA],
       latestPath: files.latestPath,
@@ -214,7 +222,7 @@ test('quote fetching is concurrency limited for large watchlists', async () => {
   let maxInFlight = 0;
 
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds,
       latestPath: files.latestPath,
@@ -241,7 +249,7 @@ test('quote fetching retries rate-capped failures before writing latest', async 
   const files = await withDataFiles();
   let attempts = 0;
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA],
       latestPath: files.latestPath,
@@ -278,7 +286,7 @@ test('quote fetching pauses the shared request queue after a rate cap', async ()
   ];
 
   try {
-    const update = runUpdate({
+    const update = runUpdateForTest({
       now: monday,
       funds,
       latestPath: files.latestPath,
@@ -317,7 +325,7 @@ test('quote fetching pauses the shared request queue after a rate cap', async ()
 test('newer official NAV source updates stale quote NAV fields before writing latest', async () => {
   const files = await withDataFiles();
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [fundA],
       latestPath: files.latestPath,
@@ -351,7 +359,7 @@ test('newer official NAV source updates stale quote NAV fields before writing la
 test('benchmark source adds a small benchmark adjustment to fresh predictions', async () => {
   const files = await withDataFiles();
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [{
         ...fundA,
@@ -392,7 +400,7 @@ test('benchmark source adds a small benchmark adjustment to fresh predictions', 
 test('unavailable quote uses official NAV and benchmark as a low-confidence proxy', async () => {
   const files = await withDataFiles();
   try {
-    await runUpdate({
+    await runUpdateForTest({
       now: monday,
       funds: [{
         code: '005125',
