@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-24T09:56:05.999Z",
+  "generatedAt": "2026-06-24T10:00:28.064Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-24",
   "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
@@ -142,6 +142,7 @@
       "estimatedChangePct": 1.76,
       "quoteTime": "2026-06-24 15:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -1422,7 +1423,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 17:41:01"
+        "quoteTime": "2026/06/24 17:45:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3107,
@@ -1486,7 +1487,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 17:41:01"
+        "quoteTime": "2026/06/24 17:45:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3687,
@@ -1872,7 +1873,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 17:41:01"
+        "quoteTime": "2026/06/24 17:45:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.6078,
@@ -2554,7 +2555,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 17:41:01"
+        "quoteTime": "2026/06/24 17:45:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1955,
@@ -3134,7 +3135,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 17:41:01"
+        "quoteTime": "2026/06/24 17:45:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3301,
@@ -4379,7 +4380,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 17:41:01"
+        "quoteTime": "2026/06/24 17:45:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2513,
