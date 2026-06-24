@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-24T10:21:49.675Z",
+  "generatedAt": "2026-06-24T10:27:39.353Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-24",
-  "summary": "已生成 199/200 只基金预测，替代估算 11 只。",
+  "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
   "funds": [
     {
       "code": "005538",
@@ -14,6 +14,7 @@
       "estimatedChangePct": 3.26,
       "quoteTime": "2026-06-24 15:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -45,6 +46,7 @@
       "estimatedChangePct": 0.01,
       "quoteTime": "2026-06-24 04:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -76,6 +78,7 @@
       "estimatedChangePct": 0.9,
       "quoteTime": "2026-06-24 15:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -1420,7 +1423,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 18:06:01"
+        "quoteTime": "2026/06/24 18:12:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3107,
@@ -1484,7 +1487,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 18:06:01"
+        "quoteTime": "2026/06/24 18:12:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3687,
@@ -1870,7 +1873,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 18:06:01"
+        "quoteTime": "2026/06/24 18:12:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.6078,
@@ -2552,7 +2555,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 18:06:01"
+        "quoteTime": "2026/06/24 18:12:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1955,
@@ -2600,14 +2603,14 @@
     {
       "code": "006075",
       "name": "博时标普500ETF联接（QDII）C",
-      "navDate": "2026-06-22",
-      "nav": 5.3085,
+      "navDate": "2026-06-23",
+      "nav": 5.2367,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": null,
-      "source": "fundgz.1234567.com.cn",
-      "error": "fetch failed",
-      "officialChangePct": -0.32,
+      "quoteTime": "2026-06-23 17:33:33",
+      "source": "proxy:qt.gtimg.cn",
+      "error": "Unable to parse fund JSONP payload",
+      "officialChangePct": -1.35,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usINX",
@@ -2622,13 +2625,19 @@
         "quoteTime": "2026-06-23 17:33:33"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
+      "rawPredictedNav": 5.1613,
+      "predictedNav": 5.1613,
+      "predictedChangePct": -1.44,
       "calibration": 0,
+      "benchmarkAdjustment": 0,
+      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "status": "error",
-      "message": "fetch failed"
+      "proxyChangePct": -1.44,
+      "proxySensitivity": 1,
+      "predictionMethod": "benchmark-proxy",
+      "confidence": "low",
+      "status": "proxy",
+      "message": "天天基金暂无盘中估值，已用标普500指数做低置信替代估算。"
     },
     {
       "code": "016371",
@@ -3126,7 +3135,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 18:06:01"
+        "quoteTime": "2026/06/24 18:12:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3301,
@@ -3323,14 +3332,14 @@
     {
       "code": "012062",
       "name": "富国全球消费精选混合（QDII）C",
-      "navDate": "2026-06-22",
-      "nav": 1.5678,
+      "navDate": "2026-06-23",
+      "nav": 1.5176,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-06-23 17:15:59",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": 0.52,
+      "officialChangePct": -3.2,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
@@ -3344,8 +3353,8 @@
         "quoteTime": "2026-06-23 17:15:59"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": 1.5332,
-      "predictedNav": 1.5332,
+      "rawPredictedNav": 1.4841,
+      "predictedNav": 1.4841,
       "predictedChangePct": -2.21,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -4371,7 +4380,7 @@
         "change": 75.9,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/24 18:06:01"
+        "quoteTime": "2026/06/24 18:12:01"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2513,
