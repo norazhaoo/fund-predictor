@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-25T09:49:38.244Z",
+  "generatedAt": "2026-06-25T09:56:20.045Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-25",
   "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
@@ -1423,7 +1423,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:34:07"
+        "quoteTime": "2026/06/25 17:41:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2896,
@@ -1487,7 +1487,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:34:07"
+        "quoteTime": "2026/06/25 17:41:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3512,
@@ -1873,7 +1873,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:34:07"
+        "quoteTime": "2026/06/25 17:41:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.5987,
@@ -2555,7 +2555,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:34:07"
+        "quoteTime": "2026/06/25 17:41:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1604,
@@ -3135,7 +3135,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:34:07"
+        "quoteTime": "2026/06/25 17:41:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3102,
@@ -4380,7 +4380,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:34:07"
+        "quoteTime": "2026/06/25 17:41:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2482,
@@ -5791,13 +5791,14 @@
     {
       "code": "018036",
       "name": "长城全球新能源车股票发起式(QDII)C",
-      "navDate": "2026-06-23",
-      "nav": 2.8558,
+      "navDate": "2026-06-24",
+      "nav": 2.8772,
       "estimatedNav": 2.8623,
       "estimatedChangePct": 0.23,
       "quoteTime": "2026-06-25 04:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": 0.75,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -5811,14 +5812,14 @@
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 2.8623,
-      "predictedNav": 2.8614,
-      "predictedChangePct": 0.2,
-      "calibration": 0,
+      "predictedNav": 2.8514,
+      "predictedChangePct": -0.9,
+      "calibration": -0.01,
       "benchmarkAdjustment": -0.0009,
       "benchmarkGapPct": -0.66,
-      "samplesUsed": 4,
+      "samplesUsed": 5,
       "status": "ok",
-      "message": "历史样本不足，暂以盘中估值作为预测。 已加入参考指数偏离修正。"
+      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
     {
       "code": "027063",
