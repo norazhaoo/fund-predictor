@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-25T10:14:55.774Z",
+  "generatedAt": "2026-06-25T10:20:04.231Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-25",
   "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
@@ -968,14 +968,14 @@
     {
       "code": "006327",
       "name": "易方达中概互联网ETF联接（QDII）A（人民币份额）",
-      "navDate": "2026-06-23",
-      "nav": 0.7901,
+      "navDate": "2026-06-24",
+      "nav": 0.7985,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026/06/25 16:08:34",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -3.43,
+      "officialChangePct": 1.06,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "100.HSTECH",
@@ -990,8 +990,8 @@
         "quoteTime": "2026/06/25 16:08:34"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": 0.7772,
-      "predictedNav": 0.7772,
+      "rawPredictedNav": 0.7855,
+      "predictedNav": 0.7855,
       "predictedChangePct": -1.63,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -1423,7 +1423,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:59:07"
+        "quoteTime": "2026/06/25 18:04:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2896,
@@ -1487,7 +1487,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:59:07"
+        "quoteTime": "2026/06/25 18:04:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3512,
@@ -1873,7 +1873,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:59:07"
+        "quoteTime": "2026/06/25 18:04:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.5987,
@@ -2555,7 +2555,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:59:07"
+        "quoteTime": "2026/06/25 18:04:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1604,
@@ -2603,14 +2603,14 @@
     {
       "code": "006075",
       "name": "博时标普500ETF联接（QDII）C",
-      "navDate": "2026-06-23",
-      "nav": 5.2367,
+      "navDate": "2026-06-24",
+      "nav": 5.2338,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-06-24 16:41:33",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -1.35,
+      "officialChangePct": -0.06,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usINX",
@@ -2625,8 +2625,8 @@
         "quoteTime": "2026-06-24 16:41:33"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": 5.2315,
-      "predictedNav": 5.2315,
+      "rawPredictedNav": 5.2286,
+      "predictedNav": 5.2286,
       "predictedChangePct": -0.1,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -3135,7 +3135,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:59:07"
+        "quoteTime": "2026/06/25 18:04:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3102,
@@ -4380,7 +4380,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:59:07"
+        "quoteTime": "2026/06/25 18:04:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2482,
