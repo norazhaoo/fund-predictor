@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-25T09:56:20.045Z",
+  "generatedAt": "2026-06-25T10:14:55.774Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-25",
   "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
@@ -1423,7 +1423,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:41:07"
+        "quoteTime": "2026/06/25 17:59:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2896,
@@ -1487,7 +1487,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:41:07"
+        "quoteTime": "2026/06/25 17:59:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3512,
@@ -1873,7 +1873,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:41:07"
+        "quoteTime": "2026/06/25 17:59:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.5987,
@@ -2555,7 +2555,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:41:07"
+        "quoteTime": "2026/06/25 17:59:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1604,
@@ -3135,7 +3135,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:41:07"
+        "quoteTime": "2026/06/25 17:59:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3102,
@@ -4380,7 +4380,7 @@
         "change": -335.27,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/25 17:41:07"
+        "quoteTime": "2026/06/25 17:59:07"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2482,
