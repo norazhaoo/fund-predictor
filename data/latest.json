@@ -1,20 +1,22 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-26T10:00:21.145Z",
+  "generatedAt": "2026-06-26T10:22:24.064Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-26",
-  "summary": "已生成 199/200 只基金预测，替代估算 12 只。",
+  "summary": "已生成 197/200 只基金预测，替代估算 12 只。",
   "funds": [
     {
       "code": "005538",
       "name": "中航新起航灵活配置混合C",
       "navDate": "2026-06-25",
       "nav": 1.1255,
-      "estimatedNav": 1.0802,
-      "estimatedChangePct": -4.03,
-      "quoteTime": "2026-06-26 15:00",
+      "estimatedNav": null,
+      "estimatedChangePct": null,
+      "quoteTime": null,
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "error": "fetch failed",
+      "officialChangePct": 0.85,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -27,15 +29,13 @@
         "quoteTime": "20260626161407"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": 1.0802,
-      "predictedNav": 1.0816,
-      "predictedChangePct": -3.9,
-      "calibration": 0.0011,
-      "benchmarkAdjustment": 0.0003,
-      "benchmarkGapPct": 1,
-      "samplesUsed": 6,
-      "status": "ok",
-      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
+      "calibration": 0,
+      "samplesUsed": 0,
+      "status": "error",
+      "message": "fetch failed"
     },
     {
       "code": "021842",
@@ -137,10 +137,13 @@
       "name": "华安新能源主题混合C",
       "navDate": "2026-06-25",
       "nav": 1.2568,
-      "estimatedNav": 1.2111,
-      "estimatedChangePct": -3.64,
-      "quoteTime": "2026-06-26 15:00",
+      "estimatedNav": null,
+      "estimatedChangePct": null,
+      "quoteTime": null,
       "source": "fundgz.1234567.com.cn",
+      "error": "fetch failed",
+      "officialChangePct": -0.93,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -153,15 +156,13 @@
         "quoteTime": "20260626161407"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": 1.2111,
-      "predictedNav": 1.2026,
-      "predictedChangePct": -4.31,
-      "calibration": -0.0087,
-      "benchmarkAdjustment": 0.0002,
-      "benchmarkGapPct": 0.61,
-      "samplesUsed": 5,
-      "status": "ok",
-      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
+      "calibration": 0,
+      "samplesUsed": 0,
+      "status": "error",
+      "message": "fetch failed"
     },
     {
       "code": "017175",
@@ -236,7 +237,6 @@
       "estimatedChangePct": -2.2,
       "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -1421,7 +1421,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:45:09"
+        "quoteTime": "2026/06/26 18:07:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2982,
@@ -1485,7 +1485,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:45:09"
+        "quoteTime": "2026/06/26 18:07:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3396,
@@ -1871,7 +1871,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:45:09"
+        "quoteTime": "2026/06/26 18:07:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.5794,
@@ -2553,7 +2553,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:45:09"
+        "quoteTime": "2026/06/26 18:07:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1508,
@@ -2601,14 +2601,14 @@
     {
       "code": "006075",
       "name": "博时标普500ETF联接（QDII）C",
-      "navDate": "2026-06-24",
-      "nav": 5.2338,
+      "navDate": "2026-06-25",
+      "nav": 5.2339,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-06-25 16:46:21",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -0.06,
+      "officialChangePct": 0,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usINX",
@@ -2623,8 +2623,8 @@
         "quoteTime": "2026-06-25 16:46:21"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": 5.2333,
-      "predictedNav": 5.2333,
+      "rawPredictedNav": 5.2334,
+      "predictedNav": 5.2334,
       "predictedChangePct": -0.01,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -3133,7 +3133,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:45:09"
+        "quoteTime": "2026/06/26 18:07:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2943,
@@ -4378,7 +4378,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:45:09"
+        "quoteTime": "2026/06/26 18:07:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2273,
@@ -5789,13 +5789,14 @@
     {
       "code": "018036",
       "name": "长城全球新能源车股票发起式(QDII)C",
-      "navDate": "2026-06-24",
-      "nav": 2.8772,
+      "navDate": "2026-06-25",
+      "nav": 3.0029,
       "estimatedNav": 2.88,
       "estimatedChangePct": 0.1,
       "quoteTime": "2026-06-26 04:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": 4.37,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -5809,12 +5810,12 @@
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 2.88,
-      "predictedNav": 2.8692,
-      "predictedChangePct": -0.28,
-      "calibration": -0.01,
+      "predictedNav": 2.874,
+      "predictedChangePct": -4.29,
+      "calibration": -0.0052,
       "benchmarkAdjustment": -0.0008,
       "benchmarkGapPct": -0.56,
-      "samplesUsed": 5,
+      "samplesUsed": 6,
       "status": "ok",
       "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
