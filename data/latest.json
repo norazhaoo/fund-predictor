@@ -1,22 +1,20 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-26T10:22:24.064Z",
+  "generatedAt": "2026-06-26T10:27:35.560Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-26",
-  "summary": "已生成 197/200 只基金预测，替代估算 12 只。",
+  "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
   "funds": [
     {
       "code": "005538",
       "name": "中航新起航灵活配置混合C",
       "navDate": "2026-06-25",
       "nav": 1.1255,
-      "estimatedNav": null,
-      "estimatedChangePct": null,
-      "quoteTime": null,
+      "estimatedNav": 1.0802,
+      "estimatedChangePct": -4.03,
+      "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
-      "error": "fetch failed",
-      "officialChangePct": 0.85,
-      "officialNavSource": "fundf10.eastmoney.com",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -29,13 +27,15 @@
         "quoteTime": "20260626161407"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
-      "calibration": 0,
-      "samplesUsed": 0,
-      "status": "error",
-      "message": "fetch failed"
+      "rawPredictedNav": 1.0802,
+      "predictedNav": 1.0816,
+      "predictedChangePct": -3.9,
+      "calibration": 0.0011,
+      "benchmarkAdjustment": 0.0003,
+      "benchmarkGapPct": 1,
+      "samplesUsed": 6,
+      "status": "ok",
+      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
     {
       "code": "021842",
@@ -74,13 +74,11 @@
       "name": "华商润丰灵活配置混合C",
       "navDate": "2026-06-25",
       "nav": 4.641,
-      "estimatedNav": null,
-      "estimatedChangePct": null,
-      "quoteTime": null,
+      "estimatedNav": 4.4974,
+      "estimatedChangePct": -3.09,
+      "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
-      "error": "fetch failed",
-      "officialChangePct": 1.02,
-      "officialNavSource": "fundf10.eastmoney.com",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -93,13 +91,15 @@
         "quoteTime": "20260626161407"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
-      "calibration": 0,
-      "samplesUsed": 0,
-      "status": "error",
-      "message": "fetch failed"
+      "rawPredictedNav": 4.4974,
+      "predictedNav": 4.5075,
+      "predictedChangePct": -2.88,
+      "calibration": 0.01,
+      "benchmarkAdjustment": 0.0001,
+      "benchmarkGapPct": 0.06,
+      "samplesUsed": 5,
+      "status": "ok",
+      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
     {
       "code": "014806",
@@ -110,6 +110,7 @@
       "estimatedChangePct": -2.48,
       "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -137,13 +138,10 @@
       "name": "华安新能源主题混合C",
       "navDate": "2026-06-25",
       "nav": 1.2568,
-      "estimatedNav": null,
-      "estimatedChangePct": null,
-      "quoteTime": null,
+      "estimatedNav": 1.2111,
+      "estimatedChangePct": -3.64,
+      "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
-      "error": "fetch failed",
-      "officialChangePct": -0.93,
-      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -156,13 +154,15 @@
         "quoteTime": "20260626161407"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
-      "calibration": 0,
-      "samplesUsed": 0,
-      "status": "error",
-      "message": "fetch failed"
+      "rawPredictedNav": 1.2111,
+      "predictedNav": 1.2026,
+      "predictedChangePct": -4.31,
+      "calibration": -0.0087,
+      "benchmarkAdjustment": 0.0002,
+      "benchmarkGapPct": 0.61,
+      "samplesUsed": 5,
+      "status": "ok",
+      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
     {
       "code": "017175",
@@ -237,6 +237,7 @@
       "estimatedChangePct": -2.2,
       "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -1421,7 +1422,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 18:07:09"
+        "quoteTime": "2026/06/26 18:12:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2982,
@@ -1485,7 +1486,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 18:07:09"
+        "quoteTime": "2026/06/26 18:12:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3396,
@@ -1871,7 +1872,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 18:07:09"
+        "quoteTime": "2026/06/26 18:12:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.5794,
@@ -2553,7 +2554,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 18:07:09"
+        "quoteTime": "2026/06/26 18:12:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1508,
@@ -3133,7 +3134,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 18:07:09"
+        "quoteTime": "2026/06/26 18:12:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2943,
@@ -4378,7 +4379,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 18:07:09"
+        "quoteTime": "2026/06/26 18:12:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2273,
