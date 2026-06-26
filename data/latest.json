@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-26T09:56:37.673Z",
+  "generatedAt": "2026-06-26T10:00:21.145Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-26",
   "summary": "已生成 199/200 只基金预测，替代估算 12 只。",
@@ -14,6 +14,7 @@
       "estimatedChangePct": -4.03,
       "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -38,14 +39,14 @@
     },
     {
       "code": "021842",
-      "name": "国富全球科技互联混合（QDII）人民币C",
-      "navDate": null,
-      "nav": null,
-      "estimatedNav": null,
-      "estimatedChangePct": null,
-      "quoteTime": null,
+      "name": "国富全球科技互联混合(QDII)人民币C",
+      "navDate": "2026-06-24",
+      "nav": 7.8462,
+      "estimatedNav": 7.8544,
+      "estimatedChangePct": 0.11,
+      "quoteTime": "2026-06-26 04:00",
       "source": "fundgz.1234567.com.cn",
-      "error": "fetch failed",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -58,24 +59,28 @@
         "quoteTime": "2026-06-25 17:15:59"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
+      "rawPredictedNav": 7.8544,
+      "predictedNav": 7.8522,
+      "predictedChangePct": 0.08,
       "calibration": 0,
-      "samplesUsed": 0,
-      "status": "error",
-      "message": "fetch failed"
+      "benchmarkAdjustment": -0.0022,
+      "benchmarkGapPct": -0.57,
+      "samplesUsed": 3,
+      "status": "ok",
+      "message": "历史样本不足，暂以盘中估值作为预测。 已加入参考指数偏离修正。"
     },
     {
       "code": "007509",
       "name": "华商润丰灵活配置混合C",
       "navDate": "2026-06-25",
       "nav": 4.641,
-      "estimatedNav": 4.4974,
-      "estimatedChangePct": -3.09,
-      "quoteTime": "2026-06-26 15:00",
+      "estimatedNav": null,
+      "estimatedChangePct": null,
+      "quoteTime": null,
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "error": "fetch failed",
+      "officialChangePct": 1.02,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -88,15 +93,13 @@
         "quoteTime": "20260626161407"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": 4.4974,
-      "predictedNav": 4.5075,
-      "predictedChangePct": -2.88,
-      "calibration": 0.01,
-      "benchmarkAdjustment": 0.0001,
-      "benchmarkGapPct": 0.06,
-      "samplesUsed": 5,
-      "status": "ok",
-      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
+      "calibration": 0,
+      "samplesUsed": 0,
+      "status": "error",
+      "message": "fetch failed"
     },
     {
       "code": "014806",
@@ -107,7 +110,6 @@
       "estimatedChangePct": -2.48,
       "quoteTime": "2026-06-26 15:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -298,6 +300,7 @@
       "estimatedChangePct": 0.12,
       "quoteTime": "2026-06-26 04:00",
       "source": "fundgz.1234567.com.cn",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -1418,7 +1421,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:41:09"
+        "quoteTime": "2026/06/26 17:45:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2982,
@@ -1482,7 +1485,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:41:09"
+        "quoteTime": "2026/06/26 17:45:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3396,
@@ -1868,7 +1871,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:41:09"
+        "quoteTime": "2026/06/26 17:45:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.5794,
@@ -2550,7 +2553,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:41:09"
+        "quoteTime": "2026/06/26 17:45:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1508,
@@ -3130,7 +3133,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:41:09"
+        "quoteTime": "2026/06/26 17:45:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2943,
@@ -4375,7 +4378,7 @@
         "change": -405.05,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/26 17:41:09"
+        "quoteTime": "2026/06/26 17:45:09"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2273,
