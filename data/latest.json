@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-30T10:05:31.329Z",
+  "generatedAt": "2026-06-30T10:18:15.039Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-06-30",
   "summary": "全部基金数据更新失败，已保留历史记录。",
@@ -1321,7 +1321,7 @@
         "change": -145.66,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/30 17:50:05"
+        "quoteTime": "2026/06/30 18:03:05"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": null,
@@ -1381,7 +1381,7 @@
         "change": -145.66,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/30 17:50:05"
+        "quoteTime": "2026/06/30 18:03:05"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": null,
@@ -1741,7 +1741,7 @@
         "change": -145.66,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/30 17:50:05"
+        "quoteTime": "2026/06/30 18:03:05"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": null,
@@ -2372,7 +2372,7 @@
         "change": -145.66,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/30 17:50:05"
+        "quoteTime": "2026/06/30 18:03:05"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": null,
@@ -2907,7 +2907,7 @@
         "change": -145.66,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/30 17:50:05"
+        "quoteTime": "2026/06/30 18:03:05"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": null,
@@ -4055,7 +4055,7 @@
         "change": -145.66,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/06/30 17:50:05"
+        "quoteTime": "2026/06/30 18:03:05"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": null,
