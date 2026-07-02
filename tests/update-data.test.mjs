@@ -200,8 +200,8 @@ test('every update run appends a refresh snapshot even on the same trading day',
     assert.deepEqual(
       snapshots.snapshots.map((snapshot) => snapshot.counts),
       [
-        { total: 1, ok: 1, proxy: 0, stale: 0, error: 0 },
-        { total: 1, ok: 1, proxy: 0, stale: 0, error: 0 },
+        { total: 1, ok: 1, confirmed: 0, proxy: 0, stale: 0, error: 0 },
+        { total: 1, ok: 1, confirmed: 0, proxy: 0, stale: 0, error: 0 },
       ],
     );
     assert.equal(snapshots.snapshots[0].funds[0].code, fundA.code);
@@ -351,6 +351,94 @@ test('newer official NAV source updates stale quote NAV fields before writing la
     assert.equal(latest.funds[0].nav, 2.5314);
     assert.equal(latest.funds[0].officialChangePct, 0.87);
     assert.equal(latest.funds[0].officialNavSource, 'fundf10.eastmoney.com');
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('confirmed official NAV uses official daily change instead of stale estimate drift', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdateForTest({
+      now: new Date('2026-07-02T11:57:03.824Z'),
+      funds: [{
+        code: '006503',
+        fallbackName: '财通集成电路产业股票C',
+        benchmark: { secid: '0.159995', name: '芯片ETF', sensitivity: 0.9, proxySensitivity: 0.9 },
+      }],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async (fund) => quote(fund, {
+        navDate: '2026-07-01',
+        nav: 9.2732,
+        estimatedNav: 8.7533,
+        estimatedChangePct: -5.61,
+        quoteTime: '2026-07-02 15:00',
+      }),
+      fetchOfficial: async () => ({
+        code: '006503',
+        navDate: '2026-07-02',
+        nav: 8.5723,
+        dailyChangePct: -7.56,
+        source: 'fundf10.eastmoney.com',
+      }),
+      fetchBenchmark: async () => new Map([[
+        '0.159995',
+        {
+          secid: '0.159995',
+          code: '159995',
+          name: '芯片ETF',
+          changePct: -9.09,
+          source: 'qt.gtimg.cn',
+          sensitivity: 0.9,
+          proxySensitivity: 0.9,
+        },
+      ]]),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(latest.funds[0].status, 'confirmed');
+    assert.equal(latest.funds[0].nav, 8.5723);
+    assert.equal(latest.funds[0].predictedNav, 8.5723);
+    assert.equal(latest.funds[0].officialChangePct, -7.56);
+    assert.equal(latest.funds[0].predictedChangePct, -7.56);
+    assert.match(latest.funds[0].message, /官方净值/);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('early morning refresh confirms the previous trading day official NAV', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdateForTest({
+      now: new Date('2026-07-02T16:10:00.000Z'),
+      funds: [fundB],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => quote(fundB, {
+        navDate: '2026-07-01',
+        nav: 2.3918,
+        estimatedNav: 2.2497,
+        estimatedChangePct: -5.94,
+        quoteTime: '2026-07-02 15:00',
+      }),
+      fetchOfficial: async () => ({
+        code: fundB.code,
+        navDate: '2026-07-02',
+        nav: 2.4009,
+        dailyChangePct: 0.38,
+        source: 'fundf10.eastmoney.com',
+      }),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    const history = await readJsonFile(files.historyPath, null);
+    assert.equal(latest.tradingDate, '2026-07-02');
+    assert.equal(latest.funds[0].status, 'confirmed');
+    assert.equal(latest.funds[0].predictedChangePct, 0.38);
+    assert.equal(history.records[0].date, '2026-07-02');
+    assert.equal(history.records[0].status, 'confirmed');
   } finally {
     await files.cleanup();
   }

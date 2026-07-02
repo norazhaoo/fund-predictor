@@ -23,6 +23,9 @@ function clampScore(value) {
 }
 
 function changePctFor(fund) {
+  if (fund.status === 'confirmed' && Number.isFinite(fund.officialChangePct)) {
+    return fund.officialChangePct;
+  }
   if (Number.isFinite(fund.predictedChangePct)) {
     return fund.predictedChangePct;
   }
@@ -53,6 +56,7 @@ function confidenceFor({ fund, changePct, benchmarkChangePct }) {
   if (
     fund.status === 'error'
     || fund.status === 'proxy'
+    || fund.status === 'confirmed'
     || isUnsuitableGroup(fund.group)
     || !Number.isFinite(changePct)
   ) {
@@ -77,6 +81,9 @@ export function buildTradeSignal(fund) {
   } else if (fund.status === 'proxy') {
     score -= 20;
     pushUnique(risks, '当前为替代估算，信号置信度低。');
+  } else if (fund.status === 'confirmed') {
+    score -= 45;
+    pushUnique(risks, '官方净值已确认，不作为盘中做T信号。');
   } else if (fund.status === 'stale') {
     score -= 12;
     pushUnique(risks, '估值不是当前交易日，先等刷新。');
@@ -96,24 +103,25 @@ export function buildTradeSignal(fund) {
     pushUnique(risks, '主动权益持仓不透明，盘中估值误差可能偏大。');
   }
 
+  const changeLabel = fund.status === 'confirmed' ? '确认' : '盘中';
   if (!Number.isFinite(changePct)) {
     score -= 25;
-    pushUnique(risks, '缺少盘中涨跌数据。');
+    pushUnique(risks, `缺少${changeLabel}涨跌数据。`);
   } else if (changePct <= -4) {
     score -= 25;
-    pushUnique(risks, '盘中跌幅过深，可能不是普通回调。');
+    pushUnique(risks, `${changeLabel}跌幅过深，可能不是普通回调。`);
   } else if (changePct <= -0.8) {
     score += 16;
-    pushUnique(reasons, `盘中回调 ${changePct.toFixed(2)}%，有低吸窗口。`);
+    pushUnique(reasons, `${changeLabel}回调 ${changePct.toFixed(2)}%，有低吸窗口。`);
   } else if (changePct <= 0.5) {
     score += 8;
-    pushUnique(reasons, '盘中波动不大，可以继续观察尾盘。');
+    pushUnique(reasons, `${changeLabel}波动不大，可以继续观察尾盘。`);
   } else if (changePct <= 2.4) {
     score += 10;
-    pushUnique(reasons, `盘中上涨 ${changePct.toFixed(2)}%，趋势仍可观察。`);
+    pushUnique(reasons, `${changeLabel}上涨 ${changePct.toFixed(2)}%，趋势仍可观察。`);
   } else {
     score -= 24;
-    pushUnique(risks, `盘中上涨 ${changePct.toFixed(2)}%，短线涨幅偏热。`);
+    pushUnique(risks, `${changeLabel}上涨 ${changePct.toFixed(2)}%，短线涨幅偏热。`);
   }
 
   if (Number.isFinite(benchmarkChangePct)) {
@@ -143,7 +151,12 @@ export function buildTradeSignal(fund) {
   const hot = Number.isFinite(changePct) && changePct >= 2.8
     || Number.isFinite(benchmarkChangePct) && benchmarkChangePct >= 3.2;
   let action = 'hold';
-  if (isUnsuitableGroup(fund.group) || fund.status === 'error' || fund.status === 'proxy') {
+  if (
+    isUnsuitableGroup(fund.group)
+    || fund.status === 'error'
+    || fund.status === 'proxy'
+    || fund.status === 'confirmed'
+  ) {
     action = 'avoid';
   } else if (hot) {
     action = 'caution';

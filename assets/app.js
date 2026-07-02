@@ -65,11 +65,30 @@ function estimateChangeValue(fund) {
   return Number.isFinite(fund.predictedChangePct) ? fund.predictedChangePct : fund.estimatedChangePct;
 }
 
+function isConfirmedFund(fund) {
+  return fund.status === 'confirmed' && Number.isFinite(fund.officialChangePct);
+}
+
+function primaryNavValue(fund) {
+  if (isConfirmedFund(fund) && Number.isFinite(fund.nav)) {
+    return fund.nav;
+  }
+  return estimateNavValue(fund);
+}
+
+function primaryChangeValue(fund) {
+  if (isConfirmedFund(fund)) {
+    return fund.officialChangePct;
+  }
+  return estimateChangeValue(fund);
+}
+
 function estimateDifferencePct(fund) {
-  if (!Number.isFinite(fund.predictedChangePct) || !Number.isFinite(fund.estimatedChangePct)) {
+  const primaryChange = primaryChangeValue(fund);
+  if (!Number.isFinite(primaryChange) || !Number.isFinite(fund.estimatedChangePct)) {
     return null;
   }
-  return Number((fund.predictedChangePct - fund.estimatedChangePct).toFixed(2));
+  return Number((primaryChange - fund.estimatedChangePct).toFixed(2));
 }
 
 function shouldShowRawEstimate(fund) {
@@ -78,6 +97,9 @@ function shouldShowRawEstimate(fund) {
 }
 
 function statusText(fund) {
+  if (fund.status === 'confirmed') {
+    return '已确认';
+  }
   if (fund.status === 'stale' && Number.isFinite(estimateNavValue(fund))) {
     return '上一交易日';
   }
@@ -94,12 +116,16 @@ function statusClass(status) {
     'status',
     status === 'error' ? 'error' : '',
     status === 'stale' ? 'stale' : '',
+    status === 'confirmed' ? 'confirmed' : '',
   ]
     .filter(Boolean)
     .join(' ');
 }
 
 function quoteMetaLabel(fund) {
+  if (fund.status === 'confirmed') {
+    return '确认';
+  }
   if (fund.status === 'stale' && Number.isFinite(estimateNavValue(fund))) {
     return '上一交易日';
   }
@@ -117,10 +143,13 @@ function disclaimerNotice() {
 function fundCard(fund) {
   const code = String(fund.code).padStart(6, '0');
   const expanded = state.expandedCodes.has(code);
-  const estimateNav = estimateNavValue(fund);
-  const estimateChange = estimateChangeValue(fund);
+  const confirmed = isConfirmedFund(fund);
+  const primaryNav = primaryNavValue(fund);
+  const primaryChange = primaryChangeValue(fund);
   const rawEstimateDifference = estimateDifferencePct(fund);
   const rawEstimateVisible = shouldShowRawEstimate(fund);
+  const primaryChangeLabel = confirmed ? '确认涨跌' : '估算涨跌';
+  const primaryNavLabel = confirmed ? '确认净值' : '估算净值';
   const benchmark = fund.benchmark;
   const message = fund.message
     ? `<p class="message">${escapeHtml(fund.message)}</p>`
@@ -139,12 +168,12 @@ function fundCard(fund) {
               <div class="value ${valueClass(fund.estimatedChangePct)}">${formatPct(fund.estimatedChangePct)}</div>
             </div>
             <div class="metric">
-              <div class="label">修正幅度</div>
+              <div class="label">${confirmed ? '估算偏差' : '修正幅度'}</div>
               <div class="value ${valueClass(rawEstimateDifference)}">${formatPct(rawEstimateDifference)}</div>
             </div>
       `
     : '';
-  const estimateNote = !rawEstimateVisible && Number.isFinite(fund.estimatedNav) && Number.isFinite(fund.predictedNav)
+  const estimateNote = !confirmed && !rawEstimateVisible && Number.isFinite(fund.estimatedNav) && Number.isFinite(fund.predictedNav)
     ? '<p class="message">基于盘中估值，修正幅度很小。</p>'
     : '';
   const holdingBadge = fund.holding ? '<span class="mini-badge">持有</span>' : '';
@@ -168,12 +197,12 @@ function fundCard(fund) {
         </span>
         <span class="compact-grid">
           <span class="compact-metric">
-            <span class="label">估算涨跌</span>
-            <span class="compact-value primary ${valueClass(estimateChange)}">${formatPct(estimateChange)}</span>
+            <span class="label">${primaryChangeLabel}</span>
+            <span class="compact-value primary ${valueClass(primaryChange)}">${formatPct(primaryChange)}</span>
           </span>
           <span class="compact-metric">
-            <span class="label">估算净值</span>
-            <span class="compact-value">${formatNumber(estimateNav)}</span>
+            <span class="label">${primaryNavLabel}</span>
+            <span class="compact-value">${formatNumber(primaryNav)}</span>
           </span>
           <span class="compact-metric">
             <span class="label">确认净值</span>
@@ -190,12 +219,12 @@ function fundCard(fund) {
         <div id="fund-detail-${escapeHtml(code)}" class="fund-detail">
           <div class="metric-grid">
             <div class="metric">
-              <div class="label">估算净值</div>
-              <div class="value">${formatNumber(estimateNav)}</div>
+              <div class="label">${primaryNavLabel}</div>
+              <div class="value">${formatNumber(primaryNav)}</div>
             </div>
             <div class="metric">
-              <div class="label">估算涨跌</div>
-              <div class="value ${valueClass(estimateChange)}">${formatPct(estimateChange)}</div>
+              <div class="label">${primaryChangeLabel}</div>
+              <div class="value ${valueClass(primaryChange)}">${formatPct(primaryChange)}</div>
             </div>
             <div class="metric">
               <div class="label">确认净值</div>

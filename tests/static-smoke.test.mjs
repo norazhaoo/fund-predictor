@@ -43,12 +43,14 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
-test('github action schedules one 14:10 China-time data refresh and commits generated JSON', async () => {
+test('github action schedules China-time estimate and confirmation data refreshes', async () => {
   const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /workflow_dispatch:/);
-  assert.equal([...workflow.matchAll(/cron:/g)].length, 1);
+  assert.equal([...workflow.matchAll(/cron:/g)].length, 3);
+  assert.match(workflow, /cron: '30 5 \* \* 1-5'/);
   assert.match(workflow, /cron: '10 6 \* \* 1-5'/);
+  assert.match(workflow, /cron: '10 16 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '30 6 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '45 6 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '0 7 \* \* 1-5'/);
@@ -198,8 +200,8 @@ test('browser app renders compact expandable fund cards', async () => {
   assert.match(js, /class="fund-summary-button"/);
   assert.match(js, /aria-expanded/);
   assert.match(js, /class="fund-detail"/);
-  assert.match(js, /<span class="label">估算涨跌<\/span>/);
-  assert.match(js, /<span class="label">估算净值<\/span>/);
+  assert.match(js, /primaryChangeLabel = confirmed \? '确认涨跌' : '估算涨跌'/);
+  assert.match(js, /primaryNavLabel = confirmed \? '确认净值' : '估算净值'/);
   assert.match(js, /<span class="label">时间<\/span>/);
   assert.match(js, /<span class="label">确认净值<\/span>/);
   assert.doesNotMatch(js, /<span class="label">预测涨跌<\/span>/);
@@ -662,6 +664,27 @@ test('live ranking positive and negative filters use estimate when prediction is
   );
 });
 
+test('live ranking uses confirmed official change before stale predictions', () => {
+  const funds = [
+    { code: 'confirmed-down', status: 'confirmed', officialChangePct: -7.56, predictedChangePct: 2.05 },
+    { code: 'ok-up', status: 'ok', predictedChangePct: 1 },
+    { code: 'confirmed-up', status: 'confirmed', officialChangePct: 3.1, predictedChangePct: -2 },
+  ];
+
+  assert.deepEqual(
+    sortFundsForView(funds, { sortKey: 'predictedChangePct', direction: 'desc' }).map((fund) => fund.code),
+    ['confirmed-up', 'ok-up', 'confirmed-down'],
+  );
+  assert.deepEqual(
+    sortFundsForView(funds, { filter: 'positive' }).map((fund) => fund.code),
+    ['confirmed-up', 'ok-up'],
+  );
+  assert.deepEqual(
+    sortFundsForView(funds, { filter: 'negative' }).map((fund) => fund.code),
+    ['confirmed-down'],
+  );
+});
+
 test('live ranking can filter out proxy estimates explicitly', () => {
   const sorted = sortFundsForView([
     { code: 'normal', status: 'ok', predictedChangePct: 1 },
@@ -738,6 +761,26 @@ test('browser live prediction estimates previous trading day quotes with stale s
   assert.equal(prediction.predictedNav, 2.9452);
   assert.equal(prediction.predictedChangePct, 2.8);
   assert.match(prediction.message, /上一交易日估算/);
+});
+
+test('browser live prediction marks same-day official NAV as confirmed', () => {
+  const prediction = predictLiveQuote({
+    code: '006503',
+    name: '财通集成电路产业股票C',
+    navDate: '2026-07-02',
+    nav: 8.5723,
+    officialChangePct: -7.56,
+    estimatedNav: 8.7533,
+    estimatedChangePct: -5.61,
+    quoteTime: '2026-07-02 15:00',
+    benchmark: { name: '芯片ETF', changePct: -9.09 },
+    benchmarkSensitivity: 0.9,
+  }, [], '2026-07-02');
+
+  assert.equal(prediction.status, 'confirmed');
+  assert.equal(prediction.predictedNav, 8.5723);
+  assert.equal(prediction.predictedChangePct, -7.56);
+  assert.match(prediction.message, /官方净值/);
 });
 
 test('browser refresh carries forward previous benchmark quote into catalog funds', () => {

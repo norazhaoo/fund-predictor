@@ -66,6 +66,27 @@ test('trade radar avoids fund types that do not fit A-share intraday T rhythm', 
   assert.match(signal.risks.join(' '), /替代估算/);
 });
 
+test('trade radar treats confirmed official NAV as non-intraday context', () => {
+  const signal = buildTradeSignal({
+    code: '006503',
+    name: '财通集成电路产业股票C',
+    group: '科技',
+    status: 'confirmed',
+    officialChangePct: -7.56,
+    predictedChangePct: 2.05,
+    benchmark: {
+      name: '芯片ETF',
+      changePct: -9.09,
+    },
+  });
+
+  assert.equal(signal.action, 'avoid');
+  assert.equal(signal.label, '回避');
+  assert.equal(signal.changePct, -7.56);
+  assert.equal(signal.confidence, '低');
+  assert.match(signal.risks.join(' '), /官方净值已确认/);
+});
+
 test('trade radar keeps neutral tradable funds inside the four signal labels', () => {
   const signal = buildTradeSignal({
     code: '005538',

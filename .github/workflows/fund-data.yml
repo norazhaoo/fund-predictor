@@ -3,8 +3,12 @@ name: Fund data refresh
 on:
   workflow_dispatch:
   schedule:
+    # China trading-day checkpoint in UTC: 13:30 Asia/Shanghai.
+    - cron: '30 5 * * 1-5'
     # China trading-day checkpoint in UTC: 14:10 Asia/Shanghai.
     - cron: '10 6 * * 1-5'
+    # Post-NAV confirmation checkpoint in UTC: 00:10 Asia/Shanghai next day.
+    - cron: '10 16 * * 1-5'
 
 permissions:
   contents: write

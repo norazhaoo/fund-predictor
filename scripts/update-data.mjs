@@ -20,6 +20,8 @@ const DEFAULT_OFFICIAL_CONCURRENCY = 6;
 const LARGE_WATCHLIST_QUOTE_SPACING_MS = 250;
 const DEFAULT_QUOTE_MAX_RETRIES = 2;
 const DEFAULT_QUOTE_RETRY_BACKOFF_MS = 8000;
+const EARLY_MORNING_CONFIRMATION_CUTOFF_HOUR = 9;
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 function sleep(ms) {
   return new Promise((resolve) => {
@@ -36,12 +38,52 @@ function chinaDate(now) {
   }).format(now);
 }
 
+function chinaHour(now) {
+  const hour = new Intl.DateTimeFormat('en-US', {
+    timeZone: TIME_ZONE,
+    hour: '2-digit',
+    hourCycle: 'h23',
+  }).format(now);
+  return Number(hour);
+}
+
 function isChinaWeekday(now) {
   const weekday = new Intl.DateTimeFormat('en-US', {
     timeZone: TIME_ZONE,
     weekday: 'short',
   }).format(now);
   return !['Sat', 'Sun'].includes(weekday);
+}
+
+function dateAtChinaNoon(date) {
+  return new Date(`${date}T12:00:00+08:00`);
+}
+
+function isChinaWeekdayDate(date) {
+  return isChinaWeekday(dateAtChinaNoon(date));
+}
+
+function previousChinaWeekday(date) {
+  let cursor = dateAtChinaNoon(date);
+  for (let index = 0; index < 7; index += 1) {
+    cursor = new Date(cursor.getTime() - ONE_DAY_MS);
+    const candidate = chinaDate(cursor);
+    if (isChinaWeekdayDate(candidate)) {
+      return candidate;
+    }
+  }
+  return date;
+}
+
+function tradingDateForRun(now) {
+  const today = chinaDate(now);
+  if (
+    isChinaWeekdayDate(today)
+    && chinaHour(now) >= EARLY_MORNING_CONFIRMATION_CUTOFF_HOUR
+  ) {
+    return today;
+  }
+  return previousChinaWeekday(today);
 }
 
 function quoteTimeDate(quoteTime) {
@@ -52,9 +94,12 @@ function quoteTimeDate(quoteTime) {
 }
 
 function isRecordablePrediction(prediction, tradingDate) {
-  return prediction.status === 'ok'
+  const predictionDate = prediction.status === 'confirmed'
+    ? prediction.navDate
+    : quoteTimeDate(prediction.quoteTime);
+  return ['ok', 'confirmed'].includes(prediction.status)
     && Number.isFinite(prediction.predictedNav)
-    && quoteTimeDate(prediction.quoteTime) === tradingDate;
+    && predictionDate === tradingDate;
 }
 
 function siblingJsonPath(path, filename) {
@@ -72,6 +117,7 @@ function countPredictions(predictions) {
   return {
     total: predictions.length,
     ok: predictions.filter((prediction) => prediction.status === 'ok').length,
+    confirmed: predictions.filter((prediction) => prediction.status === 'confirmed').length,
     proxy: predictions.filter((prediction) => prediction.status === 'proxy').length,
     stale: predictions.filter((prediction) => prediction.status === 'stale').length,
     error: predictions.filter((prediction) => prediction.status === 'error').length,
@@ -87,6 +133,7 @@ function compactSnapshotFund(prediction) {
     quoteTime: prediction.quoteTime ?? null,
     navDate: prediction.navDate ?? null,
     nav: finiteNumberOrNull(prediction.nav),
+    officialChangePct: finiteNumberOrNull(prediction.officialChangePct),
     estimatedNav: finiteNumberOrNull(prediction.estimatedNav),
     estimatedChangePct: finiteNumberOrNull(prediction.estimatedChangePct),
     predictedNav: finiteNumberOrNull(prediction.predictedNav),
@@ -304,7 +351,7 @@ export async function runUpdate({
   writeSummary = () => {},
 } = {}) {
   const generatedAt = now.toISOString();
-  const tradingDate = chinaDate(now);
+  const tradingDate = tradingDateForRun(now);
   const actualSnapshotsPath = snapshotsPath ?? siblingJsonPath(latestPath, 'refresh-snapshots.json');
   const previousHistory = await readJsonFile(historyPath, { version: 1, records: [] });
   const previousSnapshots = await readJsonFile(actualSnapshotsPath, { version: 1, snapshots: [] });
@@ -342,13 +389,17 @@ export async function runUpdate({
       const fallback = isQuoteUnavailableError(quote.error) ? predictFromProxy(quote) : null;
       return fallback ?? errorPredictionFromQuote(quote);
     }
+    const prediction = predictFromQuote(quote, backfilledHistory.records, tradingDate);
+    if (prediction.status === 'confirmed') {
+      return prediction;
+    }
     if (quoteTimeDate(quote.quoteTime) !== tradingDate) {
       return stalePredictionFromQuote(quote, tradingDate);
     }
-    return predictFromQuote(quote, backfilledHistory.records);
+    return prediction;
   });
 
-  const shouldRecordPrediction = isChinaWeekday(now);
+  const shouldRecordPrediction = isChinaWeekdayDate(tradingDate);
   const newRecords = shouldRecordPrediction
     ? predictions
       .filter((prediction) => isRecordablePrediction(prediction, tradingDate))
@@ -357,8 +408,9 @@ export async function runUpdate({
   const history = upsertHistoryRecords(backfilledHistory, newRecords);
 
   const okCount = predictions.filter((prediction) => prediction.status === 'ok').length;
+  const confirmedCount = predictions.filter((prediction) => prediction.status === 'confirmed').length;
   const proxyCount = predictions.filter((prediction) => prediction.status === 'proxy').length;
-  const usableCount = okCount + proxyCount;
+  const usableCount = okCount + confirmedCount + proxyCount;
   const errorCount = predictions.filter((prediction) => prediction.status === 'error').length;
   const allFailed = errorCount === funds.length;
   const summary = allFailed

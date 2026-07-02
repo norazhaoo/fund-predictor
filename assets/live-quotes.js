@@ -155,6 +155,45 @@ function predictedChangePctFor(predictedNav, quote) {
   return round2(((predictedNav - quote.nav) / quote.nav) * 100);
 }
 
+function hasConfirmedOfficialNav(quote, tradingDate) {
+  return Boolean(tradingDate)
+    && quote.navDate === tradingDate
+    && Number.isFinite(quote.nav)
+    && Number.isFinite(quote.officialChangePct);
+}
+
+function confirmedOfficialChangePct(fund) {
+  return fund.status === 'confirmed' && Number.isFinite(fund.officialChangePct)
+    ? fund.officialChangePct
+    : null;
+}
+
+function primaryChangePct(fund) {
+  const confirmedChange = confirmedOfficialChangePct(fund);
+  if (Number.isFinite(confirmedChange)) {
+    return confirmedChange;
+  }
+  if (Number.isFinite(fund.predictedChangePct)) {
+    return fund.predictedChangePct;
+  }
+  return Number.isFinite(fund.estimatedChangePct) ? fund.estimatedChangePct : null;
+}
+
+function confirmedPredictionFor(quote) {
+  return {
+    ...quote,
+    rawPredictedNav: null,
+    predictedNav: round4(quote.nav),
+    predictedChangePct: round2(quote.officialChangePct),
+    calibration: 0,
+    benchmarkAdjustment: 0,
+    benchmarkGapPct: null,
+    samplesUsed: 0,
+    status: 'confirmed',
+    message: '官方净值已确认，已按基金公司披露涨跌展示。',
+  };
+}
+
 function calibrationFor(code, historyRecords) {
   const samples = historyRecords
     .filter((record) => record.code === code)
@@ -207,15 +246,19 @@ function directionFactor(direction) {
 }
 
 function numericValue(fund, sortKey) {
+  if (sortKey === 'predictedChangePct') {
+    const confirmedChange = confirmedOfficialChangePct(fund);
+    if (Number.isFinite(confirmedChange)) {
+      return confirmedChange;
+    }
+    return Number.isFinite(fund.predictedChangePct) ? fund.predictedChangePct : null;
+  }
   const value = fund[sortKey];
   return Number.isFinite(value) ? value : null;
 }
 
 function filterChangePct(fund) {
-  if (Number.isFinite(fund.predictedChangePct)) {
-    return fund.predictedChangePct;
-  }
-  return Number.isFinite(fund.estimatedChangePct) ? fund.estimatedChangePct : null;
+  return primaryChangePct(fund);
 }
 
 function compareNumber(a, b, sortKey, direction) {
@@ -290,6 +333,10 @@ export function normalizeLiveQuotePayload(payload, fund) {
 }
 
 export function predictLiveQuote(quote, historyRecords = [], tradingDate = '') {
+  if (hasConfirmedOfficialNav(quote, tradingDate)) {
+    return confirmedPredictionFor(quote);
+  }
+
   if (!Number.isFinite(quote.estimatedNav)) {
     return {
       ...quote,

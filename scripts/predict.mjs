@@ -21,6 +21,28 @@ function predictedChangePctFor(predictedNav, quote) {
   return round2(((predictedNav - quote.nav) / quote.nav) * 100);
 }
 
+function hasConfirmedOfficialNav(quote, tradingDate) {
+  return Boolean(tradingDate)
+    && quote.navDate === tradingDate
+    && Number.isFinite(quote.nav)
+    && Number.isFinite(quote.officialChangePct);
+}
+
+function confirmedPredictionFromQuote(quote) {
+  return {
+    ...quote,
+    rawPredictedNav: null,
+    predictedNav: round4(quote.nav),
+    predictedChangePct: round2(quote.officialChangePct),
+    calibration: 0,
+    benchmarkAdjustment: 0,
+    benchmarkGapPct: null,
+    samplesUsed: 0,
+    status: 'confirmed',
+    message: '官方净值已确认，已按基金公司披露涨跌展示。',
+  };
+}
+
 function proxySensitivityFor(quote) {
   if (Number.isFinite(quote.benchmark?.proxySensitivity)) {
     return quote.benchmark.proxySensitivity;
@@ -67,7 +89,11 @@ function benchmarkAdjustmentFor(quote) {
   };
 }
 
-export function predictFromQuote(quote, historyRecords) {
+export function predictFromQuote(quote, historyRecords, tradingDate = '') {
+  if (hasConfirmedOfficialNav(quote, tradingDate)) {
+    return confirmedPredictionFromQuote(quote);
+  }
+
   if (!Number.isFinite(quote.estimatedNav)) {
     return {
       ...quote,
