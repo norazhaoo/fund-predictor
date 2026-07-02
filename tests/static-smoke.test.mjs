@@ -43,15 +43,29 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
-test('github action schedules fund data updates and commits generated JSON', async () => {
+test('github action schedules one 14:10 China-time data refresh and commits generated JSON', async () => {
   const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /workflow_dispatch:/);
+  assert.equal([...workflow.matchAll(/cron:/g)].length, 1);
+  assert.match(workflow, /cron: '10 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '30 2 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '20 3 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '50 5 \* \* 1-5'/);
   assert.match(workflow, /npm run update/);
   assert.match(workflow, /data\/latest\.json/);
   assert.match(workflow, /data\/history\.json/);
   assert.match(workflow, /data\/refresh-snapshots\.json/);
   assert.match(workflow, /git commit -m "data: update fund snapshots"/);
+});
+
+test('project does not expose a local scheduled updater', async () => {
+  const packageJson = await readFile('package.json', 'utf8');
+  assert.doesNotMatch(packageJson, /scheduled-update/);
+  await assert.rejects(
+    readFile('scripts/scheduled-update.mjs', 'utf8'),
+    { code: 'ENOENT' },
+  );
 });
 
 test('browser app labels primary card values as unified estimates', async () => {
@@ -77,40 +91,41 @@ test('browser app labels official NAV fields as confirmed values', async () => {
 });
 
 
-test('browser app wires full refresh progress and ranking controls', async () => {
+test('browser app keeps refresh local and leaves quote fetching outside the UI', async () => {
   const js = await readFile('assets/app.js', 'utf8');
-  const live = await readFile('assets/live-quotes.js', 'utf8');
-  assert.match(js, /refreshFundsInBatches/);
-  assert.match(js, /createJsonpQuoteFetcher/);
   assert.match(js, /sortFundsForView/);
-  assert.match(`${js}\n${live}`, /正在全量刷新/);
+  assert.match(js, /async function reloadLocalData/);
+  assert.match(js, /reloadLocalData\(\);/);
+  assert.match(js, /点击刷新读取最新本地结果/);
+  assert.doesNotMatch(js, /refreshFundsInBatches/);
+  assert.doesNotMatch(js, /createJsonpQuoteFetcher/);
+  assert.doesNotMatch(js, /createBenchmarkScriptFetcher/);
+  assert.doesNotMatch(js, /createOfficialNavScriptFetcher/);
+  assert.doesNotMatch(js, /window\.setInterval\(startFullRefresh/);
+  assert.doesNotMatch(js, /function startFullRefresh/);
   assert.match(js, /id="sortKey"/);
   assert.match(js, /id="fundSearch"/);
   assert.match(js, /id="fundFilter"/);
 });
 
-test('browser full refresh uses gentle pacing for large watchlists', async () => {
+test('browser app does not contain foreground quote pacing knobs', async () => {
   const js = await readFile('assets/app.js', 'utf8');
-  assert.match(js, /const refreshConcurrency = 4;/);
-  assert.match(js, /const refreshRequestSpacingMs = 250;/);
-  assert.match(js, /const refreshInitialQuoteRetries = 0;/);
-  assert.match(js, /const refreshRetryBackoffMs = 3000;/);
-  assert.match(js, /const backgroundRetryDelayMs = 15_000;/);
-  assert.match(js, /const backgroundRetryConcurrency = 2;/);
-  assert.match(js, /const backgroundRetryRequestSpacingMs = 800;/);
-  assert.match(js, /const refreshIntervalMs = 10 \* 60_000;/);
-  assert.match(js, /requestSpacingMs: refreshRequestSpacingMs/);
-  assert.match(js, /quoteMaxRetries: refreshInitialQuoteRetries/);
-  assert.match(js, /quoteRetryBackoffMs: refreshRetryBackoffMs/);
+  assert.doesNotMatch(js, /const refreshConcurrency/);
+  assert.doesNotMatch(js, /const refreshRequestSpacingMs/);
+  assert.doesNotMatch(js, /const refreshRetryBackoffMs/);
+  assert.doesNotMatch(js, /const backgroundRetryDelayMs/);
+  assert.doesNotMatch(js, /const refreshIntervalMs/);
+  assert.doesNotMatch(js, /requestSpacingMs:/);
+  assert.doesNotMatch(js, /quoteMaxRetries:/);
+  assert.doesNotMatch(js, /quoteRetryBackoffMs:/);
 });
 
-test('browser app schedules background retries for foreground rate caps', async () => {
+test('browser app has no foreground background-retry copy', async () => {
   const js = await readFile('assets/app.js', 'utf8');
-  assert.match(js, /backgroundRetryText:\s*''/);
-  assert.match(js, /function scheduleBackgroundRetry/);
-  assert.match(js, /async function runBackgroundRetry/);
-  assert.match(js, /scheduleBackgroundRetry\(state\.funds, \{ tradingDate \}\)/);
-  assert.match(js, /后台重试/);
+  assert.doesNotMatch(js, /backgroundRetryText/);
+  assert.doesNotMatch(js, /function scheduleBackgroundRetry/);
+  assert.doesNotMatch(js, /async function runBackgroundRetry/);
+  assert.doesNotMatch(js, /后台重试/);
 });
 
 test('browser app shows benchmark factor details on fund cards', async () => {
@@ -157,11 +172,12 @@ test('browser app updates search results without replacing the focused search in
   assert.doesNotMatch(js, /#fundSearch'\)\?\.addEventListener\('input', \(event\) => \{\n    state\.query = event\.currentTarget\.value;\n    render\(\);\n  \}\);/);
 });
 
-test('browser app writes one completed refresh time to generated and ranking timestamps', async () => {
+test('browser app reports local data reload time separately from generated data time', async () => {
   const js = await readFile('assets/app.js', 'utf8');
-  assert.match(js, /const refreshedAt = new Date\(\);/);
-  assert.match(js, /generatedAt: refreshedAt\.toISOString\(\)/);
-  assert.match(js, /state\.lastFullRefreshAt = refreshedAt\.toLocaleTimeString/);
+  assert.match(js, /lastLocalReloadAt:\s*''/);
+  assert.match(js, /state\.lastLocalReloadAt = new Date\(\)\.toLocaleTimeString/);
+  assert.doesNotMatch(js, /generatedAt: refreshedAt\.toISOString\(\)/);
+  assert.doesNotMatch(js, /lastFullRefreshAt/);
 });
 
 test('browser app renders compact expandable fund cards', async () => {
@@ -185,12 +201,32 @@ test('browser app renders compact expandable fund cards', async () => {
   assert.match(css, /\.fund-detail\s*{/);
 });
 
+test('browser app exposes a trade radar view for short-cycle fund T signals', async () => {
+  const js = await readFile('assets/app.js', 'utf8');
+  const css = await readFile('assets/app.css', 'utf8');
+
+  assert.match(js, /sortTradeRadarFunds/);
+  assert.match(js, /viewMode:\s*'estimate'/);
+  assert.match(js, /tradeActionFilter:\s*'all'/);
+  assert.match(js, /data-view-mode="trade"/);
+  assert.match(js, /id="tradeActionFilter"/);
+  assert.match(js, /T分数/);
+  assert.match(js, /信号/);
+  assert.match(js, /目标持有/);
+  assert.match(js, /targetHoldingDays/);
+  assert.match(js, /低吸观察/);
+  assert.match(css, /\.view-tabs\s*{/);
+  assert.match(css, /\.trade-score\s*{/);
+  assert.match(css, /\.trade-reason-list\s*{/);
+});
+
 test('dynamic dashboard text wraps within mobile cards', async () => {
   const css = await readFile('assets/app.css', 'utf8');
   const dynamicClasses = [
     'fund-name',
     'fund-code',
     'message',
+    'trade-reason-list',
     'history-card',
     'notice',
   ];
