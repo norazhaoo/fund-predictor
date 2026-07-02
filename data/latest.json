@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T09:46:08.908Z",
+  "generatedAt": "2026-07-02T10:09:30.519Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-07-02",
   "summary": "已生成 200/200 只基金预测，替代估算 12 只。",
@@ -1423,7 +1423,7 @@
         "change": 174.01,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/02 17:30:19"
+        "quoteTime": "2026/07/02 17:54:19"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2943,
@@ -1487,7 +1487,7 @@
         "change": 174.01,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/02 17:30:19"
+        "quoteTime": "2026/07/02 17:54:19"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.4888,
@@ -1872,7 +1872,7 @@
         "change": 174.01,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/02 17:30:19"
+        "quoteTime": "2026/07/02 17:54:19"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 0.6038,
@@ -2305,13 +2305,14 @@
     {
       "code": "014002",
       "name": "浦银安盛全球智能科技(QDII)C",
-      "navDate": "2026-06-30",
-      "nav": 4.3575,
+      "navDate": "2026-07-01",
+      "nav": 4.0644,
       "estimatedNav": 4.3583,
       "estimatedChangePct": 0.02,
       "quoteTime": "2026-07-02 04:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": -6.73,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -2325,12 +2326,12 @@
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 4.3583,
-      "predictedNav": 4.3668,
-      "predictedChangePct": 0.21,
-      "calibration": 0.01,
-      "benchmarkAdjustment": -0.0015,
+      "predictedNav": 4.364,
+      "predictedChangePct": 7.37,
+      "calibration": 0.0071,
+      "benchmarkAdjustment": -0.0014,
       "benchmarkGapPct": -0.68,
-      "samplesUsed": 7,
+      "samplesUsed": 8,
       "status": "ok",
       "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
@@ -2553,7 +2554,7 @@
         "change": 174.01,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/02 17:30:19"
+        "quoteTime": "2026/07/02 17:54:19"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.1442,
@@ -2601,14 +2602,14 @@
     {
       "code": "006075",
       "name": "博时标普500ETF联接（QDII）C",
-      "navDate": "2026-06-30",
-      "nav": 5.3213,
+      "navDate": "2026-07-01",
+      "nav": 5.3071,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-07-01 17:00:58",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": 0.65,
+      "officialChangePct": -0.27,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usINX",
@@ -2623,8 +2624,8 @@
         "quoteTime": "2026-07-01 17:00:58"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": 5.3096,
-      "predictedNav": 5.3096,
+      "rawPredictedNav": 5.2954,
+      "predictedNav": 5.2954,
       "predictedChangePct": -0.22,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -3133,7 +3134,7 @@
         "change": 174.01,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/02 17:30:19"
+        "quoteTime": "2026/07/02 17:54:19"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.2685,
@@ -3330,14 +3331,14 @@
     {
       "code": "012062",
       "name": "富国全球消费精选混合（QDII）C",
-      "navDate": "2026-06-30",
-      "nav": 1.537,
+      "navDate": "2026-07-01",
+      "nav": 1.5204,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-07-01 17:15:59",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": 1.03,
+      "officialChangePct": -1.08,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
@@ -3351,8 +3352,8 @@
         "quoteTime": "2026-07-01 17:15:59"
       },
       "benchmarkSensitivity": 0.05,
-      "rawPredictedNav": 1.5269,
-      "predictedNav": 1.5269,
+      "rawPredictedNav": 1.5104,
+      "predictedNav": 1.5104,
       "predictedChangePct": -0.66,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -4378,7 +4379,7 @@
         "change": 174.01,
         "sensitivity": 0.05,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/02 17:30:19"
+        "quoteTime": "2026/07/02 17:54:19"
       },
       "benchmarkSensitivity": 0.05,
       "rawPredictedNav": 1.3752,
