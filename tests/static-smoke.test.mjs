@@ -43,15 +43,26 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
-test('github action schedules fund data updates and commits generated JSON', async () => {
+test('github action schedules one 14:10 China-time data refresh and commits generated JSON', async () => {
   const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /workflow_dispatch:/);
+  assert.equal([...workflow.matchAll(/cron:/g)].length, 1);
+  assert.match(workflow, /cron: '10 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '30 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '45 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '0 7 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '15 7 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '0 8 \* \* 1-5'/);
   assert.match(workflow, /npm run update/);
   assert.match(workflow, /data\/latest\.json/);
   assert.match(workflow, /data\/history\.json/);
   assert.match(workflow, /data\/refresh-snapshots\.json/);
   assert.match(workflow, /git commit -m "data: update fund snapshots"/);
+  await assert.rejects(
+    readFile('.github/workflows/update-fund-data.yml', 'utf8'),
+    { code: 'ENOENT' },
+  );
 });
 
 test('browser app labels primary card values as unified estimates', async () => {
