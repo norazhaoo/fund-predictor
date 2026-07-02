@@ -1,3 +1,5 @@
+import { resolveFundBenchmark } from './benchmark-rules.js';
+
 const SOURCE_HOST = 'fundgz.1234567.com.cn';
 const BENCHMARK_SOURCE_HOST = 'qt.gtimg.cn';
 const OFFICIAL_NAV_SOURCE_HOST = 'fundf10.eastmoney.com';
@@ -494,15 +496,32 @@ export function sortFundsForView(funds, {
     });
 }
 
+function mergeBenchmarkMetadata(fundBenchmark, catalogBenchmark) {
+  if (!catalogBenchmark) {
+    return null;
+  }
+  return {
+    ...catalogBenchmark,
+    ...(fundBenchmark?.secid === catalogBenchmark.secid ? fundBenchmark : {}),
+    sensitivity: catalogBenchmark.sensitivity,
+    ...(Number.isFinite(catalogBenchmark.proxySensitivity)
+      ? { proxySensitivity: catalogBenchmark.proxySensitivity }
+      : {}),
+  };
+}
+
 export function mergeCatalogMetadata(funds, catalogFunds) {
   const byCode = new Map(catalogFunds.map((fund) => [String(fund.code).padStart(6, '0'), fund]));
   return funds.map((fund) => {
     const catalogFund = byCode.get(String(fund.code).padStart(6, '0')) ?? {};
+    const benchmark = mergeBenchmarkMetadata(fund.benchmark, resolveFundBenchmark(catalogFund));
     return {
       ...fund,
       holding: Boolean(catalogFund.holding ?? fund.holding),
       group: catalogFund.group ?? fund.group ?? '',
       order: Number.isFinite(catalogFund.order) ? catalogFund.order : Number.isFinite(fund.order) ? fund.order : 0,
+      benchmark,
+      benchmarkSensitivity: Number.isFinite(benchmark?.sensitivity) ? benchmark.sensitivity : 0,
     };
   });
 }
@@ -527,15 +546,21 @@ export function mergeNewerOfficialNav(liveFunds, previousFunds) {
 export function carryForwardBenchmarkQuotes(catalogFunds, previousFunds) {
   const previousByCode = new Map(previousFunds.map((fund) => [String(fund.code).padStart(6, '0'), fund]));
   return catalogFunds.map((fund) => {
+    const benchmark = resolveFundBenchmark(fund);
+    const baseFund = {
+      ...fund,
+      benchmark,
+      benchmarkSensitivity: Number.isFinite(benchmark?.sensitivity) ? benchmark.sensitivity : 0,
+    };
     const previous = previousByCode.get(String(fund.code).padStart(6, '0'));
     const previousBenchmark = previous?.benchmark;
-    if (!Number.isFinite(previousBenchmark?.changePct)) {
-      return fund;
+    if (!Number.isFinite(previousBenchmark?.changePct) || previousBenchmark.secid !== benchmark?.secid) {
+      return baseFund;
     }
     return {
-      ...fund,
+      ...baseFund,
       benchmark: {
-        ...fund.benchmark,
+        ...benchmark,
         ...previousBenchmark,
       },
       benchmarkSensitivity: Number.isFinite(previous.benchmarkSensitivity)

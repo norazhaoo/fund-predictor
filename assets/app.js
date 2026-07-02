@@ -1,31 +1,11 @@
 import {
-  applyBenchmarkQuotes,
-  buildRefreshProgress,
-  carryForwardBenchmarkQuotes,
-  carryForwardQuoteSnapshot,
-  createBenchmarkScriptFetcher,
-  createJsonpQuoteFetcher,
-  createOfficialNavScriptFetcher,
   mergeCatalogMetadata,
-  mergeNewerOfficialNav,
-  mergeRetriedFunds,
-  rateLimitedErrorFunds,
-  refreshFundsInBatches,
-  shouldPublishLiveRanking,
   sortFundsForView,
 } from './live-quotes.js';
+import { sortTradeRadarFunds } from './t-radar.js';
 
 const app = document.querySelector('#app');
 const disclaimerText = '估算结果仅用于个人跟踪，不构成投资建议。实际净值以基金公司披露为准。';
-const refreshConcurrency = 4;
-const refreshRequestSpacingMs = 250;
-const refreshInitialQuoteRetries = 0;
-const refreshRetryBackoffMs = 3000;
-const backgroundRetryDelayMs = 15_000;
-const backgroundRetryMaxRounds = 6;
-const backgroundRetryConcurrency = 2;
-const backgroundRetryRequestSpacingMs = 800;
-const refreshIntervalMs = 10 * 60_000;
 const estimateDifferenceThresholdPct = 0.1;
 
 const state = {
@@ -33,17 +13,16 @@ const state = {
   history: { records: [] },
   catalog: { funds: [] },
   funds: [],
+  viewMode: 'estimate',
   query: '',
   filter: 'all',
   groupFilter: 'all',
+  tradeActionFilter: 'all',
   sortKey: 'predictedChangePct',
   direction: 'desc',
-  refreshProgress: null,
   refreshBusy: false,
-  lastFullRefreshAt: '',
-  backgroundRetryText: '',
-  backgroundRetryTimer: null,
-  backgroundRetryToken: 0,
+  lastLocalReloadAt: '',
+  localRefreshError: '',
   expandedCodes: new Set(),
 };
 
@@ -129,15 +108,6 @@ function quoteMetaLabel(fund) {
 
 function displayDateTime(value) {
   return value ? escapeHtml(value) : '暂无';
-}
-
-function currentChinaDate(now = new Date()) {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Shanghai',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(now);
 }
 
 function disclaimerNotice() {
@@ -243,6 +213,69 @@ function fundCard(fund) {
   `;
 }
 
+function tradeSignalClass(action) {
+  return [
+    'trade-signal-badge',
+    action ? `trade-${action}` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
+function listItems(items) {
+  return items.length
+    ? items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')
+    : '<li>暂无补充说明。</li>';
+}
+
+function tradeCard(fund) {
+  const code = String(fund.code).padStart(6, '0');
+  const signal = fund.tradeSignal;
+  const holdingBadge = fund.holding ? '<span class="mini-badge">持有</span>' : '';
+  const groupBadge = fund.group ? `<span class="mini-badge muted">${escapeHtml(fund.group)}</span>` : '';
+
+  return `
+    <article class="fund-card trade-card">
+      <div class="trade-card-body">
+        <div class="fund-summary-head">
+          <span class="fund-title-block">
+            <span class="fund-name">${escapeHtml(fund.name)}</span>
+            <span class="fund-code">${escapeHtml(code)} ${holdingBadge}${groupBadge}</span>
+          </span>
+          <span class="${tradeSignalClass(signal.action)}">${escapeHtml(signal.label)}</span>
+        </div>
+        <div class="trade-grid">
+          <div class="metric">
+            <div class="label">T分数</div>
+            <div class="trade-score">${signal.score}</div>
+          </div>
+          <div class="metric">
+            <div class="label">信号</div>
+            <div class="value">${escapeHtml(signal.label)}</div>
+          </div>
+          <div class="metric">
+            <div class="label">估算涨跌</div>
+            <div class="value ${valueClass(signal.changePct)}">${formatPct(signal.changePct)}</div>
+          </div>
+          <div class="metric">
+            <div class="label">参考指数</div>
+            <div class="value ${valueClass(signal.benchmarkChangePct)}">${formatPct(signal.benchmarkChangePct)}</div>
+          </div>
+        </div>
+        <p class="compact-meta">目标持有：${escapeHtml(signal.targetHoldingDays)} · 置信度：${escapeHtml(signal.confidence)} · ${quoteMetaLabel(fund)}时间：${displayDateTime(fund.quoteTime)}</p>
+        <ul class="trade-reason-list">
+          ${listItems(signal.reasons)}
+        </ul>
+        ${signal.risks.length ? `
+          <ul class="trade-reason-list trade-risk-list">
+            ${listItems(signal.risks)}
+          </ul>
+        ` : ''}
+      </div>
+    </article>
+  `;
+}
+
 function historyCard(record) {
   const errorClass = valueClass(record.error);
   const actual = Number.isFinite(record.actualNav)
@@ -294,14 +327,13 @@ function fundsFromLatest(latest, catalog) {
 }
 
 function refreshStatusHtml() {
-  if (!state.refreshProgress) {
-    return '<p class="meta refresh-status" id="refreshStatus">显示上一次完整排名，打开页面后会自动全量刷新。</p>';
-  }
-  const note = shouldPublishLiveRanking(state.refreshProgress)
-    ? `排名时间：${escapeHtml(state.lastFullRefreshAt || '刚刚')}`
-    : '当前排名仍为上次完整结果';
-  const retryNote = state.backgroundRetryText ? `，${escapeHtml(state.backgroundRetryText)}` : '';
-  return `<p class="meta refresh-status" id="refreshStatus">${escapeHtml(state.refreshProgress.text)}，${note}${retryNote}</p>`;
+  const reloadText = state.lastLocalReloadAt
+    ? `本页读取时间：${escapeHtml(state.lastLocalReloadAt)}。`
+    : '';
+  const errorText = state.localRefreshError
+    ? ` 上次读取失败：${escapeHtml(state.localRefreshError)}`
+    : '';
+  return `<p class="meta refresh-status" id="refreshStatus">${reloadText}点击刷新读取最新本地结果。${errorText}</p>`;
 }
 
 function groupOptions(funds) {
@@ -318,42 +350,89 @@ function groupOptions(funds) {
   return groups;
 }
 
+function viewTabClass(mode) {
+  return [
+    'view-tab',
+    state.viewMode === mode ? 'is-active' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
+function renderViewTabs() {
+  return `
+    <div class="view-tabs" role="tablist" aria-label="视图">
+      <button class="${viewTabClass('estimate')}" type="button" data-view-mode="estimate" aria-pressed="${state.viewMode === 'estimate'}">估算</button>
+      <button class="${viewTabClass('trade')}" type="button" data-view-mode="trade" aria-pressed="${state.viewMode === 'trade'}">做T</button>
+    </div>
+  `;
+}
+
 function renderControls() {
   const groupOptionHtml = groupOptions(state.funds)
     .map((group) => `<option value="${escapeHtml(group)}"${state.groupFilter === group ? ' selected' : ''}>${escapeHtml(group)}</option>`)
     .join('');
 
+  const tradeControls = `
+    <div class="control-grid trade-control-grid">
+      <label>
+        <span>信号</span>
+        <select id="tradeActionFilter">
+          <option value="all"${state.tradeActionFilter === 'all' ? ' selected' : ''}>全部信号</option>
+          <option value="actionable"${state.tradeActionFilter === 'actionable' ? ' selected' : ''}>可操作</option>
+          <option value="lowBuy"${state.tradeActionFilter === 'lowBuy' ? ' selected' : ''}>低吸观察</option>
+          <option value="hold"${state.tradeActionFilter === 'hold' ? ' selected' : ''}>趋势持有</option>
+          <option value="caution"${state.tradeActionFilter === 'caution' ? ' selected' : ''}>冲高谨慎</option>
+          <option value="avoid"${state.tradeActionFilter === 'avoid' ? ' selected' : ''}>回避</option>
+        </select>
+      </label>
+      <label>
+        <span>板块</span>
+        <select id="fundGroupFilter">
+          <option value="all"${state.groupFilter === 'all' ? ' selected' : ''}>全部板块</option>
+          ${groupOptionHtml}
+        </select>
+      </label>
+      <button id="refreshNow" class="primary-button" type="button"${state.refreshBusy ? ' disabled' : ''}>刷新</button>
+    </div>
+  `;
+
+  const estimateControls = `
+    <div class="control-grid">
+      <label>
+        <span>筛选</span>
+        <select id="fundFilter">
+          <option value="all"${state.filter === 'all' ? ' selected' : ''}>全部</option>
+          <option value="positive"${state.filter === 'positive' ? ' selected' : ''}>上涨</option>
+          <option value="negative"${state.filter === 'negative' ? ' selected' : ''}>下跌</option>
+          <option value="success"${state.filter === 'success' ? ' selected' : ''}>成功</option>
+          <option value="nonProxy"${state.filter === 'nonProxy' ? ' selected' : ''}>非替代估算</option>
+        </select>
+      </label>
+      <label>
+        <span>板块</span>
+        <select id="fundGroupFilter">
+          <option value="all"${state.groupFilter === 'all' ? ' selected' : ''}>全部板块</option>
+          ${groupOptionHtml}
+        </select>
+      </label>
+      <label>
+        <span>排序</span>
+        <select id="sortKey">
+          <option value="predictedChangePct"${state.sortKey === 'predictedChangePct' ? ' selected' : ''}>估算涨跌</option>
+          <option value="nav"${state.sortKey === 'nav' ? ' selected' : ''}>确认净值</option>
+        </select>
+      </label>
+      <button id="sortDirection" class="secondary-button" type="button">${state.direction === 'desc' ? '降序' : '升序'}</button>
+      <button id="refreshNow" class="primary-button" type="button"${state.refreshBusy ? ' disabled' : ''}>刷新</button>
+    </div>
+  `;
+
   return `
     <section class="controls">
+      ${renderViewTabs()}
       <input id="fundSearch" class="search-input" type="search" placeholder="搜索代码或基金名" value="${escapeHtml(state.query)}">
-      <div class="control-grid">
-        <label>
-          <span>筛选</span>
-          <select id="fundFilter">
-            <option value="all"${state.filter === 'all' ? ' selected' : ''}>全部</option>
-            <option value="positive"${state.filter === 'positive' ? ' selected' : ''}>上涨</option>
-            <option value="negative"${state.filter === 'negative' ? ' selected' : ''}>下跌</option>
-            <option value="success"${state.filter === 'success' ? ' selected' : ''}>成功</option>
-            <option value="nonProxy"${state.filter === 'nonProxy' ? ' selected' : ''}>非替代估算</option>
-          </select>
-        </label>
-        <label>
-          <span>板块</span>
-          <select id="fundGroupFilter">
-            <option value="all"${state.groupFilter === 'all' ? ' selected' : ''}>全部板块</option>
-            ${groupOptionHtml}
-          </select>
-        </label>
-        <label>
-          <span>排序</span>
-          <select id="sortKey">
-            <option value="predictedChangePct"${state.sortKey === 'predictedChangePct' ? ' selected' : ''}>估算涨跌</option>
-            <option value="nav"${state.sortKey === 'nav' ? ' selected' : ''}>确认净值</option>
-          </select>
-        </label>
-        <button id="sortDirection" class="secondary-button" type="button">${state.direction === 'desc' ? '降序' : '升序'}</button>
-        <button id="refreshNow" class="primary-button" type="button"${state.refreshBusy ? ' disabled' : ''}>刷新</button>
-      </div>
+      ${state.viewMode === 'trade' ? tradeControls : estimateControls}
     </section>
   `;
 }
@@ -368,7 +447,19 @@ function visibleFunds() {
   });
 }
 
+function visibleTradeFunds() {
+  return sortTradeRadarFunds(state.funds, {
+    actionFilter: state.tradeActionFilter,
+    groupFilter: state.groupFilter,
+    query: state.query,
+  });
+}
+
 function fundListHtml() {
+  if (state.viewMode === 'trade') {
+    const funds = visibleTradeFunds();
+    return funds.length ? funds.map(tradeCard).join('') : '<div class="notice">暂无做T雷达数据。</div>';
+  }
   const funds = visibleFunds();
   return funds.length ? funds.map(fundCard).join('') : '<div class="notice">暂无基金数据。</div>';
 }
@@ -411,31 +502,6 @@ function render() {
   bindControls();
 }
 
-function updateRefreshStatus() {
-  const status = app.querySelector('#refreshStatus');
-  if (status) {
-    const note = shouldPublishLiveRanking(state.refreshProgress)
-      ? `排名时间：${state.lastFullRefreshAt || '刚刚'}`
-      : '当前排名仍为上次完整结果';
-    const retryNote = state.backgroundRetryText ? `，${state.backgroundRetryText}` : '';
-    status.textContent = `${state.refreshProgress.text}，${note}${retryNote}`;
-  }
-}
-
-function setBackgroundRetryText(text) {
-  state.backgroundRetryText = text;
-  updateRefreshStatus();
-}
-
-function clearBackgroundRetry() {
-  state.backgroundRetryToken += 1;
-  if (state.backgroundRetryTimer) {
-    window.clearTimeout(state.backgroundRetryTimer);
-    state.backgroundRetryTimer = null;
-  }
-  state.backgroundRetryText = '';
-}
-
 function toggleFundCard(code) {
   if (state.expandedCodes.has(code)) {
     state.expandedCodes.delete(code);
@@ -446,6 +512,16 @@ function toggleFundCard(code) {
 }
 
 function bindControls() {
+  app.querySelectorAll('[data-view-mode]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      const nextMode = event.currentTarget.dataset.viewMode;
+      if (nextMode && nextMode !== state.viewMode) {
+        state.viewMode = nextMode;
+        state.expandedCodes.clear();
+        render();
+      }
+    });
+  });
   app.querySelector('#fundSearch')?.addEventListener('input', (event) => {
     state.query = event.currentTarget.value;
     renderFundList();
@@ -458,6 +534,10 @@ function bindControls() {
     state.groupFilter = event.currentTarget.value;
     render();
   });
+  app.querySelector('#tradeActionFilter')?.addEventListener('change', (event) => {
+    state.tradeActionFilter = event.currentTarget.value;
+    renderFundList();
+  });
   app.querySelector('#sortKey')?.addEventListener('change', (event) => {
     state.sortKey = event.currentTarget.value;
     render();
@@ -467,7 +547,7 @@ function bindControls() {
     render();
   });
   app.querySelector('#refreshNow')?.addEventListener('click', () => {
-    startFullRefresh();
+    reloadLocalData();
   });
   bindFundCards();
 }
@@ -492,20 +572,44 @@ async function loadJson(path) {
   return readJsonResponse(response);
 }
 
+async function readLocalData() {
+  const [latest, history, catalog] = await Promise.all([
+    loadJson('data/latest.json'),
+    loadJson('data/history.json'),
+    loadJson('data/funds.json'),
+  ]);
+  return { latest, history, catalog };
+}
+
+function applyLocalData({ latest, history, catalog }) {
+  state.latest = latest;
+  state.history = history;
+  state.catalog = catalog;
+  state.funds = fundsFromLatest(latest, catalog);
+  state.lastLocalReloadAt = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+  state.localRefreshError = '';
+}
+
+async function reloadLocalData() {
+  if (state.refreshBusy) {
+    return;
+  }
+  state.refreshBusy = true;
+  render();
+  try {
+    applyLocalData(await readLocalData());
+  } catch (error) {
+    state.localRefreshError = error instanceof Error ? error.message : String(error);
+  } finally {
+    state.refreshBusy = false;
+    render();
+  }
+}
+
 async function boot() {
   try {
-    const [latest, history, catalog] = await Promise.all([
-      loadJson('data/latest.json'),
-      loadJson('data/history.json'),
-      loadJson('data/funds.json'),
-    ]);
-    state.latest = latest;
-    state.history = history;
-    state.catalog = catalog;
-    state.funds = fundsFromLatest(latest, catalog);
+    applyLocalData(await readLocalData());
     render();
-    startFullRefresh();
-    window.setInterval(startFullRefresh, refreshIntervalMs);
   } catch (error) {
     app.innerHTML = `
       <section class="hero">
@@ -516,188 +620,6 @@ async function boot() {
       <div class="notice">${escapeHtml(error instanceof Error ? error.message : String(error))}</div>
       ${disclaimerNotice()}
     `;
-  }
-}
-
-function publishFullRefresh(funds, catalogFunds, tradingDate, summary) {
-  const refreshedAt = new Date();
-  state.lastFullRefreshAt = refreshedAt.toLocaleTimeString('zh-CN', { hour12: false });
-  state.funds = mergeCatalogMetadata(mergeNewerOfficialNav(funds, state.funds), catalogFunds);
-  state.latest = {
-    ...state.latest,
-    generatedAt: refreshedAt.toISOString(),
-    tradingDate,
-    summary,
-    funds: state.funds,
-  };
-}
-
-function publishRetriedFunds(funds, tradingDate) {
-  const refreshedAt = new Date();
-  state.lastFullRefreshAt = refreshedAt.toLocaleTimeString('zh-CN', { hour12: false });
-  state.funds = mergeCatalogMetadata(
-    mergeRetriedFunds(state.funds, funds),
-    Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
-  );
-  state.latest = {
-    ...state.latest,
-    generatedAt: refreshedAt.toISOString(),
-    tradingDate,
-    summary: `后台重试已补回 ${funds.length} 只基金。`,
-    funds: state.funds,
-  };
-  state.refreshProgress = buildRefreshProgress({
-    completed: state.funds.length,
-    total: state.funds.length,
-    failed: state.funds.filter((fund) => fund.status === 'error').length,
-  });
-}
-
-function scheduleBackgroundRetry(sourceFunds, { tradingDate, round = 1, delayMs = backgroundRetryDelayMs } = {}) {
-  const retryFunds = rateLimitedErrorFunds(sourceFunds);
-  if (!retryFunds.length || round > backgroundRetryMaxRounds) {
-    setBackgroundRetryText('');
-    return;
-  }
-
-  if (state.backgroundRetryTimer) {
-    window.clearTimeout(state.backgroundRetryTimer);
-  }
-
-  const token = state.backgroundRetryToken;
-  setBackgroundRetryText(`后台重试排队：${retryFunds.length} 只 514，稍后自动补`);
-  state.backgroundRetryTimer = window.setTimeout(() => {
-    runBackgroundRetry(retryFunds, { tradingDate, round, token });
-  }, delayMs);
-}
-
-async function runBackgroundRetry(retryFunds, { tradingDate, round, token }) {
-  if (token !== state.backgroundRetryToken) {
-    return;
-  }
-  state.backgroundRetryTimer = null;
-  const total = retryFunds.length;
-  let retryCompleted = 0;
-  setBackgroundRetryText(`后台重试中：0/${total}`);
-
-  try {
-    const result = await refreshFundsInBatches({
-      funds: retryFunds,
-      fetchQuote: createJsonpQuoteFetcher(),
-      fetchProxyBase: createOfficialNavScriptFetcher(),
-      historyRecords: Array.isArray(state.history.records) ? state.history.records : [],
-      tradingDate,
-      concurrency: backgroundRetryConcurrency,
-      requestSpacingMs: backgroundRetryRequestSpacingMs,
-      quoteMaxRetries: 0,
-      quoteRetryBackoffMs: refreshRetryBackoffMs,
-      onProgress: (progress) => {
-        retryCompleted = progress.completed;
-        setBackgroundRetryText(`后台重试中：${retryCompleted}/${total}`);
-      },
-    });
-    if (token !== state.backgroundRetryToken) {
-      return;
-    }
-
-    const recoveredFunds = result.funds.filter((fund) => fund.status !== 'error');
-    const remainingRateLimited = rateLimitedErrorFunds(result.funds);
-    if (recoveredFunds.length) {
-      publishRetriedFunds(recoveredFunds, tradingDate);
-    }
-
-    if (remainingRateLimited.length && round < backgroundRetryMaxRounds) {
-      setBackgroundRetryText(`后台重试第 ${round} 轮完成，仍有 ${remainingRateLimited.length} 只 514`);
-      render();
-      scheduleBackgroundRetry(remainingRateLimited, {
-        tradingDate,
-        round: round + 1,
-        delayMs: backgroundRetryDelayMs,
-      });
-      return;
-    }
-
-    setBackgroundRetryText(
-      remainingRateLimited.length
-        ? `后台重试暂停：仍有 ${remainingRateLimited.length} 只 514`
-        : '',
-    );
-  } catch (error) {
-    if (token === state.backgroundRetryToken) {
-      setBackgroundRetryText(`后台重试暂停：${error instanceof Error ? error.message : String(error)}`);
-    }
-  } finally {
-    if (token === state.backgroundRetryToken) {
-      render();
-    }
-  }
-}
-
-async function startFullRefresh() {
-  if (state.refreshBusy) {
-    return;
-  }
-  clearBackgroundRetry();
-  let funds = carryForwardQuoteSnapshot(
-    carryForwardBenchmarkQuotes(
-      Array.isArray(state.catalog.funds) ? state.catalog.funds : [],
-      state.funds,
-    ),
-    state.funds,
-  );
-  if (!funds.length) {
-    return;
-  }
-  state.refreshBusy = true;
-  state.refreshProgress = buildRefreshProgress({ completed: 0, total: funds.length, failed: 0 });
-  render();
-
-  try {
-    try {
-      const fetchBenchmarkQuotes = createBenchmarkScriptFetcher();
-      const benchmarkQuotes = await fetchBenchmarkQuotes(funds.map((fund) => fund.benchmark).filter(Boolean));
-      funds = applyBenchmarkQuotes(funds, benchmarkQuotes);
-    } catch {
-      // Keep the carried-forward benchmark quote if the reference source is unavailable.
-    }
-
-    const fetchQuote = createJsonpQuoteFetcher();
-    const fetchProxyBase = createOfficialNavScriptFetcher();
-    const tradingDate = currentChinaDate();
-    const result = await refreshFundsInBatches({
-      funds,
-      fetchQuote,
-      fetchProxyBase,
-      historyRecords: Array.isArray(state.history.records) ? state.history.records : [],
-      tradingDate,
-      concurrency: refreshConcurrency,
-      requestSpacingMs: refreshRequestSpacingMs,
-      quoteMaxRetries: refreshInitialQuoteRetries,
-      quoteRetryBackoffMs: refreshRetryBackoffMs,
-      onProgress: (progress) => {
-        state.refreshProgress = progress;
-        updateRefreshStatus();
-      },
-    });
-
-    state.refreshProgress = result.progress;
-    if (shouldPublishLiveRanking(result.progress)) {
-      publishFullRefresh(result.funds, funds, tradingDate, '已完成网页端全量实时刷新，按最新结果排序。');
-      scheduleBackgroundRetry(state.funds, { tradingDate });
-    } else {
-      scheduleBackgroundRetry(result.funds, { tradingDate });
-    }
-  } catch (error) {
-    state.refreshProgress = {
-      completed: 0,
-      total: funds.length,
-      failed: funds.length,
-      isComplete: false,
-      text: `全量刷新失败：${error instanceof Error ? error.message : String(error)}`,
-    };
-  } finally {
-    state.refreshBusy = false;
-    render();
   }
 }
 

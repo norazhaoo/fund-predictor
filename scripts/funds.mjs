@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { resolveFundBenchmark } from '../assets/benchmark-rules.js';
 
 export const TIME_ZONE = 'Asia/Shanghai';
 
@@ -10,10 +11,5 @@ export const FUNDS = Object.freeze(catalog.funds.map((fund) => Object.freeze({
   holding: Boolean(fund.holding),
   group: fund.group ?? '',
   order: Number.isFinite(fund.order) ? fund.order : 0,
-  benchmark: fund.benchmark ? Object.freeze({
-    secid: fund.benchmark.secid,
-    name: fund.benchmark.name ?? '',
-    sensitivity: Number.isFinite(fund.benchmark.sensitivity) ? fund.benchmark.sensitivity : 0,
-    ...(Number.isFinite(fund.benchmark.proxySensitivity) ? { proxySensitivity: fund.benchmark.proxySensitivity } : {}),
-  }) : null,
+  benchmark: resolveFundBenchmark(fund),
 })));
