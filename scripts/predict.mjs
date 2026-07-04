@@ -1,6 +1,7 @@
 const MIN_CALIBRATION_SAMPLES = 5;
 const MAX_ABS_CALIBRATION = 0.01;
 const MAX_ABS_BENCHMARK_ADJUSTMENT = 0.005;
+const ESTIMATE_CONSISTENCY_TOLERANCE_PCT = 0.5;
 
 function round4(value) {
   return Number(value.toFixed(4));
@@ -21,11 +22,61 @@ function predictedChangePctFor(predictedNav, quote) {
   return round2(((predictedNav - quote.nav) / quote.nav) * 100);
 }
 
+function stableString(value) {
+  return String(value ?? '').trim().toLowerCase();
+}
+
+function isLowConfidenceGroup(quote) {
+  const text = stableString(`${quote.group ?? ''} ${quote.name ?? ''}`);
+  return text.includes('qdii') || text.includes('海外');
+}
+
+function estimateConsistencyFor(quote) {
+  if (
+    !Number.isFinite(quote.nav)
+    || quote.nav === 0
+    || !Number.isFinite(quote.estimatedNav)
+    || !Number.isFinite(quote.estimatedChangePct)
+  ) {
+    return { consistent: true, impliedEstimateChangePct: null, estimateGapPct: null };
+  }
+
+  const impliedEstimateChangePct = round2(((quote.estimatedNav - quote.nav) / quote.nav) * 100);
+  const estimateGapPct = round2(impliedEstimateChangePct - quote.estimatedChangePct);
+  return {
+    consistent: Math.abs(estimateGapPct) <= ESTIMATE_CONSISTENCY_TOLERANCE_PCT,
+    impliedEstimateChangePct,
+    estimateGapPct,
+  };
+}
+
 function hasConfirmedOfficialNav(quote, tradingDate) {
   return Boolean(tradingDate)
     && quote.navDate === tradingDate
     && Number.isFinite(quote.nav)
     && Number.isFinite(quote.officialChangePct);
+}
+
+function unreliableEstimateFromQuote(quote, consistency) {
+  return {
+    ...quote,
+    rawEstimatedNav: Number.isFinite(quote.rawEstimatedNav) ? quote.rawEstimatedNav : quote.estimatedNav,
+    rawEstimatedChangePct: quote.estimatedChangePct,
+    estimatedNav: null,
+    estimatedChangePct: null,
+    rawPredictedNav: null,
+    predictedNav: null,
+    predictedChangePct: null,
+    calibration: 0,
+    benchmarkAdjustment: 0,
+    benchmarkGapPct: null,
+    samplesUsed: 0,
+    impliedEstimateChangePct: consistency.impliedEstimateChangePct,
+    estimateGapPct: consistency.estimateGapPct,
+    confidence: 'low',
+    status: 'stale',
+    message: `估算净值和估算涨跌不一致，差异 ${Math.abs(consistency.estimateGapPct).toFixed(2)}%，已暂停展示该估算。`,
+  };
 }
 
 function confirmedPredictionFromQuote(quote) {
@@ -94,6 +145,11 @@ export function predictFromQuote(quote, historyRecords, tradingDate = '') {
     return confirmedPredictionFromQuote(quote);
   }
 
+  const consistency = estimateConsistencyFor(quote);
+  if (!consistency.consistent) {
+    return unreliableEstimateFromQuote(quote, consistency);
+  }
+
   if (!Number.isFinite(quote.estimatedNav)) {
     return {
       ...quote,
@@ -107,8 +163,13 @@ export function predictFromQuote(quote, historyRecords, tradingDate = '') {
     };
   }
 
-  const { calibration, samplesUsed } = calibrationFor(quote.code, historyRecords);
-  const { benchmarkAdjustment, benchmarkGapPct } = benchmarkAdjustmentFor(quote);
+  const lowConfidence = isLowConfidenceGroup(quote);
+  const { calibration, samplesUsed } = lowConfidence
+    ? { calibration: 0, samplesUsed: 0 }
+    : calibrationFor(quote.code, historyRecords);
+  const { benchmarkAdjustment, benchmarkGapPct } = lowConfidence
+    ? { benchmarkAdjustment: 0, benchmarkGapPct: null }
+    : benchmarkAdjustmentFor(quote);
   const predictedNav = round4(quote.estimatedNav + calibration + benchmarkAdjustment);
   const hasBenchmarkAdjustment = benchmarkAdjustment !== 0;
 
@@ -121,11 +182,15 @@ export function predictFromQuote(quote, historyRecords, tradingDate = '') {
     benchmarkAdjustment,
     benchmarkGapPct,
     samplesUsed,
+    confidence: lowConfidence ? 'low' : undefined,
     status: 'ok',
     message: [
-      samplesUsed >= MIN_CALIBRATION_SAMPLES
-        ? '已使用历史误差做轻微校准。'
-        : '历史样本不足，暂以盘中估值作为预测。',
+      lowConfidence ? 'QDII/海外基金估算受时区、汇率和净值滞后影响，按原始估算低置信展示，不做历史或指数修正。' : '',
+      lowConfidence
+        ? ''
+        : samplesUsed >= MIN_CALIBRATION_SAMPLES
+          ? '已使用历史误差做轻微校准。'
+          : '历史样本不足，暂以盘中估值作为预测。',
       hasBenchmarkAdjustment ? '已加入参考指数偏离修正。' : '',
     ].filter(Boolean).join(' '),
   };

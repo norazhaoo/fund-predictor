@@ -408,6 +408,63 @@ test('confirmed official NAV uses official daily change instead of stale estimat
   }
 });
 
+test('newer official NAV rebases stale-source estimate instead of reverse-engineering a false jump', async () => {
+  const files = await withDataFiles();
+  const qdiiFund = {
+    code: '014002',
+    fallbackName: '浦银安盛全球智能科技(QDII)C',
+    group: 'QDII',
+    benchmark: { secid: 'usIXIC', name: '纳斯达克综合指数', sensitivity: 0.05 },
+  };
+  try {
+    await runUpdateForTest({
+      now: new Date('2026-07-02T06:10:00.000Z'),
+      funds: [qdiiFund],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => quote(qdiiFund, {
+        navDate: '2026-06-30',
+        nav: 4.3574,
+        estimatedNav: 4.3583,
+        estimatedChangePct: 0.02,
+        quoteTime: '2026-07-02 04:00',
+      }),
+      fetchOfficial: async () => ({
+        code: qdiiFund.code,
+        navDate: '2026-07-01',
+        nav: 4.0644,
+        dailyChangePct: -6.72,
+        source: 'fundf10.eastmoney.com',
+      }),
+      fetchBenchmark: async () => new Map([[
+        'usIXIC',
+        {
+          secid: 'usIXIC',
+          code: 'IXIC',
+          name: '纳斯达克综合指数',
+          changePct: -0.8,
+          source: 'qt.gtimg.cn',
+          sensitivity: 0.05,
+        },
+      ]]),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(latest.funds[0].status, 'ok');
+    assert.equal(latest.funds[0].group, 'QDII');
+    assert.equal(latest.funds[0].navDate, '2026-07-01');
+    assert.equal(latest.funds[0].nav, 4.0644);
+    assert.equal(latest.funds[0].rawEstimatedNav, 4.3583);
+    assert.equal(latest.funds[0].estimatedNav, 4.0652);
+    assert.equal(latest.funds[0].predictedNav, 4.0652);
+    assert.equal(latest.funds[0].predictedChangePct, 0.02);
+    assert.equal(latest.funds[0].benchmarkAdjustment, 0);
+    assert.equal(latest.funds[0].confidence, 'low');
+  } finally {
+    await files.cleanup();
+  }
+});
+
 test('early morning refresh confirms the previous trading day official NAV', async () => {
   const files = await withDataFiles();
   try {
@@ -457,7 +514,7 @@ test('benchmark source adds a small benchmark adjustment to fresh predictions', 
       historyPath: files.historyPath,
       fetchQuote: async () => quote(fundA, {
         nav: 2,
-        estimatedNav: 2.1,
+        estimatedNav: 2.04,
         estimatedChangePct: 2,
         quoteTime: '2026-05-25 14:30',
       }),
@@ -479,7 +536,7 @@ test('benchmark source adds a small benchmark adjustment to fresh predictions', 
     const latest = await readJsonFile(files.latestPath, null);
     assert.equal(latest.funds[0].benchmark.name, '科创50');
     assert.equal(latest.funds[0].benchmarkAdjustment, 0.002);
-    assert.equal(latest.funds[0].predictedNav, 2.102);
+    assert.equal(latest.funds[0].predictedNav, 2.042);
   } finally {
     await files.cleanup();
   }

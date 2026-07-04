@@ -36,7 +36,7 @@ test('fetchOfficialNav requests the one-row F10 latest NAV endpoint', async () =
   assert.equal(calls[0].options.headers.accept, '*/*');
 });
 
-test('mergeOfficialNav keeps newer official NAV without changing intraday estimate fields', () => {
+test('mergeOfficialNav rebases estimate fields when official NAV is newer', () => {
   const quote = {
     code: '019633',
     navDate: '2026-05-21',
@@ -51,6 +51,9 @@ test('mergeOfficialNav keeps newer official NAV without changing intraday estima
     ...quote,
     navDate: '2026-05-22',
     nav: 2.5314,
+    rawEstimatedNav: 2.5348,
+    estimatedNav: 2.557,
+    estimateRebased: true,
     officialChangePct: 0.87,
     officialNavSource: 'fundf10.eastmoney.com',
   });

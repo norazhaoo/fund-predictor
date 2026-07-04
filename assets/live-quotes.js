@@ -7,6 +7,7 @@ const DEFAULT_TIMEOUT_MS = 9000;
 const DEFAULT_QUOTE_MAX_RETRIES = 2;
 const DEFAULT_QUOTE_RETRY_BACKOFF_MS = 8000;
 const MAX_ABS_BENCHMARK_ADJUSTMENT = 0.005;
+const ESTIMATE_CONSISTENCY_TOLERANCE_PCT = 0.5;
 const BENCHMARK_FIELD = {
   code: 2,
   price: 3,
@@ -35,6 +36,19 @@ function round4(value) {
 
 function round2(value) {
   return Number(value.toFixed(2));
+}
+
+function rebaseEstimateFieldsToNav(fund, nav) {
+  const estimatedNav = Number.isFinite(fund.estimatedChangePct)
+    ? round4(nav * (1 + fund.estimatedChangePct / 100))
+    : null;
+  return {
+    ...(Number.isFinite(fund.estimatedNav) ? { rawEstimatedNav: fund.estimatedNav } : {}),
+    estimatedNav,
+    ...(Number.isFinite(fund.estimatedNav) || Number.isFinite(estimatedNav)
+      ? { estimateRebased: true }
+      : {}),
+  };
 }
 
 function optionalProxySensitivity(benchmark) {
@@ -155,6 +169,30 @@ function predictedChangePctFor(predictedNav, quote) {
   return round2(((predictedNav - quote.nav) / quote.nav) * 100);
 }
 
+function estimateConsistencyFor(quote) {
+  if (
+    !Number.isFinite(quote.nav)
+    || quote.nav === 0
+    || !Number.isFinite(quote.estimatedNav)
+    || !Number.isFinite(quote.estimatedChangePct)
+  ) {
+    return { consistent: true, impliedEstimateChangePct: null, estimateGapPct: null };
+  }
+
+  const impliedEstimateChangePct = round2(((quote.estimatedNav - quote.nav) / quote.nav) * 100);
+  const estimateGapPct = round2(impliedEstimateChangePct - quote.estimatedChangePct);
+  return {
+    consistent: Math.abs(estimateGapPct) <= ESTIMATE_CONSISTENCY_TOLERANCE_PCT,
+    impliedEstimateChangePct,
+    estimateGapPct,
+  };
+}
+
+function isLowConfidenceGroup(quote) {
+  const text = stableString(`${quote.group ?? ''} ${quote.name ?? ''}`);
+  return text.includes('qdii') || text.includes('海外');
+}
+
 function hasConfirmedOfficialNav(quote, tradingDate) {
   return Boolean(tradingDate)
     && quote.navDate === tradingDate
@@ -177,6 +215,28 @@ function primaryChangePct(fund) {
     return fund.predictedChangePct;
   }
   return Number.isFinite(fund.estimatedChangePct) ? fund.estimatedChangePct : null;
+}
+
+function unreliableEstimateFor(quote, consistency) {
+  return {
+    ...quote,
+    rawEstimatedNav: Number.isFinite(quote.rawEstimatedNav) ? quote.rawEstimatedNav : quote.estimatedNav,
+    rawEstimatedChangePct: quote.estimatedChangePct,
+    estimatedNav: null,
+    estimatedChangePct: null,
+    rawPredictedNav: null,
+    predictedNav: null,
+    predictedChangePct: null,
+    calibration: 0,
+    benchmarkAdjustment: 0,
+    benchmarkGapPct: null,
+    samplesUsed: 0,
+    impliedEstimateChangePct: consistency.impliedEstimateChangePct,
+    estimateGapPct: consistency.estimateGapPct,
+    confidence: 'low',
+    status: 'stale',
+    message: `估算净值和估算涨跌不一致，差异 ${Math.abs(consistency.estimateGapPct).toFixed(2)}%，已暂停展示该估算。`,
+  };
 }
 
 function confirmedPredictionFor(quote) {
@@ -337,6 +397,11 @@ export function predictLiveQuote(quote, historyRecords = [], tradingDate = '') {
     return confirmedPredictionFor(quote);
   }
 
+  const consistency = estimateConsistencyFor(quote);
+  if (!consistency.consistent) {
+    return unreliableEstimateFor(quote, consistency);
+  }
+
   if (!Number.isFinite(quote.estimatedNav)) {
     return {
       ...quote,
@@ -350,8 +415,13 @@ export function predictLiveQuote(quote, historyRecords = [], tradingDate = '') {
     };
   }
 
-  const { calibration, samplesUsed } = calibrationFor(quote.code, historyRecords);
-  const { benchmarkAdjustment, benchmarkGapPct } = benchmarkAdjustmentFor(quote);
+  const lowConfidence = isLowConfidenceGroup(quote);
+  const { calibration, samplesUsed } = lowConfidence
+    ? { calibration: 0, samplesUsed: 0 }
+    : calibrationFor(quote.code, historyRecords);
+  const { benchmarkAdjustment, benchmarkGapPct } = lowConfidence
+    ? { benchmarkAdjustment: 0, benchmarkGapPct: null }
+    : benchmarkAdjustmentFor(quote);
   const predictedNav = round4(quote.estimatedNav + calibration + benchmarkAdjustment);
   const hasBenchmarkAdjustment = benchmarkAdjustment !== 0;
   const quoteDate = quoteTimeDate(quote.quoteTime);
@@ -365,14 +435,20 @@ export function predictLiveQuote(quote, historyRecords = [], tradingDate = '') {
     benchmarkAdjustment,
     benchmarkGapPct,
     samplesUsed,
+    confidence: lowConfidence ? 'low' : undefined,
     status: isCurrentTradingDate ? 'ok' : 'stale',
     message: [
+      lowConfidence ? 'QDII/海外基金估算受时区、汇率和净值滞后影响，按原始估算低置信展示，不做历史或指数修正。' : '',
       isCurrentTradingDate
         ? ''
         : quote.quoteTime
           ? `上一交易日估算：估值时间 ${quote.quoteTime}，不是 ${tradingDate}。`
           : '估值时间不可用，按当前可见估值生成估算。',
-      samplesUsed >= 5 ? '已使用历史误差做轻微校准。' : '历史样本不足，暂以盘中估值作为预测。',
+      lowConfidence
+        ? ''
+        : samplesUsed >= 5
+          ? '已使用历史误差做轻微校准。'
+          : '历史样本不足，暂以盘中估值作为预测。',
       hasBenchmarkAdjustment ? '已加入参考指数偏离修正。' : '',
     ].filter(Boolean).join(' '),
   };
@@ -584,6 +660,7 @@ export function mergeNewerOfficialNav(liveFunds, previousFunds) {
       ...fund,
       navDate: previous.navDate,
       nav: previous.nav,
+      ...rebaseEstimateFieldsToNav(fund, previous.nav),
       officialChangePct: previous.officialChangePct,
       officialNavSource: previous.officialNavSource,
     };

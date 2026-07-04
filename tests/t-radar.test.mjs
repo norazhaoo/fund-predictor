@@ -66,6 +66,25 @@ test('trade radar avoids fund types that do not fit A-share intraday T rhythm', 
   assert.match(signal.risks.join(' '), /替代估算/);
 });
 
+test('trade radar avoids QDII even when a same-day estimate is available', () => {
+  const signal = buildTradeSignal({
+    code: '021842',
+    name: '国富全球科技互联混合（QDII）人民币C',
+    group: 'QDII',
+    status: 'ok',
+    predictedChangePct: -1.4,
+    benchmark: {
+      name: '纳斯达克综合指数',
+      changePct: -0.5,
+    },
+  });
+
+  assert.equal(signal.action, 'avoid');
+  assert.equal(signal.label, '回避');
+  assert.equal(signal.confidence, '低');
+  assert.match(signal.risks.join(' '), /QDII/);
+});
+
 test('trade radar treats confirmed official NAV as non-intraday context', () => {
   const signal = buildTradeSignal({
     code: '006503',

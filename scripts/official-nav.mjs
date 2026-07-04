@@ -18,6 +18,23 @@ function toNumber(value) {
   return Number.isFinite(number) ? number : null;
 }
 
+function round4(value) {
+  return Number(value.toFixed(4));
+}
+
+function rebaseEstimateFields(quote, officialNav) {
+  const rebasedEstimatedNav = Number.isFinite(quote.estimatedChangePct)
+    ? round4(officialNav.nav * (1 + quote.estimatedChangePct / 100))
+    : null;
+  return {
+    ...(Number.isFinite(quote.estimatedNav) ? { rawEstimatedNav: quote.estimatedNav } : {}),
+    estimatedNav: rebasedEstimatedNav,
+    ...(Number.isFinite(quote.estimatedNav) || Number.isFinite(rebasedEstimatedNav)
+      ? { estimateRebased: true }
+      : {}),
+  };
+}
+
 function parseApidataContent(text) {
   const match = text.match(/content\s*:\s*"([\s\S]*?)"\s*,\s*records/);
   if (!match) {
@@ -82,6 +99,7 @@ export function mergeOfficialNav(quote, officialNav) {
     ...quote,
     navDate: officialNav.navDate,
     nav: officialNav.nav,
+    ...rebaseEstimateFields(quote, officialNav),
     officialChangePct: officialNav.dailyChangePct,
     officialNavSource: officialNav.source,
   };

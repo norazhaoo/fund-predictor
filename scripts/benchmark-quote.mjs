@@ -116,14 +116,20 @@ export async function fetchBenchmarkQuotes(benchmarks, fetchImpl = fetch) {
 }
 
 export function attachBenchmarkQuote(quote, fund, benchmarkQuotes) {
+  const quoteWithFundMetadata = {
+    ...quote,
+    holding: Boolean(fund.holding ?? quote.holding),
+    group: fund.group ?? quote.group ?? '',
+    order: Number.isFinite(fund.order) ? fund.order : Number.isFinite(quote.order) ? quote.order : 0,
+  };
   const benchmark = normalizeBenchmarkConfig(fund.benchmark);
   if (!benchmark) {
-    return quote;
+    return quoteWithFundMetadata;
   }
   const benchmarkQuote = benchmarkQuotes.get(benchmark.secid);
   if (!benchmarkQuote) {
     return {
-      ...quote,
+      ...quoteWithFundMetadata,
       benchmark: {
         secid: benchmark.secid,
         name: benchmark.name,
@@ -134,7 +140,7 @@ export function attachBenchmarkQuote(quote, fund, benchmarkQuotes) {
     };
   }
   return {
-    ...quote,
+    ...quoteWithFundMetadata,
     benchmark: benchmarkQuote,
     benchmarkSensitivity: benchmarkQuote.sensitivity,
   };

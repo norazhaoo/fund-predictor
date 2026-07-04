@@ -712,7 +712,7 @@ test('live ranking filters by fund group alongside status filters', () => {
   assert.deepEqual(sorted.map((fund) => fund.code), ['tech-up', 'tech-down']);
 });
 
-test('live ranking keeps newer official NAV from the previous complete snapshot', () => {
+test('live ranking rebases estimates when carrying newer official NAV forward', () => {
   const merged = mergeNewerOfficialNav([
     { code: '019633', navDate: '2026-05-21', nav: 2.5095, estimatedNav: 2.5348 },
   ], [
@@ -727,7 +727,8 @@ test('live ranking keeps newer official NAV from the previous complete snapshot'
 
   assert.equal(merged[0].navDate, '2026-05-22');
   assert.equal(merged[0].nav, 2.5314);
-  assert.equal(merged[0].estimatedNav, 2.5348);
+  assert.equal(merged[0].rawEstimatedNav, 2.5348);
+  assert.equal(merged[0].estimatedNav, null);
   assert.equal(merged[0].officialNavSource, 'fundf10.eastmoney.com');
 });
 
@@ -736,7 +737,7 @@ test('browser live prediction also applies benchmark divergence adjustment', () 
     code: '019633',
     navDate: '2026-05-25',
     nav: 2,
-    estimatedNav: 2.1,
+    estimatedNav: 2.04,
     estimatedChangePct: 2,
     quoteTime: '2026-05-25 14:30',
     benchmark: { secid: '1.000688', name: '科创50', changePct: 4 },
@@ -744,7 +745,56 @@ test('browser live prediction also applies benchmark divergence adjustment', () 
   }, [], '2026-05-25');
 
   assert.equal(prediction.benchmarkAdjustment, 0.002);
-  assert.equal(prediction.predictedNav, 2.102);
+  assert.equal(prediction.predictedNav, 2.042);
+});
+
+test('browser live prediction refuses inconsistent estimate NAV and change fields', () => {
+  const prediction = predictLiveQuote({
+    code: '014002',
+    name: '浦银安盛全球智能科技(QDII)C',
+    navDate: '2026-07-01',
+    nav: 4.0644,
+    estimatedNav: 4.3583,
+    estimatedChangePct: 0.02,
+    quoteTime: '2026-07-02 04:00',
+  }, [], '2026-07-02');
+
+  assert.equal(prediction.status, 'stale');
+  assert.equal(prediction.estimatedNav, null);
+  assert.equal(prediction.estimatedChangePct, null);
+  assert.equal(prediction.rawEstimatedNav, 4.3583);
+  assert.equal(prediction.rawEstimatedChangePct, 0.02);
+  assert.equal(prediction.predictedNav, null);
+  assert.equal(prediction.predictedChangePct, null);
+  assert.equal(prediction.estimateGapPct, 7.21);
+});
+
+test('browser live prediction keeps QDII low confidence without benchmark adjustment', () => {
+  const prediction = predictLiveQuote({
+    code: '021842',
+    name: '国富全球科技互联混合(QDII)人民币C',
+    group: 'QDII',
+    navDate: '2026-07-02',
+    nav: 7.4062,
+    estimatedNav: 7.4702,
+    estimatedChangePct: 0.86,
+    quoteTime: '2026-07-03 04:00',
+    benchmark: { secid: 'usIXIC', name: '纳斯达克综合指数', changePct: -0.8 },
+    benchmarkSensitivity: 0.05,
+  }, [
+    { code: '021842', predictedNav: 7.1, actualNav: 7.2 },
+    { code: '021842', predictedNav: 7.2, actualNav: 7.3 },
+    { code: '021842', predictedNav: 7.3, actualNav: 7.4 },
+    { code: '021842', predictedNav: 7.4, actualNav: 7.5 },
+    { code: '021842', predictedNav: 7.5, actualNav: 7.6 },
+  ], '2026-07-03');
+
+  assert.equal(prediction.status, 'ok');
+  assert.equal(prediction.confidence, 'low');
+  assert.equal(prediction.calibration, 0);
+  assert.equal(prediction.benchmarkAdjustment, 0);
+  assert.equal(prediction.predictedNav, 7.4702);
+  assert.equal(prediction.predictedChangePct, 0.86);
 });
 
 test('browser live prediction estimates previous trading day quotes with stale status', () => {
