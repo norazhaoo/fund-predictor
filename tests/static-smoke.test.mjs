@@ -64,6 +64,12 @@ test('github action schedules China-time estimate and confirmation data refreshe
   assert.match(workflow, /data\/history\.json/);
   assert.match(workflow, /data\/refresh-snapshots\.json/);
   assert.match(workflow, /git commit -m "data: update fund snapshots"/);
+  assert.match(workflow, /ref: master/);
+  assert.match(workflow, /fetch-depth: 0/);
+  assert.match(workflow, /for attempt in 1 2 3/);
+  assert.match(workflow, /git fetch origin "\$TARGET_BRANCH"/);
+  assert.match(workflow, /git reset --hard "origin\/\$TARGET_BRANCH"/);
+  assert.match(workflow, /git push origin "HEAD:\$TARGET_BRANCH"/);
   await assert.rejects(
     readFile('.github/workflows/update-fund-data.yml', 'utf8'),
     { code: 'ENOENT' },
