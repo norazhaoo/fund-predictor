@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-09T09:54:45.806Z",
+  "generatedAt": "2026-07-09T10:55:09.878Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-07-09",
   "summary": "已生成 235/235 只基金预测，替代估算 12 只。",
@@ -302,13 +302,14 @@
     {
       "code": "001668",
       "name": "汇添富全球移动互联混合(QDII)人民币A",
-      "navDate": "2026-07-07",
-      "nav": 5.2599,
+      "navDate": "2026-07-08",
+      "nav": 5.3121,
       "estimatedNav": 5.2076,
       "estimatedChangePct": -0.99,
       "quoteTime": "2026-07-09 04:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": 0.99,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -324,11 +325,11 @@
       "benchmarkSensitivity": 0.7,
       "rawPredictedNav": 5.2076,
       "predictedNav": 5.2026,
-      "predictedChangePct": -1.09,
+      "predictedChangePct": -2.06,
       "calibration": -0.01,
       "benchmarkAdjustment": 0.005,
       "benchmarkGapPct": 1.19,
-      "samplesUsed": 10,
+      "samplesUsed": 11,
       "status": "ok",
       "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
@@ -1508,7 +1509,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/09 17:39:01"
+        "quoteTime": "2026/07/09 18:31:01"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.5118,
@@ -1557,13 +1558,14 @@
     {
       "code": "017520",
       "name": "汇添富北证50成份指数C",
-      "navDate": "2026-07-08",
-      "nav": 1.1894,
+      "navDate": "2026-07-09",
+      "nav": 1.1942,
       "estimatedNav": 1.1946,
       "estimatedChangePct": 0.44,
       "quoteTime": "2026-07-09 15:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": 0.4,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -1576,15 +1578,15 @@
         "quoteTime": "20260709161408"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": 1.1946,
-      "predictedNav": 1.1953,
-      "predictedChangePct": 0.5,
+      "rawPredictedNav": null,
+      "predictedNav": 1.1942,
+      "predictedChangePct": 0.4,
       "calibration": 0,
-      "benchmarkAdjustment": 0.0007,
-      "benchmarkGapPct": 2.1,
-      "samplesUsed": 13,
-      "status": "ok",
-      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
+      "benchmarkAdjustment": 0,
+      "benchmarkGapPct": null,
+      "samplesUsed": 0,
+      "status": "confirmed",
+      "message": "官方净值已确认，已按基金公司披露涨跌展示。"
     },
     {
       "code": "022665",
@@ -1753,13 +1755,14 @@
     {
       "code": "000043",
       "name": "嘉实美国成长股票人民币",
-      "navDate": "2026-07-07",
-      "nav": 6.245,
+      "navDate": "2026-07-08",
+      "nav": 6.277,
       "estimatedNav": 6.1784,
       "estimatedChangePct": -1.07,
       "quoteTime": "2026-07-09 04:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": 0.51,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -1775,11 +1778,11 @@
       "benchmarkSensitivity": 0.7,
       "rawPredictedNav": 6.1784,
       "predictedNav": 6.1734,
-      "predictedChangePct": -1.15,
+      "predictedChangePct": -1.65,
       "calibration": -0.01,
       "benchmarkAdjustment": 0.005,
       "benchmarkGapPct": 1.27,
-      "samplesUsed": 12,
+      "samplesUsed": 13,
       "status": "ok",
       "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
@@ -2597,7 +2600,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/09 17:39:01"
+        "quoteTime": "2026/07/09 18:31:01"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.1739,
@@ -2645,14 +2648,14 @@
     {
       "code": "006075",
       "name": "博时标普500ETF联接（QDII）C",
-      "navDate": "2026-07-07",
-      "nav": 5.318,
+      "navDate": "2026-07-08",
+      "nav": 5.306,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-07-08 16:48:41",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -0.45,
+      "officialChangePct": -0.23,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usINX",
@@ -2667,8 +2670,8 @@
         "quoteTime": "2026-07-08 16:48:41"
       },
       "benchmarkSensitivity": 0.65,
-      "rawPredictedNav": 5.3074,
-      "predictedNav": 5.3074,
+      "rawPredictedNav": 5.2954,
+      "predictedNav": 5.2954,
       "predictedChangePct": -0.2,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -3187,7 +3190,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/09 17:39:01"
+        "quoteTime": "2026/07/09 18:31:01"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.2999,
@@ -3387,14 +3390,14 @@
     {
       "code": "012062",
       "name": "富国全球消费精选混合（QDII）C",
-      "navDate": "2026-07-07",
-      "nav": 1.4771,
+      "navDate": "2026-07-08",
+      "nav": 1.483,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-07-08 17:15:59",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -1.78,
+      "officialChangePct": 0.4,
       "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
@@ -3409,8 +3412,8 @@
         "quoteTime": "2026-07-08 17:15:59"
       },
       "benchmarkSensitivity": 0.7,
-      "rawPredictedNav": 1.4793,
-      "predictedNav": 1.4793,
+      "rawPredictedNav": 1.4852,
+      "predictedNav": 1.4852,
       "predictedChangePct": 0.15,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -4460,7 +4463,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/09 17:39:01"
+        "quoteTime": "2026/07/09 18:31:01"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.4112,
@@ -4639,13 +4642,14 @@
     {
       "code": "013943",
       "name": "华宝中证稀有金属指数增强发起C",
-      "navDate": "2026-07-08",
-      "nav": 1.1238,
+      "navDate": "2026-07-09",
+      "nav": 1.1077,
       "estimatedNav": 1.1042,
       "estimatedChangePct": -1.74,
       "quoteTime": "2026-07-09 15:00",
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "officialChangePct": -1.43,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.516150",
         "code": "516150",
@@ -4659,15 +4663,15 @@
         "quoteTime": "20260709161441"
       },
       "benchmarkSensitivity": 0.88,
-      "rawPredictedNav": 1.1042,
-      "predictedNav": 1.1051,
-      "predictedChangePct": -1.66,
-      "calibration": 0.0001,
-      "benchmarkAdjustment": 0.0008,
-      "benchmarkGapPct": 0.08,
-      "samplesUsed": 13,
-      "status": "ok",
-      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
+      "rawPredictedNav": null,
+      "predictedNav": 1.1077,
+      "predictedChangePct": -1.43,
+      "calibration": 0,
+      "benchmarkAdjustment": 0,
+      "benchmarkGapPct": null,
+      "samplesUsed": 0,
+      "status": "confirmed",
+      "message": "官方净值已确认，已按基金公司披露涨跌展示。"
     },
     {
       "code": "015839",
