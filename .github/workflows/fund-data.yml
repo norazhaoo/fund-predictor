@@ -3,10 +3,8 @@ name: Fund data refresh
 on:
   workflow_dispatch:
   schedule:
-    # China trading-day checkpoint in UTC: 14:10 Asia/Shanghai.
-    - cron: '10 6 * * 1-5'
-    # China trading-day checkpoint in UTC: 16:00 Asia/Shanghai.
-    - cron: '0 8 * * 1-5'
+    # Singapore trading-day checkpoint in UTC: 14:30 SGT.
+    - cron: '30 6 * * 1-5'
 
 permissions:
   contents: write
@@ -18,9 +16,16 @@ concurrency:
 jobs:
   update-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TARGET_BRANCH: master
+      DATA_FILES: data/latest.json data/history.json data/refresh-snapshots.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -35,13 +40,34 @@ jobs:
 
       - name: Commit generated data
         run: |
-          if git diff --quiet -- data/latest.json data/history.json data/refresh-snapshots.json; then
-            echo "No data changes to commit."
-            exit 0
-          fi
+          set -euo pipefail
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/latest.json data/history.json data/refresh-snapshots.json
-          git commit -m "data: update fund snapshots"
-          git push
+
+          for attempt in 1 2 3; do
+            if [ "$attempt" -gt 1 ]; then
+              echo "Retrying data refresh publish, attempt $attempt/3."
+              git fetch origin "$TARGET_BRANCH"
+              git reset --hard "origin/$TARGET_BRANCH"
+              npm run update
+            fi
+
+            if git diff --quiet -- $DATA_FILES; then
+              echo "No data changes to commit."
+              exit 0
+            fi
+
+            git add $DATA_FILES
+            git commit -m "data: update fund snapshots"
+
+            if git push origin "HEAD:$TARGET_BRANCH"; then
+              echo "Data refresh published to $TARGET_BRANCH."
+              exit 0
+            fi
+
+            echo "Push failed; syncing latest $TARGET_BRANCH before retry."
+          done
+
+          echo "Failed to publish data refresh after 3 attempts." >&2
+          exit 1

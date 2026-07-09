@@ -43,16 +43,16 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
-test('github action schedules China-time estimate and confirmation data refreshes', async () => {
+test('github action schedules the SGT 14:30 fund data refresh', async () => {
   const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /workflow_dispatch:/);
-  assert.equal([...workflow.matchAll(/cron:/g)].length, 2);
-  assert.match(workflow, /cron: '10 6 \* \* 1-5'/);
-  assert.match(workflow, /cron: '0 8 \* \* 1-5'/);
+  assert.equal([...workflow.matchAll(/cron:/g)].length, 1);
+  assert.match(workflow, /cron: '30 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '10 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '0 8 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '30 5 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '10 16 \* \* 1-5'/);
-  assert.doesNotMatch(workflow, /cron: '30 6 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '45 6 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '0 7 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '15 7 \* \* 1-5'/);
@@ -64,6 +64,12 @@ test('github action schedules China-time estimate and confirmation data refreshe
   assert.match(workflow, /data\/history\.json/);
   assert.match(workflow, /data\/refresh-snapshots\.json/);
   assert.match(workflow, /git commit -m "data: update fund snapshots"/);
+  assert.match(workflow, /ref: master/);
+  assert.match(workflow, /fetch-depth: 0/);
+  assert.match(workflow, /for attempt in 1 2 3/);
+  assert.match(workflow, /git fetch origin "\$TARGET_BRANCH"/);
+  assert.match(workflow, /git reset --hard "origin\/\$TARGET_BRANCH"/);
+  assert.match(workflow, /git push origin "HEAD:\$TARGET_BRANCH"/);
   await assert.rejects(
     readFile('.github/workflows/update-fund-data.yml', 'utf8'),
     { code: 'ENOENT' },
