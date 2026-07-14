@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-14T08:38:17.794Z",
+  "generatedAt": "2026-07-14T08:40:40.600Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-07-14",
   "summary": "已生成 234/235 只基金预测，替代估算 12 只。",
@@ -75,11 +75,13 @@
       "name": "华商润丰灵活配置混合C",
       "navDate": "2026-07-13",
       "nav": 4.218,
-      "estimatedNav": 4.2795,
-      "estimatedChangePct": 1.46,
-      "quoteTime": "2026-07-14 15:00",
+      "estimatedNav": null,
+      "estimatedChangePct": null,
+      "quoteTime": null,
       "source": "fundgz.1234567.com.cn",
-      "officialNavSource": "fundgz.1234567.com.cn",
+      "error": "fetch failed",
+      "officialChangePct": -3.48,
+      "officialNavSource": "fundf10.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -92,15 +94,13 @@
         "quoteTime": "20260714161408"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": 4.2795,
-      "predictedNav": 4.2807,
-      "predictedChangePct": 1.49,
-      "calibration": 0.0003,
-      "benchmarkAdjustment": 0.0009,
-      "benchmarkGapPct": 0.69,
-      "samplesUsed": 17,
-      "status": "ok",
-      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
+      "calibration": 0,
+      "samplesUsed": 0,
+      "status": "error",
+      "message": "fetch failed"
     },
     {
       "code": "014806",
@@ -1508,7 +1508,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/14 16:22:51"
+        "quoteTime": "2026/07/14 16:24:51"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.5532,
@@ -2594,7 +2594,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/14 16:22:51"
+        "quoteTime": "2026/07/14 16:24:51"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.1921,
@@ -3051,13 +3051,11 @@
       "name": "天弘中证细分化工产业主题ETF联接C",
       "navDate": "2026-07-13",
       "nav": 0.8161,
-      "estimatedNav": null,
-      "estimatedChangePct": null,
-      "quoteTime": null,
+      "estimatedNav": 0.8398,
+      "estimatedChangePct": 2.91,
+      "quoteTime": "2026-07-14 15:00",
       "source": "fundgz.1234567.com.cn",
-      "error": "fetch failed",
-      "officialChangePct": -3.76,
-      "officialNavSource": "fundf10.eastmoney.com",
+      "officialNavSource": "fundgz.1234567.com.cn",
       "benchmark": {
         "secid": "1.516160",
         "code": "516160",
@@ -3071,13 +3069,15 @@
         "quoteTime": "20260714161437"
       },
       "benchmarkSensitivity": 0.55,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
-      "calibration": 0,
-      "samplesUsed": 0,
-      "status": "error",
-      "message": "fetch failed"
+      "rawPredictedNav": 0.8398,
+      "predictedNav": 0.8352,
+      "predictedChangePct": 2.34,
+      "calibration": 0.0004,
+      "benchmarkAdjustment": -0.005,
+      "benchmarkGapPct": -1.16,
+      "samplesUsed": 16,
+      "status": "ok",
+      "message": "已使用历史误差做轻微校准。 已加入参考指数偏离修正。"
     },
     {
       "code": "021528",
@@ -3184,7 +3184,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/14 16:22:51"
+        "quoteTime": "2026/07/14 16:24:51"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.3258,
@@ -4457,7 +4457,7 @@
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/07/14 16:22:51"
+        "quoteTime": "2026/07/14 16:24:51"
       },
       "benchmarkSensitivity": 0.65,
       "rawPredictedNav": 1.479,
