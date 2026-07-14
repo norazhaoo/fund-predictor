@@ -43,13 +43,13 @@ test('browser app loads latest and history JSON with relative paths', async () =
   assert.match(js, /loadJson\('data\/funds\.json'/);
 });
 
-test('github action schedules the SGT 14:30 fund data refresh', async () => {
+test('github action gates the scheduled fund refresh to the SGT 14:30 window', async () => {
   const workflow = await readFile('.github/workflows/fund-data.yml', 'utf8');
   assert.match(workflow, /schedule:/);
   assert.match(workflow, /workflow_dispatch:/);
   assert.equal([...workflow.matchAll(/cron:/g)].length, 1);
-  assert.match(workflow, /cron: '30 6 \* \* 1-5'/);
-  assert.doesNotMatch(workflow, /cron: '10 6 \* \* 1-5'/);
+  assert.match(workflow, /cron: '10 6 \* \* 1-5'/);
+  assert.doesNotMatch(workflow, /cron: '30 6 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '0 8 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '30 5 \* \* 1-5'/);
   assert.doesNotMatch(workflow, /cron: '10 16 \* \* 1-5'/);
@@ -70,6 +70,13 @@ test('github action schedules the SGT 14:30 fund data refresh', async () => {
   assert.match(workflow, /git fetch origin "\$TARGET_BRANCH"/);
   assert.match(workflow, /git reset --hard "origin\/\$TARGET_BRANCH"/);
   assert.match(workflow, /git push origin "HEAD:\$TARGET_BRANCH"/);
+  assert.match(workflow, /REFRESH_TIMEZONE: Asia\/Singapore/);
+  assert.match(workflow, /REFRESH_TARGET_TIME: "14:30"/);
+  assert.match(workflow, /REFRESH_CUTOFF_TIME: "15:05"/);
+  assert.match(workflow, /id: refresh-window/);
+  assert.match(workflow, /sleep "\$sleep_seconds"/);
+  assert.match(workflow, /should_update=false/);
+  assert.match(workflow, /steps\.refresh-window\.outputs\.should_update == 'true'/);
   await assert.rejects(
     readFile('.github/workflows/update-fund-data.yml', 'utf8'),
     { code: 'ENOENT' },

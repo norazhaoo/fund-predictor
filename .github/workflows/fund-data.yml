@@ -3,8 +3,8 @@ name: Fund data refresh
 on:
   workflow_dispatch:
   schedule:
-    # Singapore trading-day checkpoint in UTC: 14:30 SGT.
-    - cron: '30 6 * * 1-5'
+    # Start before 14:30 SGT, then wait inside the job because GitHub cron can be delayed.
+    - cron: '10 6 * * 1-5'
 
 permissions:
   contents: write
@@ -16,10 +16,13 @@ concurrency:
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
     env:
       TARGET_BRANCH: master
       DATA_FILES: data/latest.json data/history.json data/refresh-snapshots.json
+      REFRESH_TIMEZONE: Asia/Singapore
+      REFRESH_TARGET_TIME: "14:30"
+      REFRESH_CUTOFF_TIME: "15:05"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,13 +35,66 @@ jobs:
         with:
           node-version: 22
 
+      - name: Plan refresh window
+        id: refresh-window
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "should_update=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          today="$(TZ="$REFRESH_TIMEZONE" date +%F)"
+          target_epoch="$(TZ="$REFRESH_TIMEZONE" date -d "$today $REFRESH_TARGET_TIME:00" +%s)"
+          cutoff_epoch="$(TZ="$REFRESH_TIMEZONE" date -d "$today $REFRESH_CUTOFF_TIME:00" +%s)"
+          now_epoch="$(date -u +%s)"
+
+          if [ "$now_epoch" -lt "$target_epoch" ]; then
+            sleep_seconds=$((target_epoch - now_epoch))
+            echo "Waiting $sleep_seconds seconds until $REFRESH_TARGET_TIME $REFRESH_TIMEZONE."
+            sleep "$sleep_seconds"
+            now_epoch="$(date -u +%s)"
+          fi
+
+          if [ "$now_epoch" -gt "$cutoff_epoch" ]; then
+            echo "Scheduled run started after $REFRESH_CUTOFF_TIME $REFRESH_TIMEZONE; skipping late data refresh."
+            echo "should_update=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          already_published="$(
+            TARGET_EPOCH="$target_epoch" node -e "
+              const fs = require('fs');
+              const targetEpoch = Number(process.env.TARGET_EPOCH);
+              let latest = {};
+              try {
+                latest = JSON.parse(fs.readFileSync('data/latest.json', 'utf8'));
+              } catch {}
+              const generatedAt = latest.generatedAt;
+              const generatedEpoch = generatedAt ? Math.floor(new Date(generatedAt).getTime() / 1000) : 0;
+              console.log(generatedEpoch >= targetEpoch ? 'true' : 'false');
+            "
+          )"
+
+          if [ "$already_published" = "true" ]; then
+            echo "Today's scheduled refresh has already been published."
+            echo "should_update=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "should_update=true" >> "$GITHUB_OUTPUT"
+
       - name: Verify
+        if: steps.refresh-window.outputs.should_update == 'true'
         run: npm test
 
       - name: Update fund data
+        if: steps.refresh-window.outputs.should_update == 'true'
         run: npm run update
 
       - name: Commit generated data
+        if: steps.refresh-window.outputs.should_update == 'true'
         run: |
           set -euo pipefail
 
