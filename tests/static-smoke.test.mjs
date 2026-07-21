@@ -477,29 +477,25 @@ test('browser benchmark script fetcher reads Tencent quote globals', async () =>
   assert.equal(quotes.get('1.501029').proxySensitivity, 1);
 });
 
-test('browser official NAV script fetcher reads Eastmoney F10 payloads', async () => {
-  const windowRef = {
-    setTimeout,
-    clearTimeout,
-  };
-  const documentRef = {
-    createElement: () => ({ remove() {} }),
-    head: {
-      append(script) {
-        assert.match(script.src, /^https:\/\/fundf10\.eastmoney\.com\/F10DataApi\.aspx\?type=lsjz&code=005125&page=1&per=1&rt=123$/);
-        setTimeout(() => {
-          windowRef.apidata = {
-            content: "<table><tbody><tr><td>2026-05-22</td><td class='tor bold'>1.7568</td><td>1.9102</td><td>-0.27%</td></tr></tbody></table>",
-          };
-          script.onload();
-        }, 0);
-      },
-    },
+test('browser official NAV fetcher reads Eastmoney mobile API payloads', async () => {
+  const calls = [];
+  const fetchImpl = async (url, options) => {
+    calls.push({ url, options });
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        Datas: [{
+          FCODE: '005125',
+          PDATE: '2026-05-22',
+          NAV: '1.7568',
+          NAVCHGRT: '-0.27',
+        }],
+      }),
+    };
   };
   const fetchOfficialNav = createOfficialNavScriptFetcher({
-    documentRef,
-    windowRef,
-    now: () => 123,
+    fetchImpl,
   });
 
   const nav = await fetchOfficialNav({ code: '005125' });
@@ -508,6 +504,10 @@ test('browser official NAV script fetcher reads Eastmoney F10 payloads', async (
   assert.equal(nav.navDate, '2026-05-22');
   assert.equal(nav.nav, 1.7568);
   assert.equal(nav.officialChangePct, -0.27);
+  assert.equal(nav.officialNavSource, 'fundmobapi.eastmoney.com');
+  assert.equal(calls[0].url.hostname, 'fundmobapi.eastmoney.com');
+  assert.equal(calls[0].url.searchParams.get('Fcodes'), '005125');
+  assert.equal(calls[0].options.headers.accept, 'application/json');
 });
 
 test('proxy prediction uses official NAV and benchmark quote when fund estimate is unavailable', () => {

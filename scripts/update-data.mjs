@@ -20,6 +20,8 @@ const DEFAULT_OFFICIAL_CONCURRENCY = 6;
 const LARGE_WATCHLIST_QUOTE_SPACING_MS = 250;
 const DEFAULT_QUOTE_MAX_RETRIES = 2;
 const DEFAULT_QUOTE_RETRY_BACKOFF_MS = 8000;
+const DEFAULT_OFFICIAL_MAX_RETRIES = 2;
+const DEFAULT_OFFICIAL_RETRY_BACKOFF_MS = 500;
 const EARLY_MORNING_CONFIRMATION_CUTOFF_HOUR = 9;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -208,6 +210,21 @@ function errorPredictionFromQuote(quote) {
   };
 }
 
+function staleOfficialNavPrediction(quote) {
+  const { error: _error, ...availableQuote } = quote;
+  return {
+    ...availableQuote,
+    source: quote.officialNavSource ?? quote.source,
+    rawPredictedNav: null,
+    predictedNav: null,
+    predictedChangePct: null,
+    calibration: 0,
+    samplesUsed: 0,
+    status: 'stale',
+    message: `盘中估值源不可用，已保留 ${quote.navDate} 官方净值。`,
+  };
+}
+
 function isQuoteUnavailableError(message) {
   return /暂无估值数据|Unable to parse fund JSONP payload/.test(String(message ?? ''));
 }
@@ -262,12 +279,22 @@ async function quoteOrError(fund, fetchQuote, {
   }
 }
 
-async function officialNavOrNull(fund, fetchOfficial) {
-  try {
-    return await fetchOfficial(fund);
-  } catch {
-    return null;
+async function officialNavOrNull(fund, fetchOfficial, {
+  maxRetries = DEFAULT_OFFICIAL_MAX_RETRIES,
+  retryBackoffMs = DEFAULT_OFFICIAL_RETRY_BACKOFF_MS,
+  sleepFn = sleep,
+} = {}) {
+  for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+    try {
+      return await fetchOfficial(fund);
+    } catch {
+      if (attempt >= maxRetries) {
+        return null;
+      }
+      await sleepFn(retryBackoffMs * (attempt + 1));
+    }
   }
+  return null;
 }
 
 async function benchmarkQuotesOrEmpty(funds, fetchBenchmark) {
@@ -367,7 +394,7 @@ export async function runUpdate({
       requestSpacingMs: quoteRequestSpacingMs,
       sleepFn,
     }),
-    mapWithConcurrency(funds, (fund) => officialNavOrNull(fund, fetchOfficial), {
+    mapWithConcurrency(funds, (fund) => officialNavOrNull(fund, fetchOfficial, { sleepFn }), {
       concurrency: officialConcurrency,
       sleepFn,
     }),
@@ -386,7 +413,12 @@ export async function runUpdate({
 
   const predictions = quotes.map((quote) => {
     if (quote.error) {
-      const fallback = isQuoteUnavailableError(quote.error) ? predictFromProxy(quote) : null;
+      const fallback = isQuoteUnavailableError(quote.error)
+        ? predictFromProxy(quote)
+          ?? (Number.isFinite(quote.nav) && quote.navDate
+            ? staleOfficialNavPrediction(quote)
+            : null)
+        : null;
       return fallback ?? errorPredictionFromQuote(quote);
     }
     const prediction = predictFromQuote(quote, backfilledHistory.records, tradingDate);
@@ -440,8 +472,19 @@ export async function runUpdate({
   return { latest, history, snapshots };
 }
 
+export function assertRefreshSucceeded(latest) {
+  if (
+    latest.funds.length > 0
+    && latest.funds.every((fund) => fund.status === 'error')
+  ) {
+    throw new Error('All fund data updates failed; refusing to publish an error-only snapshot.');
+  }
+}
+
 export async function main(now = new Date()) {
-  return runUpdate({ now, writeSummary: console.log });
+  const result = await runUpdate({ now, writeSummary: console.log });
+  assertRefreshSucceeded(result.latest);
+  return result;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

@@ -1,14 +1,4 @@
-const SOURCE_HOST = 'fundf10.eastmoney.com';
-
-function htmlDecode(value) {
-  return String(value ?? '')
-    .replaceAll('&nbsp;', ' ')
-    .replaceAll('&amp;', '&')
-    .replaceAll('&lt;', '<')
-    .replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"')
-    .replaceAll('&#39;', "'");
-}
+const SOURCE_HOST = 'fundmobapi.eastmoney.com';
 
 function toNumber(value) {
   if (value === null || value === undefined || value === '') {
@@ -18,47 +8,48 @@ function toNumber(value) {
   return Number.isFinite(number) ? number : null;
 }
 
-function parseApidataContent(text) {
-  const match = text.match(/content\s*:\s*"([\s\S]*?)"\s*,\s*records/);
-  if (!match) {
+export function parseOfficialNavPayload(text, code) {
+  let payload;
+  try {
+    payload = JSON.parse(text);
+  } catch {
     throw new Error('Unable to parse official NAV payload');
   }
-  return htmlDecode(match[1].replace(/\\"/g, '"'));
-}
 
-function firstRowCells(html) {
-  const row = html.match(/<tbody>[\s\S]*?<tr>([\s\S]*?)<\/tr>/i)?.[1];
-  if (!row) {
-    throw new Error('Official NAV table has no rows');
+  const expectedCode = String(code).padStart(6, '0');
+  const row = Array.isArray(payload?.Datas)
+    ? payload.Datas.find((item) => String(item?.FCODE ?? '').padStart(6, '0') === expectedCode)
+    : null;
+  const nav = toNumber(row?.NAV);
+  if (!row?.PDATE || !Number.isFinite(nav)) {
+    throw new Error(`Official NAV data unavailable for ${expectedCode}`);
   }
-  return [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)]
-    .map((match) => match[1].replace(/<[^>]*>/g, '').trim());
-}
 
-export function parseOfficialNavPayload(text, code) {
-  const cells = firstRowCells(parseApidataContent(text));
-  if (cells.length < 4) {
-    throw new Error('Official NAV table has too few cells');
-  }
-  const nav = toNumber(cells[1]);
-  if (!cells[0] || !Number.isFinite(nav)) {
-    throw new Error('Official NAV row is incomplete');
-  }
   return {
-    code: String(code).padStart(6, '0'),
-    navDate: cells[0],
+    code: expectedCode,
+    navDate: row.PDATE,
     nav,
-    dailyChangePct: toNumber(cells[3]),
+    dailyChangePct: toNumber(row.NAVCHGRT),
     source: SOURCE_HOST,
   };
 }
 
 export async function fetchOfficialNav(fund, fetchImpl = fetch) {
   const code = String(fund.code).padStart(6, '0');
-  const url = `https://${SOURCE_HOST}/F10DataApi.aspx?type=lsjz&code=${code}&page=1&per=1&rt=${Date.now()}`;
+  const url = new URL(`https://${SOURCE_HOST}/FundMNewApi/FundMNFInfo`);
+  url.search = new URLSearchParams({
+    pageIndex: '1',
+    pageSize: '1',
+    plat: 'Android',
+    appType: 'ttjj',
+    product: 'EFund',
+    Version: '6.2.8',
+    deviceid: 'fund-predictor',
+    Fcodes: code,
+  }).toString();
   const response = await fetchImpl(url, {
     headers: {
-      accept: '*/*',
+      accept: 'application/json',
       'user-agent': 'fund-predictor/0.1',
     },
   });
