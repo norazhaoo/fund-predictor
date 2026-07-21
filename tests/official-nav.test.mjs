@@ -6,34 +6,54 @@ import {
   parseOfficialNavPayload,
 } from '../scripts/official-nav.mjs';
 
-const f10Payload = `var apidata={ content:"<table class='w782 comm lsjz'><thead><tr><th class='first'>净值日期</th><th>单位净值</th><th>累计净值</th><th>日增长率</th></tr></thead><tbody><tr><td>2026-05-22</td><td class='tor bold'>2.5314</td><td class='tor bold'>2.5314</td><td class='tor bold red'>0.87%</td></tr></tbody></table>",records:636,pages:636,curpage:1};`;
+const mobilePayload = JSON.stringify({
+  ErrCode: 0,
+  Success: true,
+  Datas: [{
+    FCODE: '019633',
+    SHORTNAME: '国泰半导体设备ETF联接C',
+    PDATE: '2026-05-22',
+    NAV: '2.5314',
+    NAVCHGRT: '0.87',
+  }],
+});
 
-test('parseOfficialNavPayload extracts latest official NAV from F10 table payload', () => {
-  assert.deepEqual(parseOfficialNavPayload(f10Payload, '019633'), {
+test('parseOfficialNavPayload extracts latest official NAV from mobile API payload', () => {
+  assert.deepEqual(parseOfficialNavPayload(mobilePayload, '019633'), {
     code: '019633',
     navDate: '2026-05-22',
     nav: 2.5314,
     dailyChangePct: 0.87,
-    source: 'fundf10.eastmoney.com',
+    source: 'fundmobapi.eastmoney.com',
   });
 });
 
-test('fetchOfficialNav requests the one-row F10 latest NAV endpoint', async () => {
+test('parseOfficialNavPayload rejects invalid or missing fund data', () => {
+  assert.throws(() => parseOfficialNavPayload('<html>not json</html>', '019633'), /Unable to parse/);
+  assert.throws(
+    () => parseOfficialNavPayload(JSON.stringify({ Datas: [] }), '019633'),
+    /unavailable for 019633/,
+  );
+});
+
+test('fetchOfficialNav requests the mobile latest NAV endpoint', async () => {
   const calls = [];
   const fetchImpl = async (url, options) => {
     calls.push({ url, options });
     return {
       ok: true,
       status: 200,
-      text: async () => f10Payload,
+      text: async () => mobilePayload,
     };
   };
 
   const nav = await fetchOfficialNav({ code: '019633' }, fetchImpl);
 
   assert.equal(nav.navDate, '2026-05-22');
-  assert.match(calls[0].url, /^https:\/\/fundf10\.eastmoney\.com\/F10DataApi\.aspx\?type=lsjz&code=019633&page=1&per=1/);
-  assert.equal(calls[0].options.headers.accept, '*/*');
+  assert.equal(calls[0].url.hostname, 'fundmobapi.eastmoney.com');
+  assert.equal(calls[0].url.pathname, '/FundMNewApi/FundMNFInfo');
+  assert.equal(calls[0].url.searchParams.get('Fcodes'), '019633');
+  assert.equal(calls[0].options.headers.accept, 'application/json');
 });
 
 test('mergeOfficialNav keeps newer official NAV without changing intraday estimate fields', () => {
@@ -45,13 +65,13 @@ test('mergeOfficialNav keeps newer official NAV without changing intraday estima
     estimatedChangePct: 1.01,
     quoteTime: '2026-05-22 15:00',
   };
-  const officialNav = parseOfficialNavPayload(f10Payload, '019633');
+  const officialNav = parseOfficialNavPayload(mobilePayload, '019633');
 
   assert.deepEqual(mergeOfficialNav(quote, officialNav), {
     ...quote,
     navDate: '2026-05-22',
     nav: 2.5314,
     officialChangePct: 0.87,
-    officialNavSource: 'fundf10.eastmoney.com',
+    officialNavSource: 'fundmobapi.eastmoney.com',
   });
 });

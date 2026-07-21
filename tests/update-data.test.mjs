@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { runUpdate } from '../scripts/update-data.mjs';
+import { assertRefreshSucceeded, runUpdate } from '../scripts/update-data.mjs';
 import {
   buildHistoryRecord,
   readJsonFile,
@@ -140,6 +140,16 @@ test('all-fetch failure writes error latest without replacing history', async ()
   } finally {
     await files.cleanup();
   }
+});
+
+test('all-fetch failure is rejected before workflow publishing', () => {
+  assert.throws(
+    () => assertRefreshSucceeded({ funds: [{ status: 'error' }, { status: 'error' }] }),
+    /refusing to publish an error-only snapshot/,
+  );
+  assert.doesNotThrow(
+    () => assertRefreshSucceeded({ funds: [{ status: 'error' }, { status: 'proxy' }] }),
+  );
 });
 
 test('partial failure writes latest but history only includes valid fresh ok predictions', async () => {
@@ -532,6 +542,75 @@ test('unavailable quote uses official NAV and benchmark as a low-confidence prox
     assert.match(latest.funds[0].message, /替代估算/);
     assert.match(latest.summary, /替代估算 1 只/);
     assert.deepEqual(history.records, []);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('unavailable quote keeps official NAV as stale data when no benchmark exists', async () => {
+  const files = await withDataFiles();
+  try {
+    await runUpdateForTest({
+      now: monday,
+      funds: [fundA],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      fetchQuote: async () => {
+        throw new Error('Unable to parse fund JSONP payload');
+      },
+      fetchOfficial: async () => ({
+        code: fundA.code,
+        navDate: '2026-05-22',
+        nav: 2.5314,
+        dailyChangePct: 0.87,
+        source: 'fundmobapi.eastmoney.com',
+      }),
+      fetchBenchmark: async () => new Map(),
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(latest.funds[0].status, 'stale');
+    assert.equal(latest.funds[0].nav, 2.5314);
+    assert.equal(latest.funds[0].source, 'fundmobapi.eastmoney.com');
+    assert.equal(latest.funds[0].error, undefined);
+    assert.match(latest.funds[0].message, /官方净值/);
+  } finally {
+    await files.cleanup();
+  }
+});
+
+test('official NAV fetch retries a transient failure before falling back', async () => {
+  const files = await withDataFiles();
+  let attempts = 0;
+  try {
+    await runUpdateForTest({
+      now: monday,
+      funds: [fundA],
+      latestPath: files.latestPath,
+      historyPath: files.historyPath,
+      sleepFn: async () => {},
+      fetchQuote: async () => {
+        throw new Error('Unable to parse fund JSONP payload');
+      },
+      fetchOfficial: async () => {
+        attempts += 1;
+        if (attempts === 1) {
+          throw new Error('temporary mobile API failure');
+        }
+        return {
+          code: fundA.code,
+          navDate: '2026-05-22',
+          nav: 2.5314,
+          dailyChangePct: 0.87,
+          source: 'fundmobapi.eastmoney.com',
+        };
+      },
+    });
+
+    const latest = await readJsonFile(files.latestPath, null);
+    assert.equal(attempts, 2);
+    assert.equal(latest.funds[0].status, 'stale');
+    assert.equal(latest.funds[0].nav, 2.5314);
   } finally {
     await files.cleanup();
   }

@@ -2,7 +2,7 @@ import { resolveFundBenchmark } from './benchmark-rules.js';
 
 const SOURCE_HOST = 'fundgz.1234567.com.cn';
 const BENCHMARK_SOURCE_HOST = 'qt.gtimg.cn';
-const OFFICIAL_NAV_SOURCE_HOST = 'fundf10.eastmoney.com';
+const OFFICIAL_NAV_SOURCE_HOST = 'fundmobapi.eastmoney.com';
 const DEFAULT_TIMEOUT_MS = 9000;
 const DEFAULT_QUOTE_MAX_RETRIES = 2;
 const DEFAULT_QUOTE_RETRY_BACKOFF_MS = 8000;
@@ -111,32 +111,23 @@ function benchmarkQuoteFromValue(value, config) {
   };
 }
 
-function htmlDecode(value) {
-  return String(value ?? '')
-    .replaceAll('&nbsp;', ' ')
-    .replaceAll('&amp;', '&')
-    .replaceAll('&lt;', '<')
-    .replaceAll('&gt;', '>')
-    .replaceAll('&quot;', '"')
-    .replaceAll('&#39;', "'");
-}
-
-function parseOfficialNavContent(content, code) {
-  const row = htmlDecode(content).match(/<tbody>[\s\S]*?<tr>([\s\S]*?)<\/tr>/i)?.[1];
+function parseOfficialNavContent(payload, code) {
+  const expectedCode = String(code).padStart(6, '0');
+  const row = Array.isArray(payload?.Datas)
+    ? payload.Datas.find((item) => String(item?.FCODE ?? '').padStart(6, '0') === expectedCode)
+    : null;
   if (!row) {
     throw new Error(`确认净值暂无数据：${code}`);
   }
-  const cells = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)]
-    .map((match) => match[1].replace(/<[^>]*>/g, '').trim());
-  const nav = toNumber(cells[1]);
-  if (!cells[0] || !Number.isFinite(nav)) {
+  const nav = toNumber(row.NAV);
+  if (!row.PDATE || !Number.isFinite(nav)) {
     throw new Error(`确认净值数据不完整：${code}`);
   }
   return {
-    code: String(code).padStart(6, '0'),
-    navDate: cells[0],
+    code: expectedCode,
+    navDate: row.PDATE,
     nav,
-    dailyChangePct: toNumber(cells[3]),
+    dailyChangePct: toNumber(row.NAVCHGRT),
     source: OFFICIAL_NAV_SOURCE_HOST,
   };
 }
@@ -713,52 +704,37 @@ export function createBenchmarkScriptFetcher({
 }
 
 export function createOfficialNavScriptFetcher({
-  documentRef = globalThis.document,
-  windowRef = globalThis.window,
-  timeoutMs = DEFAULT_TIMEOUT_MS,
-  now = Date.now,
+  fetchImpl = globalThis.fetch,
 } = {}) {
   let chain = Promise.resolve();
 
-  function loadOfficialNav(fund) {
+  async function loadOfficialNav(fund) {
     const code = String(fund.code).padStart(6, '0');
-    return new Promise((resolve, reject) => {
-      const script = documentRef.createElement('script');
-      const timeout = windowRef.setTimeout(() => {
-        cleanup();
-        reject(new Error(`确认净值请求超时：${code}`));
-      }, timeoutMs);
-
-      function cleanup() {
-        windowRef.clearTimeout(timeout);
-        script.remove();
-      }
-
-      windowRef.apidata = undefined;
-      script.onload = () => {
-        try {
-          const nav = parseOfficialNavContent(windowRef.apidata?.content, code);
-          cleanup();
-          resolve({
-            code: nav.code,
-            navDate: nav.navDate,
-            nav: nav.nav,
-            officialChangePct: nav.dailyChangePct,
-            officialNavSource: nav.source,
-          });
-        } catch (error) {
-          cleanup();
-          reject(error);
-        }
-      };
-      script.onerror = () => {
-        cleanup();
-        reject(new Error(`确认净值请求失败：${code}`));
-      };
-      script.async = true;
-      script.src = `https://${OFFICIAL_NAV_SOURCE_HOST}/F10DataApi.aspx?type=lsjz&code=${code}&page=1&per=1&rt=${now()}`;
-      documentRef.head.append(script);
+    const url = new URL(`https://${OFFICIAL_NAV_SOURCE_HOST}/FundMNewApi/FundMNFInfo`);
+    url.search = new URLSearchParams({
+      pageIndex: '1',
+      pageSize: '1',
+      plat: 'Android',
+      appType: 'ttjj',
+      product: 'EFund',
+      Version: '6.2.8',
+      deviceid: 'fund-predictor',
+      Fcodes: code,
+    }).toString();
+    const response = await fetchImpl(url, {
+      headers: { accept: 'application/json' },
     });
+    if (!response.ok) {
+      throw new Error(`确认净值请求失败：${code}（HTTP ${response.status}）`);
+    }
+    const nav = parseOfficialNavContent(await response.json(), code);
+    return {
+      code: nav.code,
+      navDate: nav.navDate,
+      nav: nav.nav,
+      officialChangePct: nav.dailyChangePct,
+      officialNavSource: nav.source,
+    };
   }
 
   return function fetchOfficialNav(fund) {
