@@ -82685,9 +82685,9 @@
       "calibration": -0.01,
       "samplesUsed": 14,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 6.6715,
+      "actualNavDate": "2026-07-17",
+      "error": -0.4813
     },
     {
       "date": "2026-07-17",
@@ -83768,9 +83768,9 @@
       "calibration": -0.0001,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.2274,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0064
     },
     {
       "date": "2026-07-20",
@@ -83787,9 +83787,9 @@
       "calibration": -0.0003,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.075,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0002
     },
     {
       "date": "2026-07-20",
@@ -83806,9 +83806,9 @@
       "calibration": -0.0057,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.757,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0302
     },
     {
       "date": "2026-07-20",
@@ -83825,9 +83825,9 @@
       "calibration": -0.0017,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.8547,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0125
     },
     {
       "date": "2026-07-20",
@@ -83844,9 +83844,9 @@
       "calibration": -0.009,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.349,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0389
     },
     {
       "date": "2026-07-20",
@@ -83863,9 +83863,9 @@
       "calibration": -0.0084,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.9144,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0048
     },
     {
       "date": "2026-07-20",
@@ -83901,9 +83901,9 @@
       "calibration": -0.0041,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1754,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0186
     },
     {
       "date": "2026-07-20",
@@ -83920,9 +83920,9 @@
       "calibration": -0.0028,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.487,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0246
     },
     {
       "date": "2026-07-20",
@@ -83939,9 +83939,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 6.282,
+      "actualNavDate": "2026-07-20",
+      "error": 0.1527
     },
     {
       "date": "2026-07-20",
@@ -84053,9 +84053,9 @@
       "calibration": -0.0016,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.412,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0671
     },
     {
       "date": "2026-07-20",
@@ -84110,9 +84110,9 @@
       "calibration": -0.007,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.25,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0826
     },
     {
       "date": "2026-07-20",
@@ -84167,9 +84167,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.9517,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0969
     },
     {
       "date": "2026-07-20",
@@ -84186,9 +84186,9 @@
       "calibration": -0.0016,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.2,
+      "actualNavDate": "2026-07-20",
+      "error": 0.021
     },
     {
       "date": "2026-07-20",
@@ -84205,9 +84205,9 @@
       "calibration": -0.0003,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.463,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0004
     },
     {
       "date": "2026-07-20",
@@ -84224,9 +84224,9 @@
       "calibration": -0.0083,
       "samplesUsed": 18,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.9594,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0973
     },
     {
       "date": "2026-07-20",
@@ -84262,9 +84262,9 @@
       "calibration": -0.0071,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.324,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0058
     },
     {
       "date": "2026-07-20",
@@ -84281,9 +84281,9 @@
       "calibration": -0.0001,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.278,
+      "actualNavDate": "2026-07-20",
+      "error": -0.006
     },
     {
       "date": "2026-07-20",
@@ -84319,9 +84319,9 @@
       "calibration": 0.0003,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1307,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0017
     },
     {
       "date": "2026-07-20",
@@ -84338,9 +84338,9 @@
       "calibration": -0.0041,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 5.4461,
+      "actualNavDate": "2026-07-20",
+      "error": 0.1498
     },
     {
       "date": "2026-07-20",
@@ -84357,9 +84357,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.3435,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0792
     },
     {
       "date": "2026-07-20",
@@ -84376,9 +84376,9 @@
       "calibration": 0.0054,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.1569,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0382
     },
     {
       "date": "2026-07-20",
@@ -84452,9 +84452,9 @@
       "calibration": -0.0038,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.6879,
+      "actualNavDate": "2026-07-20",
+      "error": 0.012
     },
     {
       "date": "2026-07-20",
@@ -84471,9 +84471,9 @@
       "calibration": 0.0005,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.0034,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0398
     },
     {
       "date": "2026-07-20",
@@ -84509,9 +84509,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.8697,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0529
     },
     {
       "date": "2026-07-20",
@@ -84585,9 +84585,9 @@
       "calibration": -0.007,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.0267,
+      "actualNavDate": "2026-07-20",
+      "error": 0.1008
     },
     {
       "date": "2026-07-20",
@@ -84604,9 +84604,9 @@
       "calibration": -0.0054,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.981,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0803
     },
     {
       "date": "2026-07-20",
@@ -84623,9 +84623,9 @@
       "calibration": -0.0051,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.2164,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0072
     },
     {
       "date": "2026-07-20",
@@ -84642,9 +84642,9 @@
       "calibration": 0.0004,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.0319,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0218
     },
     {
       "date": "2026-07-20",
@@ -84661,9 +84661,9 @@
       "calibration": 0.0036,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.1644,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0641
     },
     {
       "date": "2026-07-20",
@@ -84699,9 +84699,9 @@
       "calibration": -0.0025,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.7317,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0511
     },
     {
       "date": "2026-07-20",
@@ -84756,9 +84756,9 @@
       "calibration": -0.004,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.0299,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0573
     },
     {
       "date": "2026-07-20",
@@ -84870,9 +84870,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.9061,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0125
     },
     {
       "date": "2026-07-20",
@@ -84889,9 +84889,9 @@
       "calibration": -0.0011,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.3985,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0093
     },
     {
       "date": "2026-07-20",
@@ -84908,9 +84908,9 @@
       "calibration": -0.0003,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.0787,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0195
     },
     {
       "date": "2026-07-20",
@@ -84946,9 +84946,9 @@
       "calibration": -0.0079,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.8195,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0096
     },
     {
       "date": "2026-07-20",
@@ -84965,9 +84965,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.2533,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0049
     },
     {
       "date": "2026-07-20",
@@ -84984,9 +84984,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.1522,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0021
     },
     {
       "date": "2026-07-20",
@@ -85079,9 +85079,9 @@
       "calibration": -0.001,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1574,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0143
     },
     {
       "date": "2026-07-20",
@@ -85098,9 +85098,9 @@
       "calibration": -0.0054,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.89,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0403
     },
     {
       "date": "2026-07-20",
@@ -85117,9 +85117,9 @@
       "calibration": -0.0021,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.9625,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0336
     },
     {
       "date": "2026-07-20",
@@ -85174,9 +85174,9 @@
       "calibration": -0.0064,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.4354,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0001
     },
     {
       "date": "2026-07-20",
@@ -85231,9 +85231,9 @@
       "calibration": -0.0004,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.5785,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0096
     },
     {
       "date": "2026-07-20",
@@ -85345,9 +85345,9 @@
       "calibration": 0.0001,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.2938,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0003
     },
     {
       "date": "2026-07-20",
@@ -85364,9 +85364,9 @@
       "calibration": -0.0038,
       "samplesUsed": 18,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.7911,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0008
     },
     {
       "date": "2026-07-20",
@@ -85402,9 +85402,9 @@
       "calibration": -0.0046,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.5364,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0025
     },
     {
       "date": "2026-07-20",
@@ -85440,9 +85440,9 @@
       "calibration": -0.0006,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1166,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0004
     },
     {
       "date": "2026-07-20",
@@ -85459,9 +85459,9 @@
       "calibration": 0.0001,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.0321,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0002
     },
     {
       "date": "2026-07-20",
@@ -85478,9 +85478,9 @@
       "calibration": -0.0037,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.0153,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0029
     },
     {
       "date": "2026-07-20",
@@ -85497,9 +85497,9 @@
       "calibration": -0.0029,
       "samplesUsed": 18,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.815,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0037
     },
     {
       "date": "2026-07-20",
@@ -85516,9 +85516,9 @@
       "calibration": -0.0015,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.4187,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0247
     },
     {
       "date": "2026-07-20",
@@ -85554,9 +85554,9 @@
       "calibration": -0.0021,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.6552,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0211
     },
     {
       "date": "2026-07-20",
@@ -85573,9 +85573,9 @@
       "calibration": -0.0021,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.6318,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0209
     },
     {
       "date": "2026-07-20",
@@ -85592,9 +85592,9 @@
       "calibration": 0.0016,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.484,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0541
     },
     {
       "date": "2026-07-20",
@@ -85611,9 +85611,9 @@
       "calibration": -0.0071,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.4453,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0064
     },
     {
       "date": "2026-07-20",
@@ -85630,9 +85630,9 @@
       "calibration": -0.0047,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.3415,
+      "actualNavDate": "2026-07-20",
+      "error": 0.004
     },
     {
       "date": "2026-07-20",
@@ -85668,9 +85668,9 @@
       "calibration": -0.0015,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.5299,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0175
     },
     {
       "date": "2026-07-20",
@@ -85687,9 +85687,9 @@
       "calibration": -0.0076,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.8648,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0094
     },
     {
       "date": "2026-07-20",
@@ -85706,9 +85706,9 @@
       "calibration": -0.0092,
       "samplesUsed": 18,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.5664,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0124
     },
     {
       "date": "2026-07-20",
@@ -85725,9 +85725,9 @@
       "calibration": -0.0002,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1229,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0091
     },
     {
       "date": "2026-07-20",
@@ -85744,9 +85744,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.632,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0811
     },
     {
       "date": "2026-07-20",
@@ -85763,9 +85763,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.7621,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0055
     },
     {
       "date": "2026-07-20",
@@ -85801,9 +85801,9 @@
       "calibration": -0.0028,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.8684,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0547
     },
     {
       "date": "2026-07-20",
@@ -85839,9 +85839,9 @@
       "calibration": -0.0063,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.8557,
+      "actualNavDate": "2026-07-20",
+      "error": 0.1024
     },
     {
       "date": "2026-07-20",
@@ -85858,9 +85858,9 @@
       "calibration": -0.0076,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.1628,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0118
     },
     {
       "date": "2026-07-20",
@@ -85915,9 +85915,9 @@
       "calibration": -0.0082,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.0518,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0294
     },
     {
       "date": "2026-07-20",
@@ -85934,9 +85934,9 @@
       "calibration": -0.0002,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.8114,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0151
     },
     {
       "date": "2026-07-20",
@@ -85953,9 +85953,9 @@
       "calibration": -0.0014,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.861,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0653
     },
     {
       "date": "2026-07-20",
@@ -85972,9 +85972,9 @@
       "calibration": -0.0042,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.1939,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0981
     },
     {
       "date": "2026-07-20",
@@ -85991,9 +85991,9 @@
       "calibration": -0.0034,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.8159,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0057
     },
     {
       "date": "2026-07-20",
@@ -86010,9 +86010,9 @@
       "calibration": -0.0034,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.7931,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0091
     },
     {
       "date": "2026-07-20",
@@ -86048,9 +86048,9 @@
       "calibration": -0.0005,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.0418,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0192
     },
     {
       "date": "2026-07-20",
@@ -86067,9 +86067,9 @@
       "calibration": -0.0019,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.8141,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0172
     },
     {
       "date": "2026-07-20",
@@ -86105,9 +86105,9 @@
       "calibration": -0.001,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.939,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0186
     },
     {
       "date": "2026-07-20",
@@ -86124,9 +86124,9 @@
       "calibration": -0.0004,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1327,
+      "actualNavDate": "2026-07-20",
+      "error": 0
     },
     {
       "date": "2026-07-20",
@@ -86143,9 +86143,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.8655,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0123
     },
     {
       "date": "2026-07-20",
@@ -86162,9 +86162,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.7485,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0563
     },
     {
       "date": "2026-07-20",
@@ -86181,9 +86181,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.3066,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0612
     },
     {
       "date": "2026-07-20",
@@ -86200,9 +86200,9 @@
       "calibration": -0.0017,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.8132,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0162
     },
     {
       "date": "2026-07-20",
@@ -86238,9 +86238,9 @@
       "calibration": -0.0069,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.2481,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0067
     },
     {
       "date": "2026-07-20",
@@ -86257,9 +86257,9 @@
       "calibration": -0.0013,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.8992,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0165
     },
     {
       "date": "2026-07-20",
@@ -86314,9 +86314,9 @@
       "calibration": -0.002,
       "samplesUsed": 18,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.4769,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0241
     },
     {
       "date": "2026-07-20",
@@ -86333,9 +86333,9 @@
       "calibration": -0.0053,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.3884,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0668
     },
     {
       "date": "2026-07-20",
@@ -86352,9 +86352,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.8745,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0261
     },
     {
       "date": "2026-07-20",
@@ -86428,9 +86428,9 @@
       "calibration": 0.0001,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.2183,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0115
     },
     {
       "date": "2026-07-20",
@@ -86447,9 +86447,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.1531,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0667
     },
     {
       "date": "2026-07-20",
@@ -86485,9 +86485,9 @@
       "calibration": 0.0005,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.6668,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0464
     },
     {
       "date": "2026-07-20",
@@ -86504,9 +86504,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.0048,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0008
     },
     {
       "date": "2026-07-20",
@@ -86523,9 +86523,9 @@
       "calibration": -0.0001,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.4455,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0287
     },
     {
       "date": "2026-07-20",
@@ -86542,9 +86542,9 @@
       "calibration": -0.0013,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.301,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0165
     },
     {
       "date": "2026-07-20",
@@ -86561,9 +86561,9 @@
       "calibration": -0.0068,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.5484,
+      "actualNavDate": "2026-07-20",
+      "error": 0.1238
     },
     {
       "date": "2026-07-20",
@@ -86713,9 +86713,9 @@
       "calibration": -0.0023,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.7545,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0339
     },
     {
       "date": "2026-07-20",
@@ -86732,9 +86732,9 @@
       "calibration": -0.0015,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.5916,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0106
     },
     {
       "date": "2026-07-20",
@@ -86751,9 +86751,9 @@
       "calibration": -0.01,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 5.0476,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0109
     },
     {
       "date": "2026-07-20",
@@ -86770,9 +86770,9 @@
       "calibration": -0.0001,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.0453,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0014
     },
     {
       "date": "2026-07-20",
@@ -86789,9 +86789,9 @@
       "calibration": -0.0006,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.2662,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0216
     },
     {
       "date": "2026-07-20",
@@ -86846,9 +86846,9 @@
       "calibration": -0.0022,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.8297,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0065
     },
     {
       "date": "2026-07-20",
@@ -86865,9 +86865,9 @@
       "calibration": -0.0043,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.6339,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0205
     },
     {
       "date": "2026-07-20",
@@ -86884,9 +86884,9 @@
       "calibration": -0.0009,
       "samplesUsed": 18,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.2017,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0229
     },
     {
       "date": "2026-07-20",
@@ -86903,9 +86903,9 @@
       "calibration": -0.0054,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.5931,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0549
     },
     {
       "date": "2026-07-20",
@@ -86922,9 +86922,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 6.247,
+      "actualNavDate": "2026-07-20",
+      "error": 0.1511
     },
     {
       "date": "2026-07-20",
@@ -86960,9 +86960,9 @@
       "calibration": -0.0027,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.2391,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0099
     },
     {
       "date": "2026-07-20",
@@ -86979,9 +86979,9 @@
       "calibration": -0.0042,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.427,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0073
     },
     {
       "date": "2026-07-20",
@@ -86998,9 +86998,9 @@
       "calibration": -0.0003,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.86,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0027
     },
     {
       "date": "2026-07-20",
@@ -87017,9 +87017,9 @@
       "calibration": -0.0004,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.9256,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0183
     },
     {
       "date": "2026-07-20",
@@ -87074,9 +87074,9 @@
       "calibration": -0.0089,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.2573,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0111
     },
     {
       "date": "2026-07-20",
@@ -87093,9 +87093,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.6059,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0196
     },
     {
       "date": "2026-07-20",
@@ -87131,9 +87131,9 @@
       "calibration": -0.01,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.607,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0164
     },
     {
       "date": "2026-07-20",
@@ -87245,9 +87245,9 @@
       "calibration": -0.0074,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.1593,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0056
     },
     {
       "date": "2026-07-20",
@@ -87283,9 +87283,9 @@
       "calibration": -0.0003,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.2888,
+      "actualNavDate": "2026-07-20",
+      "error": 0.006
     },
     {
       "date": "2026-07-20",
@@ -87340,9 +87340,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 3.137,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0838
     },
     {
       "date": "2026-07-20",
@@ -87378,9 +87378,9 @@
       "calibration": -0.0023,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 0.8641,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0072
     },
     {
       "date": "2026-07-20",
@@ -87397,9 +87397,9 @@
       "calibration": -0.01,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 14.429,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0259
     },
     {
       "date": "2026-07-20",
@@ -87416,9 +87416,9 @@
       "calibration": 0,
       "samplesUsed": 9,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.0955,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0001
     },
     {
       "date": "2026-07-20",
@@ -87435,9 +87435,9 @@
       "calibration": -0.0049,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 4.7301,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0121
     },
     {
       "date": "2026-07-20",
@@ -87492,9 +87492,9 @@
       "calibration": -0.0014,
       "samplesUsed": 20,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.709,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0326
     },
     {
       "date": "2026-07-20",
@@ -87530,9 +87530,9 @@
       "calibration": -0.0002,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 1.444,
+      "actualNavDate": "2026-07-20",
+      "error": 0.0057
     },
     {
       "date": "2026-07-20",
@@ -87549,9 +87549,9 @@
       "calibration": -0.0065,
       "samplesUsed": 19,
       "status": "ok",
-      "actualNav": null,
-      "actualNavDate": null,
-      "error": null
+      "actualNav": 2.4257,
+      "actualNavDate": "2026-07-20",
+      "error": -0.0119
     },
     {
       "date": "2026-07-20",
