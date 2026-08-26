@@ -1,20 +1,22 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-26T07:02:55.924Z",
+  "generatedAt": "2026-08-26T07:39:00.564Z",
   "timezone": "Asia/Shanghai",
   "tradingDate": "2026-08-26",
-  "summary": "已生成 203/235 只基金预测，替代估算 203 只。",
+  "summary": "已生成 201/235 只基金预测，替代估算 201 只。",
   "funds": [
     {
       "code": "005538",
       "name": "中航新起航灵活配置混合C",
-      "navDate": null,
-      "nav": null,
+      "navDate": "2026-08-25",
+      "nav": 0.785,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": null,
-      "source": "fundgz.1234567.com.cn",
+      "quoteTime": "20260826153814",
+      "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
+      "officialChangePct": -0.92,
+      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -24,29 +26,33 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
+      "rawPredictedNav": 0.7917,
+      "predictedNav": 0.7917,
+      "predictedChangePct": 0.85,
       "calibration": 0,
+      "benchmarkAdjustment": 0,
+      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "status": "error",
-      "message": "Unable to parse fund JSONP payload"
+      "proxyChangePct": 0.85,
+      "proxySensitivity": 1,
+      "predictionMethod": "benchmark-proxy",
+      "confidence": "low",
+      "status": "proxy",
+      "message": "天天基金暂无盘中估值，已用沪深300做低置信替代估算。"
     },
     {
       "code": "021842",
       "name": "国富全球科技互联混合（QDII）人民币C",
-      "navDate": "2026-08-24",
-      "nav": 6.5498,
+      "navDate": null,
+      "nav": null,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026-08-25 17:15:59",
-      "source": "proxy:qt.gtimg.cn",
+      "quoteTime": null,
+      "source": "fundgz.1234567.com.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -1.83,
-      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
         "code": ".IXIC",
@@ -60,19 +66,13 @@
         "quoteTime": "2026-08-25 17:15:59"
       },
       "benchmarkSensitivity": 0.7,
-      "rawPredictedNav": 6.5819,
-      "predictedNav": 6.5819,
-      "predictedChangePct": 0.49,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
-      "benchmarkAdjustment": 0,
-      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.49,
-      "proxySensitivity": 0.75,
-      "predictionMethod": "benchmark-proxy",
-      "confidence": "low",
-      "status": "proxy",
-      "message": "天天基金暂无盘中估值，已用纳斯达克综合指数做低置信替代估算。"
+      "status": "error",
+      "message": "Unable to parse fund JSONP payload"
     },
     {
       "code": "007509",
@@ -93,7 +93,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": null,
@@ -123,7 +123,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": null,
@@ -137,15 +137,13 @@
     {
       "code": "014542",
       "name": "华安新能源主题混合C",
-      "navDate": "2026-08-25",
-      "nav": 1.0231,
+      "navDate": null,
+      "nav": null,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
-      "source": "proxy:qt.gtimg.cn",
+      "quoteTime": null,
+      "source": "fundgz.1234567.com.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -1.25,
-      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.516160",
         "code": "516160",
@@ -156,35 +154,27 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153856"
       },
       "benchmarkSensitivity": 0.55,
-      "rawPredictedNav": 1.0318,
-      "predictedNav": 1.0318,
-      "predictedChangePct": 0.85,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
-      "benchmarkAdjustment": 0,
-      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.85,
-      "proxySensitivity": 0.6,
-      "predictionMethod": "benchmark-proxy",
-      "confidence": "low",
-      "status": "proxy",
-      "message": "天天基金暂无盘中估值，已用新能源ETF做低置信替代估算。"
+      "status": "error",
+      "message": "Unable to parse fund JSONP payload"
     },
     {
       "code": "017175",
       "name": "天弘国证绿色电力指数C",
-      "navDate": "2026-08-25",
-      "nav": 1.0649,
+      "navDate": null,
+      "nav": null,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
-      "source": "proxy:qt.gtimg.cn",
+      "quoteTime": null,
+      "source": "fundgz.1234567.com.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": 0.29,
-      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.562550",
         "code": "562550",
@@ -195,22 +185,16 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
-      "rawPredictedNav": 1.0737,
-      "predictedNav": 1.0737,
-      "predictedChangePct": 0.83,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
-      "benchmarkAdjustment": 0,
-      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.83,
-      "proxySensitivity": 0.85,
-      "predictionMethod": "benchmark-proxy",
-      "confidence": "low",
-      "status": "proxy",
-      "message": "天天基金暂无盘中估值，已用绿电ETF做低置信替代估算。"
+      "status": "error",
+      "message": "Unable to parse fund JSONP payload"
     },
     {
       "code": "020096",
@@ -219,7 +203,7 @@
       "nav": 1.1769,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153843",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.29,
@@ -234,7 +218,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 1.1867,
@@ -258,7 +242,7 @@
       "nav": 4.542,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.44,
@@ -273,7 +257,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 4.5802,
@@ -297,7 +281,7 @@
       "nav": 1.547,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.09,
@@ -312,7 +296,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 1.56,
@@ -371,15 +355,13 @@
     {
       "code": "519674",
       "name": "银河创新成长混合A",
-      "navDate": "2026-08-25",
-      "nav": 11.9162,
+      "navDate": null,
+      "nav": null,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
-      "source": "proxy:qt.gtimg.cn",
+      "quoteTime": null,
+      "source": "fundgz.1234567.com.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": 0.96,
-      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -389,22 +371,16 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": 12.0175,
-      "predictedNav": 12.0175,
-      "predictedChangePct": 0.85,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
-      "benchmarkAdjustment": 0,
-      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.85,
-      "proxySensitivity": 1,
-      "predictionMethod": "benchmark-proxy",
-      "confidence": "low",
-      "status": "proxy",
-      "message": "天天基金暂无盘中估值，已用沪深300做低置信替代估算。"
+      "status": "error",
+      "message": "Unable to parse fund JSONP payload"
     },
     {
       "code": "519732",
@@ -413,7 +389,7 @@
       "nav": 8.71,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.75,
@@ -427,7 +403,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 8.784,
@@ -451,7 +427,7 @@
       "nav": 2.581,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153829",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.29,
@@ -466,7 +442,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153829"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 2.5993,
@@ -543,20 +519,21 @@
     {
       "code": "720003",
       "name": "财通收益增强债券A",
-      "navDate": null,
-      "nav": null,
+      "navDate": "2026-08-25",
+      "nav": 2.1011,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": null,
-      "source": "fundgz.1234567.com.cn",
-      "error": "Unable to parse fund JSONP payload",
+      "source": "fundmobapi.eastmoney.com",
+      "officialChangePct": 0.2,
+      "officialNavSource": "fundmobapi.eastmoney.com",
       "rawPredictedNav": null,
       "predictedNav": null,
       "predictedChangePct": null,
       "calibration": 0,
       "samplesUsed": 0,
-      "status": "error",
-      "message": "Unable to parse fund JSONP payload"
+      "status": "stale",
+      "message": "盘中估值源不可用，已保留 2026-08-25 官方净值。"
     },
     {
       "code": "000014",
@@ -641,7 +618,7 @@
       "nav": 6.0749,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.26,
@@ -655,7 +632,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 6.1265,
@@ -675,13 +652,15 @@
     {
       "code": "007872",
       "name": "金信稳健策略灵活配置混合A",
-      "navDate": null,
-      "nav": null,
+      "navDate": "2026-08-25",
+      "nav": 3.4819,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": null,
-      "source": "fundgz.1234567.com.cn",
+      "quoteTime": "20260826153814",
+      "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
+      "officialChangePct": -1.32,
+      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.000300",
         "code": "000300",
@@ -691,16 +670,22 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
+      "rawPredictedNav": 3.5115,
+      "predictedNav": 3.5115,
+      "predictedChangePct": 0.85,
       "calibration": 0,
+      "benchmarkAdjustment": 0,
+      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "status": "error",
-      "message": "Unable to parse fund JSONP payload"
+      "proxyChangePct": 0.85,
+      "proxySensitivity": 1,
+      "predictionMethod": "benchmark-proxy",
+      "confidence": "low",
+      "status": "proxy",
+      "message": "天天基金暂无盘中估值，已用沪深300做低置信替代估算。"
     },
     {
       "code": "004616",
@@ -709,7 +694,7 @@
       "nav": 4.154,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.61,
@@ -724,7 +709,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 4.1586,
@@ -748,7 +733,7 @@
       "nav": 1.1758,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.45,
@@ -763,7 +748,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 1.1928,
@@ -787,7 +772,7 @@
       "nav": 6.518,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153856",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.61,
@@ -802,7 +787,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153856"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 6.5734,
@@ -826,7 +811,7 @@
       "nav": 3.346,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.39,
@@ -841,7 +826,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 3.3514,
@@ -865,7 +850,7 @@
       "nav": 0.5505,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150203",
+      "quoteTime": "20260826153803",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0,
@@ -880,7 +865,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150203"
+        "quoteTime": "20260826153803"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 0.5504,
@@ -904,7 +889,7 @@
       "nav": 5.2046,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.09,
@@ -918,7 +903,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 5.2488,
@@ -942,7 +927,7 @@
       "nav": 5.2759,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.73,
@@ -956,7 +941,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 5.3207,
@@ -980,7 +965,7 @@
       "nav": 5.165,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.29,
@@ -994,7 +979,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 5.2089,
@@ -1018,7 +1003,7 @@
       "nav": 14.979,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.25,
@@ -1032,7 +1017,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 15.1063,
@@ -1056,7 +1041,7 @@
       "nav": 4.858,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.21,
@@ -1070,7 +1055,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.8993,
@@ -1094,7 +1079,7 @@
       "nav": 0.8554,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:48",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -4.26,
@@ -1103,23 +1088,23 @@
         "secid": "100.HSTECH",
         "code": "HSTECH",
         "name": "恒生科技指数",
-        "price": 4651.95,
-        "changePct": 1.38,
-        "change": 63.41,
+        "price": 4636.5,
+        "changePct": 1.05,
+        "change": 47.96,
         "sensitivity": 0.82,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:48"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.82,
-      "rawPredictedNav": 0.8658,
-      "predictedNav": 0.8658,
-      "predictedChangePct": 1.22,
+      "rawPredictedNav": 0.8633,
+      "predictedNav": 0.8633,
+      "predictedChangePct": 0.92,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 1.21,
+      "proxyChangePct": 0.92,
       "proxySensitivity": 0.88,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -1133,7 +1118,7 @@
       "nav": 5.884,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.07,
@@ -1147,7 +1132,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 5.934,
@@ -1209,7 +1194,7 @@
       "nav": 3.9088,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.28,
@@ -1224,7 +1209,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 3.9495,
@@ -1286,7 +1271,7 @@
       "nav": 3.1307,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153843",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.29,
@@ -1301,7 +1286,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 3.1567,
@@ -1325,7 +1310,7 @@
       "nav": 3.0257,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.4,
@@ -1339,7 +1324,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.0514,
@@ -1363,7 +1348,7 @@
       "nav": 3.1042,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.5,
@@ -1377,7 +1362,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.1306,
@@ -1401,7 +1386,7 @@
       "nav": 1.8411,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.83,
@@ -1416,7 +1401,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.8492,
@@ -1440,7 +1425,7 @@
       "nav": 1.4409,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.78,
@@ -1455,7 +1440,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 1.453,
@@ -1479,7 +1464,7 @@
       "nav": 3.062,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.29,
@@ -1493,7 +1478,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.088,
@@ -1517,7 +1502,7 @@
       "nav": 5.0524,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.12,
@@ -1531,7 +1516,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 5.0953,
@@ -1633,7 +1618,7 @@
       "nav": 2.557,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.06,
@@ -1648,7 +1633,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 2.5836,
@@ -1672,7 +1657,7 @@
       "nav": 1.6326,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:49",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.23,
@@ -1681,23 +1666,23 @@
         "secid": "100.HSI",
         "code": "HSI",
         "name": "恒生指数",
-        "price": 25726.47,
-        "changePct": 0.84,
-        "change": 215.37,
+        "price": 25674.81,
+        "changePct": 0.64,
+        "change": 163.71,
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:49"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.65,
-      "rawPredictedNav": 1.6422,
-      "predictedNav": 1.6422,
-      "predictedChangePct": 0.59,
+      "rawPredictedNav": 1.6399,
+      "predictedNav": 1.6399,
+      "predictedChangePct": 0.45,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.59,
+      "proxyChangePct": 0.45,
       "proxySensitivity": 0.7,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -1711,7 +1696,7 @@
       "nav": 1.6667,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.7,
@@ -1726,7 +1711,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.6694,
@@ -1750,7 +1735,7 @@
       "nav": 1.0544,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.86,
@@ -1764,7 +1749,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.0634,
@@ -1788,7 +1773,7 @@
       "nav": 1.2785,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153826",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.13,
@@ -1803,7 +1788,7 @@
         "sensitivity": 0.75,
         "proxySensitivity": 0.8,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153826"
       },
       "benchmarkSensitivity": 0.75,
       "rawPredictedNav": 1.2866,
@@ -1827,7 +1812,7 @@
       "nav": 0.867,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0,
@@ -1841,7 +1826,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.8744,
@@ -1865,7 +1850,7 @@
       "nav": 6.2805,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.34,
@@ -1880,7 +1865,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 6.3081,
@@ -1904,7 +1889,7 @@
       "nav": 2.9343,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.09,
@@ -1918,7 +1903,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.9592,
@@ -2059,7 +2044,7 @@
       "nav": 1.6913,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.7,
@@ -2074,7 +2059,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.694,
@@ -2098,7 +2083,7 @@
       "nav": 1.8652,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.83,
@@ -2113,7 +2098,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.8734,
@@ -2137,7 +2122,7 @@
       "nav": 0.6199,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:48",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.03,
@@ -2146,23 +2131,23 @@
         "secid": "100.HSTECH",
         "code": "HSTECH",
         "name": "恒生科技指数",
-        "price": 4651.95,
-        "changePct": 1.38,
-        "change": 63.41,
+        "price": 4636.5,
+        "changePct": 1.05,
+        "change": 47.96,
         "sensitivity": 0.82,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:48"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.82,
-      "rawPredictedNav": 0.6274,
-      "predictedNav": 0.6274,
-      "predictedChangePct": 1.21,
+      "rawPredictedNav": 0.6256,
+      "predictedNav": 0.6256,
+      "predictedChangePct": 0.92,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 1.21,
+      "proxyChangePct": 0.92,
       "proxySensitivity": 0.88,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -2176,7 +2161,7 @@
       "nav": 5.1514,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.46,
@@ -2191,7 +2176,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 5.2261,
@@ -2215,7 +2200,7 @@
       "nav": 1.3447,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 2.33,
@@ -2230,7 +2215,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 1.3447,
@@ -2254,7 +2239,7 @@
       "nav": 4.132,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.77,
@@ -2268,7 +2253,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.1671,
@@ -2292,7 +2277,7 @@
       "nav": 7.47,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.9,
@@ -2307,7 +2292,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 7.5327,
@@ -2331,7 +2316,7 @@
       "nav": 5.408,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.78,
@@ -2346,7 +2331,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 5.4167,
@@ -2370,7 +2355,7 @@
       "nav": 0.862,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.23,
@@ -2384,7 +2369,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.8693,
@@ -2408,7 +2393,7 @@
       "nav": 0.8048,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.25,
@@ -2422,7 +2407,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.8116,
@@ -2485,7 +2470,7 @@
       "nav": 0.8078,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.62,
@@ -2500,7 +2485,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 0.8147,
@@ -2524,7 +2509,7 @@
       "nav": 3.2931,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.85,
@@ -2539,7 +2524,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 3.3013,
@@ -2563,7 +2548,7 @@
       "nav": 4.4104,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.06,
@@ -2577,7 +2562,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.4479,
@@ -2601,7 +2586,7 @@
       "nav": 1.4728,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.79,
@@ -2615,7 +2600,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.4853,
@@ -2639,7 +2624,7 @@
       "nav": 3.355,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 2.63,
@@ -2653,7 +2638,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.3835,
@@ -2716,7 +2701,7 @@
       "nav": 1.3058,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:48",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.35,
@@ -2725,23 +2710,23 @@
         "secid": "100.HSTECH",
         "code": "HSTECH",
         "name": "恒生科技指数",
-        "price": 4651.95,
-        "changePct": 1.38,
-        "change": 63.41,
+        "price": 4636.5,
+        "changePct": 1.05,
+        "change": 47.96,
         "sensitivity": 0.82,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:48"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.82,
-      "rawPredictedNav": 1.3216,
-      "predictedNav": 1.3216,
-      "predictedChangePct": 1.21,
+      "rawPredictedNav": 1.3178,
+      "predictedNav": 1.3178,
+      "predictedChangePct": 0.92,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 1.21,
+      "proxyChangePct": 0.92,
       "proxySensitivity": 0.88,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -2755,7 +2740,7 @@
       "nav": 2.8273,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153857",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.31,
@@ -2770,7 +2755,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153857"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 2.8372,
@@ -2794,7 +2779,7 @@
       "nav": 1.457,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.76,
@@ -2808,7 +2793,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.4694,
@@ -2828,14 +2813,14 @@
     {
       "code": "501312",
       "name": "华宝海外科技股票（QDII-FOF-LOF）A",
-      "navDate": "2026-08-24",
-      "nav": 2.3815,
+      "navDate": "2026-08-25",
+      "nav": 2.4267,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-08-25 17:15:59",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -2.21,
+      "officialChangePct": 1.9,
       "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
@@ -2850,8 +2835,8 @@
         "quoteTime": "2026-08-25 17:15:59"
       },
       "benchmarkSensitivity": 0.7,
-      "rawPredictedNav": 2.3932,
-      "predictedNav": 2.3932,
+      "rawPredictedNav": 2.4386,
+      "predictedNav": 2.4386,
       "predictedChangePct": 0.49,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -2871,7 +2856,7 @@
       "nav": 1.6223,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153836",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.74,
@@ -2886,7 +2871,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153836"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.6277,
@@ -2910,7 +2895,7 @@
       "nav": 1.1873,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153844",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.87,
@@ -2925,7 +2910,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153844"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 1.1911,
@@ -2949,7 +2934,7 @@
       "nav": 1.2528,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:49",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.6,
@@ -2958,23 +2943,23 @@
         "secid": "100.HSI",
         "code": "HSI",
         "name": "恒生指数",
-        "price": 25726.47,
-        "changePct": 0.84,
-        "change": 215.37,
+        "price": 25674.81,
+        "changePct": 0.64,
+        "change": 163.71,
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:49"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.65,
-      "rawPredictedNav": 1.2602,
-      "predictedNav": 1.2602,
-      "predictedChangePct": 0.59,
+      "rawPredictedNav": 1.2584,
+      "predictedNav": 1.2584,
+      "predictedChangePct": 0.45,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.59,
+      "proxyChangePct": 0.45,
       "proxySensitivity": 0.7,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -2988,7 +2973,7 @@
       "nav": 1.5644,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.66,
@@ -3002,7 +2987,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.5777,
@@ -3065,7 +3050,7 @@
       "nav": 2.6449,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.19,
@@ -3079,7 +3064,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.6674,
@@ -3103,7 +3088,7 @@
       "nav": 1.2769,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153846",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.4,
@@ -3118,7 +3103,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153846"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 1.2948,
@@ -3142,7 +3127,7 @@
       "nav": 2.6134,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153829",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.21,
@@ -3157,7 +3142,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153829"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 2.632,
@@ -3181,7 +3166,7 @@
       "nav": 0.6384,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153846",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.37,
@@ -3196,7 +3181,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153846"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 0.6473,
@@ -3220,7 +3205,7 @@
       "nav": 1.4798,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153806",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.75,
@@ -3235,7 +3220,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153806"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.476,
@@ -3259,7 +3244,7 @@
       "nav": 3.4132,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.05,
@@ -3273,7 +3258,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.4422,
@@ -3297,7 +3282,7 @@
       "nav": 1.1704,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153852",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.15,
@@ -3312,7 +3297,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153852"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.1984,
@@ -3374,7 +3359,7 @@
       "nav": 0.8822,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.26,
@@ -3389,7 +3374,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 0.8861,
@@ -3413,7 +3398,7 @@
       "nav": 2.787,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.07,
@@ -3427,7 +3412,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.8107,
@@ -3447,14 +3432,14 @@
     {
       "code": "017144",
       "name": "华宝海外新能源汽车股票（QDII）A",
-      "navDate": "2026-08-24",
-      "nav": 1.5583,
+      "navDate": "2026-08-25",
+      "nav": 1.5766,
       "estimatedNav": null,
       "estimatedChangePct": null,
       "quoteTime": "2026-08-25 17:15:59",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -3.52,
+      "officialChangePct": 1.17,
       "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "usIXIC",
@@ -3469,8 +3454,8 @@
         "quoteTime": "2026-08-25 17:15:59"
       },
       "benchmarkSensitivity": 0.7,
-      "rawPredictedNav": 1.5659,
-      "predictedNav": 1.5659,
+      "rawPredictedNav": 1.5843,
+      "predictedNav": 1.5843,
       "predictedChangePct": 0.49,
       "calibration": 0,
       "benchmarkAdjustment": 0,
@@ -3490,7 +3475,7 @@
       "nav": 0.856,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153856",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.29,
@@ -3505,7 +3490,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153856"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 0.8633,
@@ -3529,7 +3514,7 @@
       "nav": 4.119,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.27,
@@ -3543,7 +3528,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.154,
@@ -3567,7 +3552,7 @@
       "nav": 1.8733,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.88,
@@ -3582,7 +3567,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.8754,
@@ -3625,7 +3610,7 @@
       "nav": 1.4171,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:49",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.41,
@@ -3634,23 +3619,23 @@
         "secid": "100.HSI",
         "code": "HSI",
         "name": "恒生指数",
-        "price": 25726.47,
-        "changePct": 0.84,
-        "change": 215.37,
+        "price": 25674.81,
+        "changePct": 0.64,
+        "change": 163.71,
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:49"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.65,
-      "rawPredictedNav": 1.4255,
-      "predictedNav": 1.4255,
-      "predictedChangePct": 0.59,
+      "rawPredictedNav": 1.4235,
+      "predictedNav": 1.4235,
+      "predictedChangePct": 0.45,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.59,
+      "proxyChangePct": 0.45,
       "proxySensitivity": 0.7,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -3660,13 +3645,15 @@
     {
       "code": "017484",
       "name": "财通资管数字经济混合C",
-      "navDate": null,
-      "nav": null,
+      "navDate": "2026-08-25",
+      "nav": 1.9711,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": null,
-      "source": "fundgz.1234567.com.cn",
+      "quoteTime": "20260826153830",
+      "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
+      "officialChangePct": -0.24,
+      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.512720",
         "code": "512720",
@@ -3677,16 +3664,22 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
-      "rawPredictedNav": null,
-      "predictedNav": null,
-      "predictedChangePct": null,
+      "rawPredictedNav": 1.9733,
+      "predictedNav": 1.9733,
+      "predictedChangePct": 0.11,
       "calibration": 0,
+      "benchmarkAdjustment": 0,
+      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "status": "error",
-      "message": "Unable to parse fund JSONP payload"
+      "proxyChangePct": 0.11,
+      "proxySensitivity": 0.6,
+      "predictionMethod": "benchmark-proxy",
+      "confidence": "low",
+      "status": "proxy",
+      "message": "天天基金暂无盘中估值，已用计算机ETF做低置信替代估算。"
     },
     {
       "code": "002052",
@@ -3695,7 +3688,7 @@
       "nav": 2.222,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.32,
@@ -3709,7 +3702,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.2409,
@@ -3791,7 +3784,7 @@
       "nav": 4.805,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.22,
@@ -3805,7 +3798,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.8458,
@@ -3829,7 +3822,7 @@
       "nav": 1.8618,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.32,
@@ -3844,7 +3837,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.8665,
@@ -3907,7 +3900,7 @@
       "nav": 2.6799,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.06,
@@ -3921,7 +3914,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.7027,
@@ -3945,7 +3938,7 @@
       "nav": 1.7861,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.11,
@@ -3960,7 +3953,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 1.812,
@@ -3984,7 +3977,7 @@
       "nav": 2.2974,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0,
@@ -3999,7 +3992,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 2.3307,
@@ -4023,7 +4016,7 @@
       "nav": 1.7058,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.55,
@@ -4038,7 +4031,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.7101,
@@ -4062,7 +4055,7 @@
       "nav": 1.184,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153845",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.15,
@@ -4077,7 +4070,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153845"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.1879,
@@ -4101,7 +4094,7 @@
       "nav": 1.1718,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153843",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1,
@@ -4116,7 +4109,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 1.1815,
@@ -4140,7 +4133,7 @@
       "nav": 1.8743,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150206",
+      "quoteTime": "20260826153806",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.67,
@@ -4155,7 +4148,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150206"
+        "quoteTime": "20260826153806"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.8848,
@@ -4179,7 +4172,7 @@
       "nav": 1.0401,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.71,
@@ -4194,7 +4187,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.0447,
@@ -4218,7 +4211,7 @@
       "nav": 1.0864,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153843",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.29,
@@ -4233,7 +4226,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 1.0954,
@@ -4257,7 +4250,7 @@
       "nav": 0.8348,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.19,
@@ -4272,7 +4265,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 0.8385,
@@ -4296,7 +4289,7 @@
       "nav": 1.5709,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 2.6,
@@ -4310,7 +4303,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.5843,
@@ -4334,7 +4327,7 @@
       "nav": 1.2501,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153857",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.7,
@@ -4349,7 +4342,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153857"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.2545,
@@ -4373,7 +4366,7 @@
       "nav": 1.758,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153845",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.22,
@@ -4388,7 +4381,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153845"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.7638,
@@ -4412,7 +4405,7 @@
       "nav": 0.9343,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153857",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.9,
@@ -4427,7 +4420,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153857"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 0.9376,
@@ -4451,7 +4444,7 @@
       "nav": 1.7715,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153845",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.58,
@@ -4466,7 +4459,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153845"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.7773,
@@ -4490,7 +4483,7 @@
       "nav": 1.5394,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150221",
+      "quoteTime": "20260826153821",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.51,
@@ -4505,7 +4498,7 @@
         "sensitivity": 0.75,
         "proxySensitivity": 0.8,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150221"
+        "quoteTime": "20260826153821"
       },
       "benchmarkSensitivity": 0.75,
       "rawPredictedNav": 1.5422,
@@ -4529,7 +4522,7 @@
       "nav": 1.885,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.8,
@@ -4543,7 +4536,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.901,
@@ -4567,7 +4560,7 @@
       "nav": 0.8359,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.5,
@@ -4581,7 +4574,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.843,
@@ -4605,7 +4598,7 @@
       "nav": 1.7285,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.19,
@@ -4620,7 +4613,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.7313,
@@ -4644,7 +4637,7 @@
       "nav": 1.3395,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.01,
@@ -4659,7 +4652,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.3454,
@@ -4683,7 +4676,7 @@
       "nav": 4.8936,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.78,
@@ -4697,7 +4690,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.9352,
@@ -4721,7 +4714,7 @@
       "nav": 1.3567,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.37,
@@ -4736,7 +4729,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.3582,
@@ -4760,7 +4753,7 @@
       "nav": 1.2003,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.69,
@@ -4775,7 +4768,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.2022,
@@ -4799,7 +4792,7 @@
       "nav": 1.5272,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.06,
@@ -4814,7 +4807,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.5289,
@@ -4838,7 +4831,7 @@
       "nav": 1.7358,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153844",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.63,
@@ -4853,7 +4846,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153844"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 1.7414,
@@ -4877,7 +4870,7 @@
       "nav": 0.7493,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153848",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.42,
@@ -4892,7 +4885,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153848"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 0.7506,
@@ -4916,7 +4909,7 @@
       "nav": 1.1616,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153843",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.98,
@@ -4931,7 +4924,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 1.1712,
@@ -4955,7 +4948,7 @@
       "nav": 1.7621,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.66,
@@ -4970,7 +4963,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.764,
@@ -4994,7 +4987,7 @@
       "nav": 0.7718,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.69,
@@ -5009,7 +5002,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 0.7726,
@@ -5048,15 +5041,13 @@
     {
       "code": "002207",
       "name": "前海开源金银珠宝混合C",
-      "navDate": "2026-08-25",
-      "nav": 3.015,
+      "navDate": null,
+      "nav": null,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
-      "source": "proxy:qt.gtimg.cn",
+      "quoteTime": null,
+      "source": "fundgz.1234567.com.cn",
       "error": "Unable to parse fund JSONP payload",
-      "officialChangePct": -4.19,
-      "officialNavSource": "fundmobapi.eastmoney.com",
       "benchmark": {
         "secid": "1.518880",
         "code": "518880",
@@ -5067,22 +5058,16 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153846"
       },
       "benchmarkSensitivity": 0.55,
-      "rawPredictedNav": 3.012,
-      "predictedNav": 3.012,
-      "predictedChangePct": -0.1,
+      "rawPredictedNav": null,
+      "predictedNav": null,
+      "predictedChangePct": null,
       "calibration": 0,
-      "benchmarkAdjustment": 0,
-      "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": -0.1,
-      "proxySensitivity": 0.6,
-      "predictionMethod": "benchmark-proxy",
-      "confidence": "low",
-      "status": "proxy",
-      "message": "天天基金暂无盘中估值，已用黄金ETF做低置信替代估算。"
+      "status": "error",
+      "message": "Unable to parse fund JSONP payload"
     },
     {
       "code": "020398",
@@ -5091,7 +5076,7 @@
       "nav": 1.4886,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "2026/08/26 14:47:49",
+      "quoteTime": "2026/08/26 15:23:54",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 2.71,
@@ -5100,23 +5085,23 @@
         "secid": "100.HSI",
         "code": "HSI",
         "name": "恒生指数",
-        "price": 25726.47,
-        "changePct": 0.84,
-        "change": 215.37,
+        "price": 25674.81,
+        "changePct": 0.64,
+        "change": 163.71,
         "sensitivity": 0.65,
         "proxySensitivity": 0.7,
         "source": "qt.gtimg.cn",
-        "quoteTime": "2026/08/26 14:47:49"
+        "quoteTime": "2026/08/26 15:23:54"
       },
       "benchmarkSensitivity": 0.65,
-      "rawPredictedNav": 1.4974,
-      "predictedNav": 1.4974,
-      "predictedChangePct": 0.59,
+      "rawPredictedNav": 1.4953,
+      "predictedNav": 1.4953,
+      "predictedChangePct": 0.45,
       "calibration": 0,
       "benchmarkAdjustment": 0,
       "benchmarkGapPct": null,
       "samplesUsed": 0,
-      "proxyChangePct": 0.59,
+      "proxyChangePct": 0.45,
       "proxySensitivity": 0.7,
       "predictionMethod": "benchmark-proxy",
       "confidence": "low",
@@ -5130,7 +5115,7 @@
       "nav": 3.1637,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153857",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.14,
@@ -5145,7 +5130,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153857"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 3.1748,
@@ -5169,7 +5154,7 @@
       "nav": 1.9118,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.18,
@@ -5184,7 +5169,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 1.9317,
@@ -5208,7 +5193,7 @@
       "nav": 2.3573,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153857",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.74,
@@ -5223,7 +5208,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153857"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 2.3656,
@@ -5247,7 +5232,7 @@
       "nav": 2.2876,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 2.22,
@@ -5261,7 +5246,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.307,
@@ -5285,7 +5270,7 @@
       "nav": 2.0342,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.59,
@@ -5299,7 +5284,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.0515,
@@ -5323,7 +5308,7 @@
       "nav": 1.0547,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153844",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.62,
@@ -5338,7 +5323,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153844"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 1.0581,
@@ -5362,7 +5347,7 @@
       "nav": 0.8535,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.96,
@@ -5376,7 +5361,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.8608,
@@ -5400,7 +5385,7 @@
       "nav": 0.9672,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.18,
@@ -5414,7 +5399,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.9754,
@@ -5438,7 +5423,7 @@
       "nav": 3.1286,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.63,
@@ -5452,7 +5437,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.1552,
@@ -5476,7 +5461,7 @@
       "nav": 1.618,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.62,
@@ -5491,7 +5476,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.622,
@@ -5515,7 +5500,7 @@
       "nav": 0.6163,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153856",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.5,
@@ -5530,7 +5515,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153856"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 0.6215,
@@ -5554,7 +5539,7 @@
       "nav": 2.8181,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.94,
@@ -5568,7 +5553,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.8421,
@@ -5592,7 +5577,7 @@
       "nav": 2.106,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153846",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.16,
@@ -5607,7 +5592,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153846"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 2.1039,
@@ -5631,7 +5616,7 @@
       "nav": 1.0839,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153824",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.6,
@@ -5646,7 +5631,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153824"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 1.0932,
@@ -5709,7 +5694,7 @@
       "nav": 1.0437,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153835",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.12,
@@ -5724,7 +5709,7 @@
         "sensitivity": 0.03,
         "proxySensitivity": 1,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153835"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.0474,
@@ -5748,7 +5733,7 @@
       "nav": 0.6671,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153856",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.58,
@@ -5763,7 +5748,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153856"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 0.6728,
@@ -5845,7 +5830,7 @@
       "nav": 1.533,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.51,
@@ -5860,7 +5845,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.5347,
@@ -5884,7 +5869,7 @@
       "nav": 3.657,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.25,
@@ -5898,7 +5883,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.6881,
@@ -5922,7 +5907,7 @@
       "nav": 1.4926,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -4.46,
@@ -5936,7 +5921,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.5053,
@@ -5960,7 +5945,7 @@
       "nav": 1.321,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.04,
@@ -5974,7 +5959,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.3322,
@@ -5998,7 +5983,7 @@
       "nav": 1.5081,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.35,
@@ -6013,7 +5998,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 1.53,
@@ -6037,7 +6022,7 @@
       "nav": 1.844,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -3.66,
@@ -6051,7 +6036,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.8597,
@@ -6075,7 +6060,7 @@
       "nav": 3.4604,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.34,
@@ -6090,7 +6075,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 3.4964,
@@ -6114,7 +6099,7 @@
       "nav": 2.1013,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.34,
@@ -6129,7 +6114,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 2.1066,
@@ -6153,7 +6138,7 @@
       "nav": 1.8259,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.08,
@@ -6168,7 +6153,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 1.8279,
@@ -6211,7 +6196,7 @@
       "nav": 6.2506,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.42,
@@ -6225,7 +6210,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 6.3037,
@@ -6288,7 +6273,7 @@
       "nav": 2.7547,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.36,
@@ -6303,7 +6288,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 2.7833,
@@ -6366,7 +6351,7 @@
       "nav": 6.666,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.36,
@@ -6381,7 +6366,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 6.7353,
@@ -6444,7 +6429,7 @@
       "nav": 3.4868,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.34,
@@ -6458,7 +6443,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.5164,
@@ -6482,7 +6467,7 @@
       "nav": 2.46,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.53,
@@ -6496,7 +6481,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.4809,
@@ -6520,7 +6505,7 @@
       "nav": 9.1258,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.49,
@@ -6534,7 +6519,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 9.2034,
@@ -6558,7 +6543,7 @@
       "nav": 1.6614,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.43,
@@ -6572,7 +6557,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.6755,
@@ -6596,7 +6581,7 @@
       "nav": 2.6854,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.93,
@@ -6611,7 +6596,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 2.7133,
@@ -6791,7 +6776,7 @@
       "nav": 1.312,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.09,
@@ -6805,7 +6790,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.3232,
@@ -6829,7 +6814,7 @@
       "nav": 2.387,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.16,
@@ -6844,7 +6829,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 2.3896,
@@ -6868,7 +6853,7 @@
       "nav": 2.3595,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.54,
@@ -6883,7 +6868,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 2.384,
@@ -6907,7 +6892,7 @@
       "nav": 2.5996,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.42,
@@ -6922,7 +6907,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 2.6266,
@@ -7003,7 +6988,7 @@
       "nav": 1.9949,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.75,
@@ -7017,7 +7002,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.0119,
@@ -7041,7 +7026,7 @@
       "nav": 1.7179,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153845",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.77,
@@ -7056,7 +7041,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153845"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.7236,
@@ -7080,7 +7065,7 @@
       "nav": 0.7497,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153824",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.59,
@@ -7095,7 +7080,7 @@
         "sensitivity": 0.88,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153824"
       },
       "benchmarkSensitivity": 0.88,
       "rawPredictedNav": 0.7561,
@@ -7119,7 +7104,7 @@
       "nav": 1.5588,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -3.68,
@@ -7133,7 +7118,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.572,
@@ -7157,7 +7142,7 @@
       "nav": 2.3478,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.53,
@@ -7171,7 +7156,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.3678,
@@ -7195,7 +7180,7 @@
       "nav": 1.445,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.77,
@@ -7210,7 +7195,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 1.4571,
@@ -7234,7 +7219,7 @@
       "nav": 4.314,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.4,
@@ -7248,7 +7233,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.3507,
@@ -7272,7 +7257,7 @@
       "nav": 6.477,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153856",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.63,
@@ -7287,7 +7272,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153856"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 6.5321,
@@ -7311,7 +7296,7 @@
       "nav": 3.654,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.25,
@@ -7325,7 +7310,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.6851,
@@ -7349,7 +7334,7 @@
       "nav": 3.6713,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.11,
@@ -7364,7 +7349,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 3.6753,
@@ -7483,7 +7468,7 @@
       "nav": 7.369,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.9,
@@ -7498,7 +7483,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 7.4309,
@@ -7522,7 +7507,7 @@
       "nav": 5.1225,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.72,
@@ -7536,7 +7521,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 5.166,
@@ -7560,7 +7545,7 @@
       "nav": 3.2326,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.25,
@@ -7575,7 +7560,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 3.2662,
@@ -7599,7 +7584,7 @@
       "nav": 3.4488,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.33,
@@ -7613,7 +7598,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.4781,
@@ -7637,7 +7622,7 @@
       "nav": 1.3233,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.56,
@@ -7652,7 +7637,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 1.3425,
@@ -7676,7 +7661,7 @@
       "nav": 2.7747,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153840",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.63,
@@ -7691,7 +7676,7 @@
         "sensitivity": 0.78,
         "proxySensitivity": 0.82,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153840"
       },
       "benchmarkSensitivity": 0.78,
       "rawPredictedNav": 2.798,
@@ -7715,7 +7700,7 @@
       "nav": 0.7931,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.06,
@@ -7729,7 +7714,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.7998,
@@ -7753,7 +7738,7 @@
       "nav": 2.3891,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.08,
@@ -7768,7 +7753,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 2.4139,
@@ -7792,7 +7777,7 @@
       "nav": 2.638,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.86,
@@ -7806,7 +7791,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.6604,
@@ -7830,7 +7815,7 @@
       "nav": 2.0918,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.34,
@@ -7845,7 +7830,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 2.097,
@@ -7869,7 +7854,7 @@
       "nav": 1.1054,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153852",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.15,
@@ -7884,7 +7869,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153852"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 1.1318,
@@ -7908,7 +7893,7 @@
       "nav": 3.2196,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.51,
@@ -7922,7 +7907,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.247,
@@ -7946,7 +7931,7 @@
       "nav": 1.7432,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153843",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.75,
@@ -7961,7 +7946,7 @@
         "sensitivity": 0.82,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153843"
       },
       "benchmarkSensitivity": 0.82,
       "rawPredictedNav": 1.7577,
@@ -7985,7 +7970,7 @@
       "nav": 0.9481,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153806",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 1.73,
@@ -8000,7 +7985,7 @@
         "sensitivity": 0.85,
         "proxySensitivity": 0.88,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153806"
       },
       "benchmarkSensitivity": 0.85,
       "rawPredictedNav": 0.9456,
@@ -8024,7 +8009,7 @@
       "nav": 1.5912,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.01,
@@ -8039,7 +8024,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 1.6143,
@@ -8063,7 +8048,7 @@
       "nav": 3.9065,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.13,
@@ -8078,7 +8063,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 3.9631,
@@ -8102,7 +8087,7 @@
       "nav": 4.332,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.39,
@@ -8116,7 +8101,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 4.3688,
@@ -8140,7 +8125,7 @@
       "nav": 4.2662,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150255",
+      "quoteTime": "20260826153830",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.32,
@@ -8155,7 +8140,7 @@
         "sensitivity": 0.55,
         "proxySensitivity": 0.6,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150255"
+        "quoteTime": "20260826153830"
       },
       "benchmarkSensitivity": 0.55,
       "rawPredictedNav": 4.2709,
@@ -8179,7 +8164,7 @@
       "nav": 3.207,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.28,
@@ -8193,7 +8178,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.2343,
@@ -8217,7 +8202,7 @@
       "nav": 4.196,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.17,
@@ -8232,7 +8217,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 4.2568,
@@ -8256,7 +8241,7 @@
       "nav": 1.9812,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.61,
@@ -8270,7 +8255,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.998,
@@ -8294,7 +8279,7 @@
       "nav": 3.3763,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.35,
@@ -8308,7 +8293,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 3.405,
@@ -8332,7 +8317,7 @@
       "nav": 3.3689,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150031",
+      "quoteTime": "20260826153833",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -2.26,
@@ -8347,7 +8332,7 @@
         "sensitivity": 0.9,
         "proxySensitivity": 0.9,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150031"
+        "quoteTime": "20260826153833"
       },
       "benchmarkSensitivity": 0.9,
       "rawPredictedNav": 3.4039,
@@ -8371,7 +8356,7 @@
       "nav": 3.3957,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.14,
@@ -8386,7 +8371,7 @@
         "sensitivity": 0.8,
         "proxySensitivity": 0.85,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.8,
       "rawPredictedNav": 3.4449,
@@ -8410,7 +8395,7 @@
       "nav": 0.8311,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": 0.35,
@@ -8424,7 +8409,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 0.8382,
@@ -8448,7 +8433,7 @@
       "nav": 2.947,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -1.03,
@@ -8462,7 +8447,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 2.972,
@@ -8486,7 +8471,7 @@
       "nav": 1.9365,
       "estimatedNav": null,
       "estimatedChangePct": null,
-      "quoteTime": "20260826150200",
+      "quoteTime": "20260826153814",
       "source": "proxy:qt.gtimg.cn",
       "error": "Unable to parse fund JSONP payload",
       "officialChangePct": -0.9,
@@ -8500,7 +8485,7 @@
         "change": 38.76,
         "sensitivity": 0.03,
         "source": "qt.gtimg.cn",
-        "quoteTime": "20260826150200"
+        "quoteTime": "20260826153814"
       },
       "benchmarkSensitivity": 0.03,
       "rawPredictedNav": 1.953,
