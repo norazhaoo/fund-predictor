@@ -18,13 +18,21 @@ const SCREENSHOT_WATCHLIST_CODES = [
   '015915', '015916', '018125', '001717', '009225', '019005',
 ];
 
+const RECENTLY_ADDED_WATCHLIST_CODES = [
+  '516020', '513180', '159672', '015736', '003095', '014413',
+];
+
 test('watched funds contain the imported screenshot watchlist', () => {
-  assert.equal(FUNDS.length, 235);
+  assert.equal(FUNDS.length, 240);
   assert.equal(new Set(FUNDS.map((fund) => fund.code)).size, FUNDS.length);
 
   const catalogCodes = new Set(FUNDS.map((fund) => fund.code));
   assert.deepEqual(
     SCREENSHOT_WATCHLIST_CODES.filter((code) => !catalogCodes.has(code)),
+    [],
+  );
+  assert.deepEqual(
+    RECENTLY_ADDED_WATCHLIST_CODES.filter((code) => !catalogCodes.has(code)),
     [],
   );
 });
@@ -37,7 +45,7 @@ test('fund metadata uses Beijing timezone for scheduling and display', () => {
 
 test('fund catalog is stored as shared browser-readable JSON', async () => {
   const catalog = JSON.parse(await readFile('data/funds.json', 'utf8'));
-  assert.equal(catalog.funds.length, 235);
+  assert.equal(catalog.funds.length, 240);
   assert.deepEqual(
     FUNDS.map((fund) => fund.code),
     catalog.funds.map((fund) => fund.code),

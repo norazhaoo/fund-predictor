@@ -98,6 +98,12 @@ function isIndexLike(fund) {
   return INDEX_LIKE_PATTERN.test(textForFund(fund));
 }
 
+function isOwnMarketBenchmark(fund, benchmark) {
+  const fundCode = String(fund?.code ?? '').trim().padStart(6, '0');
+  const benchmarkCode = String(benchmark?.secid ?? '').split('.').at(-1);
+  return isIndexLike(fund) && /^\d{6}$/.test(fundCode) && benchmarkCode === fundCode;
+}
+
 function isActiveSectorGroup(fund) {
   const group = stableText(fund?.group);
   return ACTIVE_SECTOR_GROUPS.some((name) => group.includes(name));
@@ -138,11 +144,16 @@ export function resolveFundBenchmark(fund) {
     return null;
   }
 
+  const configuredBenchmark = normalizeBenchmark(fund?.benchmark);
+  if (isOwnMarketBenchmark(fund, configuredBenchmark)) {
+    return configuredBenchmark;
+  }
+
   const text = textForFund(fund);
   const matchedRule = RULES.find((rule) => rule.pattern.test(text));
   if (matchedRule) {
     return tuneSensitivity(matchedRule.benchmark, fund);
   }
 
-  return normalizeBenchmark(fund?.benchmark);
+  return configuredBenchmark;
 }

@@ -44,6 +44,24 @@ test('benchmark rules prefer Hang Seng Tech for Hong Kong technology funds', () 
   assert.equal(benchmark.name, '恒生科技指数');
 });
 
+test('benchmark rules preserve an ETF configured to use its own market quote', () => {
+  const benchmark = resolveFundBenchmark({
+    code: '513180',
+    fallbackName: '恒生科技ETF华夏',
+    group: 'QDII',
+    benchmark: {
+      secid: '1.513180',
+      name: '恒生科技ETF华夏',
+      sensitivity: 1,
+      proxySensitivity: 1,
+    },
+  });
+
+  assert.equal(benchmark.secid, '1.513180');
+  assert.equal(benchmark.name, '恒生科技ETF华夏');
+  assert.equal(benchmark.proxySensitivity, 1);
+});
+
 test('benchmark rules do not assign A-share T proxies to bond funds', () => {
   assert.equal(resolveFundBenchmark({
     fallbackName: '鹏华可转债债券A',

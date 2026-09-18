@@ -2714,6 +2714,64 @@
         "name": "沪深300",
         "sensitivity": 0.03
       }
+    },
+    {
+      "code": "516020",
+      "fallbackName": "化工ETF华宝",
+      "holding": false,
+      "group": "资源",
+      "order": 236,
+      "benchmark": {
+        "secid": "1.516020",
+        "name": "化工ETF华宝",
+        "sensitivity": 1,
+        "proxySensitivity": 1
+      }
+    },
+    {
+      "code": "513180",
+      "fallbackName": "恒生科技ETF华夏",
+      "holding": false,
+      "group": "QDII",
+      "order": 237,
+      "benchmark": {
+        "secid": "1.513180",
+        "name": "恒生科技ETF华夏",
+        "sensitivity": 1,
+        "proxySensitivity": 1
+      }
+    },
+    {
+      "code": "159672",
+      "fallbackName": "消费ETF博时",
+      "holding": false,
+      "group": "消费",
+      "order": 238,
+      "benchmark": {
+        "secid": "0.159672",
+        "name": "消费ETF博时",
+        "sensitivity": 1,
+        "proxySensitivity": 1
+      }
+    },
+    {
+      "code": "003095",
+      "fallbackName": "中欧医疗健康混合A",
+      "holding": false,
+      "group": "医药",
+      "order": 239
+    },
+    {
+      "code": "014413",
+      "fallbackName": "招商核心竞争力混合C",
+      "holding": false,
+      "group": "主动权益",
+      "order": 240,
+      "benchmark": {
+        "secid": "1.000300",
+        "name": "沪深300",
+        "sensitivity": 0.03
+      }
     }
   ]
 }
